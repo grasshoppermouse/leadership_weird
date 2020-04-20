@@ -490,6 +490,12 @@ Contemporary theoretical models of the evolution of leadership often emphasize l
 
 ## Ethnographic sample
 
+```{r subsisttree, fig.cap="The area of the entire rectangle represents the total number of text records in the study data (N = 2012). The nested rectangles represent (from smallest to largest) the proportion of text records in each document, culture, and mode of subsistence."}
+
+plot_cult_docs_subsis
+```
+
+
 ```{r}
 doc_1950_perc <- signif(length(documents$d_publication_date[documents$d_publication_date>1949])/length(documents$d_publication_date),2)*100
 ```
@@ -508,7 +514,7 @@ doc_fielddates_plot
 
 ## Continental region is confounded with mode of subsistence
 
-```{r regionsubsistence, fig.cap=""}
+```{r regionsubsistence, fig.width=10, fig.cap="Proportion of text records for different regions and subsistence types. Size of rectangles is proportional tothe number of text records."}
 ggplot(all_data) + geom_mosaic(aes(x = product(subsistence, region), fill = subsistence)) + scale_fill_viridis(discrete = T) + theme_minimal(15)
 ```
 

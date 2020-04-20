@@ -308,3 +308,24 @@ plot_emm_status_group <-
   scale_x_continuous(limits = c(0, 0.7)) +
   labs(title="Proportion of evidence that leaders are high status", x = '\nProportion', y = "") +
   theme_minimal(15)
+
+# Treemaps -----------------------------------------------------------------
+
+# docs nested in cultures nested in subsistence types
+
+docsum <-
+  all_data %>% 
+  dplyr::select(d_culture, doc_ID, subsistence, region) %>% 
+  left_join(leader_cult[c('c_culture_code', 'Name')], by = c('d_culture' = 'c_culture_code')) %>% 
+  group_by(subsistence, Name, doc_ID) %>% 
+  summarise(record_num = n())
+
+plot_cult_docs_subsis <-
+  ggplot(docsum, aes(area = record_num, label = Name, subgroup = subsistence, subgroup2 = Name, fill=subsistence)) + 
+  geom_treemap() +
+  # geom_treemap_text(colour = 'gray') +
+  geom_treemap_subgroup_border() +
+  geom_treemap_subgroup2_border() +
+  geom_treemap_subgroup2_text(colour = 'gray') +
+  # geom_treemap_subgroup_text(colour = 'white') +
+  scale_fill_viridis(discrete = T)
