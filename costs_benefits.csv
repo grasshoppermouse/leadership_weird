@@ -1,0 +1,19 @@
+﻿Type,Name,Definition
+Benefits,Food,Receives a benefit in the form of food or access to food resources.
+,Inclusive fitness,"Receives a non-mating fitness benefit such as benefits to kin, physical/health benefits (non-food, non-resources)."
+,Increased social status,"Receives a benefit in the form of special social status, behavioral deference, priority of access to contested resources due to social standing, excepted from social norms, or social markers of distinction."
+,Material resources,"Receives a benefit in the form of material (non-food) resources, economic exchange/capital, or wealth. "
+,Mating,"Receives a benefit in the form of mating opportunities, such as more partners, greater access to mates, higher quality mates, or is more attractive due to leader/follower position. "
+,Misc. non-material benefit,Receives a non-material benefit not described by other variables.
+,Reduced risk of harm,Receives a benefit in the form of decreased risk of physical harm or protection from physical conflict.
+,Social services,"Receives a benefit in the form of social services such as labor, servants, subordinates, allegiance due to social position or proximity, or positive social interactions."
+,Territory,"Receives a benefit in the form of access to territory, geography, or space."
+Costs,Food cost,Pays a cost to others in the form of food or reduced access to food resources. 
+,Inclusive fitness cost,"Pays a non-mating fitness cost such as costs to kin, physical/health costs (non-food, non-resources)."
+,Increased risk of harm,Pays a cost in the form of increased risk of physical harm or is put at risk from physical conflict.
+,Loss of material resources,"Pays a cost in the form of material (non-food) resources, economic exchange/capital, or loss of wealth.  "
+,Loss of social services,"Pays a cost to others in the form of social services such as labor, service/serves as a servant, allegiance to superior social position or proximity, or negative social interactions."
+,Loss of territory,"Pays a cost in the form of reduced access to territory, geography, or space."
+,Mating cost,"Pays a cost in the form of mating opportunities, such as less partners, reduced access to mates, lower quality mates, or is less attractive due to leader/follower position."
+,Misc. non-material cost,Pays a non-material cost not described by other variables.
+,Reduced social status,"Pays a cost in the form of loss of social status,  behavioral deference, lacks priority of access to contested resources due to social standing, not excepted from social norms, lacks social markers of distinction or displays social markers of low status."
