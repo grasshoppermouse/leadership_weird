@@ -7,7 +7,7 @@ plan <- drake_plan(
   leader_dtm = leadershipdata::leader_dtm,
   documents = leadershipdata::documents,
   all_ids = text_doc_auth_cult_ID(),
-  all_data = merge_dfs(leader_text2, all_ids, leader_cult, documents),
+  all_data = merge_dfs(leader_text2, all_ids, leader_cult, documents, threshold = 1),
   all_study_vars = variable_names(all_data, type = c('functions', 'qualities', 'leader.benefit', 'leader.cost', 'follower.benefit', 'follower.cost')),
   
   # Misc objects for Rmd file
@@ -51,7 +51,6 @@ plan <- drake_plan(
   
   # Prepare data for dimension reduction
   # Only use coded columns
-  # Remove rows with all zeros
   
   df_qual = 
     all_data %>% 
@@ -65,8 +64,7 @@ plan <- drake_plan(
   
   df_all =
     all_data %>% 
-    dplyr::select(all_of(unname(variable_names(., c('qualities', 'functions', 'leader.costs', 'leader.benefits', 'follower.costs', 'follower.benefits'))))) %>% 
-    dplyr::filter(rowSums(.) > 0),
+    dplyr::select(all_of(unname(variable_names(., c('qualities', 'functions', 'leader.costs', 'leader.benefits', 'follower.costs', 'follower.benefits'))))),
   
   # Cluster analyses
   m_pvclust_qual = pvclust(

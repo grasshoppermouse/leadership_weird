@@ -533,11 +533,11 @@ plot_pubdate
 ## Ethnographer and Culture random effects
 
 ```{r FunctionRE, fig.cap="Ethnographer and Culture random effects for function variables."}
-# plot_fun_auth_cult_re
+plot_fun_auth_cult_re
 ```
 
 ```{r QualityRE, fig.height=8, fig.cap="Ethnographer and Culture random effects for quality variables."}
-# plot_qual_auth_cult_re
+plot_qual_auth_cult_re
 ```
 
 ## Disentangleing the relationship between leadership and high status

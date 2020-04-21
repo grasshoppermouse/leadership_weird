@@ -89,7 +89,9 @@ textrecord_support <- function(thedata, type){
     Tidy = map(Model, broom.mixed::tidy, conf.int = T),
     Estimate = map_dbl(Tidy, ~ logit.inv(.x$estimate[1])),
     lowerCI = map_dbl(Tidy, ~ logit.inv(.x$conf.low[1])),
-    upperCI = map_dbl(Tidy, ~ logit.inv(.x$conf.high[1]))
+    upperCI = map_dbl(Tidy, ~ logit.inv(.x$conf.high[1])),
+    authorSD  = map_dbl(Tidy, ~ .x$estimate[3]),
+    cultureSD = map_dbl(Tidy, ~ .x$estimate[4])
   )
 }
 

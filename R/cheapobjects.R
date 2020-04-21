@@ -329,3 +329,22 @@ plot_cult_docs_subsis <-
   geom_treemap_subgroup2_text(colour = 'gray') +
   # geom_treemap_subgroup_text(colour = 'white') +
   scale_fill_viridis(discrete = T)
+
+
+# Author and Culture random effects plots ---------------------------------
+
+plot_fun_auth_cult_re <- 
+  ggplot(functions_support_txt, aes(authorSD, cultureSD)) + 
+  geom_point() + 
+  geom_text_repel(aes(label = Variable), alpha = 0.5) + 
+  coord_fixed() +
+  labs(title = 'Function variable random effects', x = '\nAuthor standard deviation', y = 'Culture standard deviation\n') +
+  theme_bw(15)
+
+plot_qual_auth_cult_re <- 
+  ggplot(qualities_support_txt, aes(authorSD, cultureSD)) + 
+  geom_point() + 
+  geom_text_repel(aes(label = Variable), alpha = 0.5) + 
+  coord_fixed() +
+  labs(title = 'Quality variable random effects', x = '\nAuthor standard deviation', y = 'Culture standard deviation\n') +
+  theme_bw(15)
