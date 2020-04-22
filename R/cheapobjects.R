@@ -1,5 +1,7 @@
 loadd(all_data)
 loadd(all_study_vars)
+loadd(functions_support_txt)
+loadd(qualities_support_txt)
 
 function_vars = variable_names(all_data, type = 'functions')
 quality_vars = variable_names(all_data, type = 'qualities')
