@@ -103,8 +103,8 @@ plan <- drake_plan(
   func_cvlpca = cv.lpca(df_func, ks = 1:20, ms = 5:15),
   
   # NMF (about 90 minutes)
-  m_nmf = nmf(t(df_all), rank = 2:15),
-  m_nmfrandom = nmf(randomize(t(df_all)), rank=2:15),
+  #m_nmf = nmf(t(df_all), rank = 2:15),
+  #m_nmfrandom = nmf(randomize(t(df_all)), rank=2:15),
   
   # Elasticnet regression of high status by word freq
   highstatus_plot = model_words(all_data, leader_dtm, 'qualities_HighStatus', lam = "1se", title = 'Leader quality: High status'),
