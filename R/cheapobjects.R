@@ -2,6 +2,8 @@ loadd(all_data)
 loadd(all_study_vars)
 loadd(functions_support_txt)
 loadd(qualities_support_txt)
+loadd(m_pvclust_qual)
+loadd(m_pvclust_func)
 
 function_vars = variable_names(all_data, type = 'functions')
 quality_vars = variable_names(all_data, type = 'qualities')
@@ -350,3 +352,39 @@ plot_qual_auth_cult_re <-
   coord_fixed() +
   labs(title = 'Quality variable random effects', x = '\nAuthor standard deviation', y = 'Culture standard deviation\n') +
   theme_bw(15)
+
+
+# Cluster objects to feature vars -------------------------------
+
+branch2df <- function(branch, name){
+  lbls <- labels(branch)
+  tibble(
+    Feature = rep(name, length(lbls)),
+    Label = lbls, 
+    Variable = reverse_vars_dict[lbls]
+  )
+}
+
+qual_dendro <- as.dendrogram(m_pvclust_qual)
+
+qual_branches <- list(
+  'Successful' = qual_dendro[[1]],
+  'Benefit_ability' = qual_dendro[[2]][[1]],
+  'Cost_ability' = qual_dendro[[2]][[2]]
+)
+
+clust_qual_vars <- map2_df(qual_branches, names(qual_branches), branch2df)
+
+fun_dendro <- as.dendrogram(m_pvclust_fun)
+
+fun_branches <- list(
+  'Prosociality' = fun_dendro[[1]],
+  'Mediate' = fun_dendro[[2]][[1]],
+  'Organize' = fun_dendro[[2]][[2]]
+)
+
+clust_fun_vars <- map2_df(fun_branches, names(fun_branches), branch2df)
+
+clust_vars <- bind_rows(clust_fun_vars, clust_qual_vars)
+features <- unique(clust_vars$Feature)
+names(features) <- features
