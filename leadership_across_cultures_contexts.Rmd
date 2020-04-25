@@ -266,7 +266,7 @@ We then tested if text records with a female author or co-author were more likel
 
 For each of the `r length(c(quality_vars, function_vars, leader_cost_vars, leader_benefit_vars, follower_benefit_vars, follower_cost_vars))` coded variables (see Tables \@ref(tab:qualfuncvars) and \@ref(tab:costbenefitvars)), we computed the percentage of text records that provided support, and we computed the percentage of cultures with at least one text record providing support for that variable. See Figure \@ref(fig:varsupport).
 
-```{r varsupport, fig.width=15, fig.height=15, fig.cap="Support for each coded variable of leader functions (top) and qualities (bottom). Blue circles: percent of text records with evidence of support (95% CI computed with a binomial mixed effects models with random intercept for author nested within culture). Red triangles: percent of cultures with evidence of support (95% CI computed with a cluster bootstrap)."}
+```{r varsupport, fig.width=15, fig.height=15, fig.cap="Evidence for each coded variable of leader functions (top) and qualities (bottom). Red: percent of text records with evidence of support (95% CI computed with a binomial mixed effects models with random intercept for author nested within culture). Purple: percent of cultures with evidence of support (95% CI computed with a cluster bootstrap)."}
 ggsave(file="Figures/variablesupport.pdf", plot_func_qual)
 plot_func_qual
 ```
