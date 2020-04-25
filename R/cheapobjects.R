@@ -12,6 +12,9 @@ leader_cost_vars = variable_names(all_data, type = 'leader.costs')
 follower_benefit_vars = variable_names(all_data, type = 'follower.benefits')
 follower_cost_vars = variable_names(all_data, type = 'follower.costs')
 
+reverse_vars_dict <- names(var_names)
+names(reverse_vars_dict) <- var_names
+
 # Compute values -----------------------------------------------------------
 
 group_sex_tbl <- xtabs(~demo_sex+group.structure2, all_data)
@@ -368,23 +371,109 @@ branch2df <- function(branch, name){
 qual_dendro <- as.dendrogram(m_pvclust_qual)
 
 qual_branches <- list(
-  'Successful' = qual_dendro[[1]],
-  'Benefit_ability' = qual_dendro[[2]][[1]],
-  'Cost_ability' = qual_dendro[[2]][[2]]
+  'Cultural_conformity' = qual_dendro[[1]][[1]],
+  'Big_man' = qual_dendro[[1]][[2]],
+  'Social_material_success' = qual_dendro[[2]][[1]],
+  'Dominance' = qual_dendro[[2]][[2]][[1]],
+  'Prestige' = qual_dendro[[2]][[2]][[2]]
 )
 
 clust_qual_vars <- map2_df(qual_branches, names(qual_branches), branch2df)
 
-fun_dendro <- as.dendrogram(m_pvclust_fun)
+func_dendro <- as.dendrogram(m_pvclust_func)
 
-fun_branches <- list(
-  'Prosociality' = fun_dendro[[1]],
-  'Mediate' = fun_dendro[[2]][[1]],
-  'Organize' = fun_dendro[[2]][[2]]
+func_branches <- list(
+  'Prosociality' = func_dendro[[1]],
+  'Mediate' = func_dendro[[2]][[1]],
+  'Organize' = func_dendro[[2]][[2]]
 )
 
-clust_fun_vars <- map2_df(fun_branches, names(fun_branches), branch2df)
+clust_func_vars <- map2_df(func_branches, names(func_branches), branch2df)
 
-clust_vars <- bind_rows(clust_fun_vars, clust_qual_vars)
+clust_vars <- bind_rows(clust_func_vars, clust_qual_vars)
 features <- unique(clust_vars$Feature)
 names(features) <- features
+
+
+# Feature analysis --------------------------------------------------------
+
+feature_var <- function(feature){
+  featurevars <- clust_vars$Variable[clust_vars$Feature == feature]
+  n <- length(featurevars)
+  rs <- rowSums(all_data[featurevars])
+  cbind(rs, n - rs) # successes, failures
+}
+
+# Add feature vars to all_data
+# feature vars are n x 2 matrices; col 1: successes, col 2: failures
+all_data2 <-
+  all_data %>% 
+  dplyr::select(demo_sex:pub_dateZ) %>% 
+  bind_cols(map_dfc(features, feature_var))
+
+# Summarize by culture
+# df_culture_sum <-
+#   all_data2 %>%
+#   dplyr::select(d_culture, subsistence, Prosociality:Prestige) %>% 
+#   group_by(d_culture, subsistence) %>% 
+#   summarise_all(list(mean=mean, N=length)) %>% # Is there a better way to get N?
+#   ungroup %>% 
+#   dplyr::select(-Mediate_N:-Prestige_N) %>% # All N vectors are the same
+#   tidylog::rename(N = Prosociality_N) %>% 
+#   dplyr::filter(N > 2) # Eliminate cultures with few text records because means are misleading
+# 
+# ggcorrplot(cor(df_culture_sum[3:10]), hc.order = T, hc.method = 'ward.D', lab=T)
+
+# heatmap(
+#   t(as.matrix(df_culture_sum[3:10])), 
+#   scale = 'row', # Features comprise different numbers of vars, so scale
+#   hclustfun = function(x) hclust(x, method = 'ward.D'),
+#   col = viridis(256)
+# )
+
+# m_feature_pca_cult <- prcomp(df_culture_sum[3:10], scale. = F)
+# autoplot(
+#   m_feature_pca_cult, 
+#   data = df_culture_sum, 
+#   colour = 'subsistence',
+#   loadings = T,
+#   loadings.label = T
+#   )
+# pca_loadings_plot(m_feature_pca_cult)
+
+feature_formulae <- map_chr(features, ~glue("{.} ~ subsistence + (1|d_culture/doc_ID)"))
+
+# Note that the outcome var is a n x 2 matrix of successes vs. failures
+feature_sub_models <-
+  tibble(
+    Feature = features,
+    Model = map(
+      feature_formulae, 
+      ~ glmer(as.formula(.),
+        family = binomial,
+        data = all_data2,
+        nAGQ = 0
+      )),
+    Anova = map(Model, Anova),
+    p_value = map_dbl(Anova, 'Pr(>Chisq)'),
+    adj_p_value = p.adjust(p_value, method = 'BH'),
+    emmeans = map(Model, ~summary(emmeans(., spec = 'subsistence', type = "response")))
+  )
+
+sub_models_sig <- 
+  feature_sub_models %>% 
+  filter(adj_p_value < 0.10) %>% 
+  unnest(emmeans)
+
+plot_feature_models <-
+  ggplot(
+    sub_models_sig, 
+    aes(prob, subsistence, xmin = asymp.LCL, xmax = asymp.UCL)
+  ) +
+  geom_errorbarh(height = 0, lwd = 2.5, alpha = .2) + 
+  geom_point() + 
+  facet_grid(Feature~.) + 
+  labs(x = '\nProbability', y = '') +
+  theme_bw() + 
+  theme(strip.text.y = element_text(angle=0))
+plot_feature_models

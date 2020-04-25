@@ -514,7 +514,7 @@ doc_fielddates_plot
 
 ## Continental region is confounded with mode of subsistence
 
-```{r regionsubsistence, fig.width=10, fig.cap="Proportion of text records for different regions and subsistence types. Size of rectangles is proportional tothe number of text records."}
+```{r regionsubsistence, fig.width=11, fig.cap="Proportion of text records for different regions and subsistence types. Size of rectangles is proportional tothe number of text records."}
 ggplot(all_data) + geom_mosaic(aes(x = product(subsistence, region), fill = subsistence)) + scale_fill_viridis(discrete = T) + theme_minimal(15)
 ```
 
@@ -524,9 +524,9 @@ ggplot(all_data) + geom_mosaic(aes(x = product(subsistence, region), fill = subs
 plot_pages_tr
 ```
 
-We explored three possible sources of bias in discovery of evidence for each of our `r length(all_study_vars)` variables: publication date, female vs. male-only authorship, and variation in the total number of pages of ethnography for each culture. For each binary study variable, we fit a logistic mixed effects model with that variable as the outcome, the bias variables as fixed effects, and random intercepts for ethnographers nested within cultures. We fit two sets of models. The first univariate set fit separate models for each study variable and each bias variable (total number of models = 105x3 = 315). The second multivariate set included all bias variables in each model (total number of models = 105). All p-values were corrected for a FDR of 5%. After correction, the coefficients of female authorship and pages of ethnography were not significant in any model. Seven variables had significant associations with year of publication in both the univariate or multivariate sets (with nearly identical coefficients), but Group determination/cohesiveness was only significant in the univariate model, and Leader social service benefits was only significant in the multivariate model. See Figure \@ref(fig:pubdate).
+We explored three possible sources of bias in discovery of evidence for each of our `r length(all_study_vars)` variables: publication date, female vs. male-only authorship, and variation in the total number of pages of ethnography for each culture. For each binary study variable, we fit a logistic mixed effects model with that variable as the outcome, the bias variables as fixed effects, and random intercepts for ethnographers nested within cultures. We fit two sets of models. The first univariate set fit separate models for each study variable and each bias variable (total number of models = $`r length(all_study_vars)` \times 3 = `r length(all_study_vars)*3`$). The second multivariate set included all bias variables in each model (total number of models = `r length(all_study_vars)`). All p-values were corrected for a FDR of 5%. After correction, the coefficients of female authorship and pages of ethnography were not significant in any model. Seven variables had significant associations with year of publication in both the univariate or multivariate sets (with nearly identical coefficients), but Group determination/cohesiveness was only significant in the univariate model, and Leader social service benefits was only significant in the multivariate model. See Figure \@ref(fig:pubdate).
 
-```{r pubdate, fig.cap="The effect of publication date on the probability of finding evidence for leader qualities, functions, benefits, and costs. Multivariate values are  controlling for female authorship and number of pages of ethonography for each culture. All models had random intercepts for ethnographers nested within cultures. Models were fit for each of the 105 variables as outcomes, and after adjusing p-values for a false discovery rate of 5%, the effect of publication date on these outcome variables remained significant. Publication date was centered and standardized by 1 SD. Each dot is one coefficient (converted from log odds to odds ratios). Bars are 95% CI."}
+```{r pubdate, fig.cap=glue_data(list(n=length(all_study_vars)), "The effect of publication date on the probability of finding evidence for leader qualities, functions, benefits, and costs. Multivariate values are  controlling for female authorship and number of pages of ethonography for each culture. All models had random intercepts for ethnographers nested within cultures. Models were fit for each of the {n} variables as outcomes, and after adjusing p-values for a false discovery rate of 5%, the effect of publication date on these outcome variables remained significant. Publication date was centered and standardized by 1 SD. Each dot is one coefficient (converted from log odds to odds ratios). Bars are 95% CI.")}
 plot_pubdate
 ```
 
@@ -565,11 +565,11 @@ plot_emm_status_group
 
 ## Feature models
 
-```{r features, fig.width=8, fig.cap="Esimtated marginal means [@lenth2020] of Poission mixed effects regression models of Feature variables by mode of subsistence. Only models whose subsistence coefficient had a corrected p-value < 0.05. Plotted on the response scale. See text for details."}
+```{r features, fig.width=8, fig.cap="Esimtated marginal means [@lenth2020] of logistic mixed effects regression models of Feature variables by mode of subsistence. Only models whose subsistence coefficient had a corrected p-value < 0.10. Plotted on the response scale. See text for details."}
 
 # x <- pmap(sub_models_sig, ~ plot(..6, main = ..1))
 
-# plot_feature_models
+plot_feature_models
 
 ```
 

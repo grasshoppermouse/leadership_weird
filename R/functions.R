@@ -235,7 +235,7 @@ model_words <- function(all_data, leader_dtm, var, lam = 'lambda.min', exponenti
 bias_models <- function(all_data, all_study_vars){
   
   df_cross <- 
-    cross_df(list(x=c('pub_date', 'female_coauthor', 'pagesZ'), y=all_study_vars)) %>% 
+    cross_df(list(x=c('pub_dateZ', 'female_coauthor', 'pagesZ'), y=all_study_vars)) %>% 
     mutate(
       Variable = as.character(1:nrow(.)),
       Formula = glue("{y} ~ {x} + (1|d_culture/author_ID)")
@@ -256,35 +256,20 @@ bias_models <- function(all_data, all_study_vars){
       ),
       .id = 'Variable'
     ) %>% 
-    left_join(df_cross) 
-  
-  df_allvars_uni2 <-
-    df_allvars_uni %>% 
+    left_join(df_cross) %>% 
     mutate(
       term = case_when(
         term == 'all_data2[[.x]]TRUE' ~ x,
         term == 'all_data2[[.x]]' ~ x,
         TRUE ~ term
       ),
-      Variable = var_names[y]
-    )
-  
-  df_pubdate_uni <-
-    df_allvars_uni2 %>%
-    dplyr::filter(term == 'pub_date') %>% 
-    mutate(
-      Variable = fct_reorder(Variable, estimate),
-      p_adj = p.adjust(p.value, method = 'BH'),
-      Model = 'Univariate'
-    ) %>% 
-    dplyr::filter(p_adj < 0.05) %>% 
-    dplyr::select(
-      Model, Variable, estimate, p.value, conf.low, conf.high
+      Variable = var_names[y],
+      Type = 'Univariate'
     )
   
   # Fit model of each var vs. pub meta-data
   
-  multiformula <- map(all_study_vars, ~ glue("{.} ~ pub_date + female_coauthor + pagesZ + (1|d_culture/author_ID)"))
+  multiformula <- map(all_study_vars, ~ glue("{.} ~ pub_dateZ + female_coauthor + pagesZ + (1|d_culture/author_ID)"))
   
   df_allvars_multi <- 
     map_df(
@@ -300,32 +285,34 @@ bias_models <- function(all_data, all_study_vars){
         exponentiate = T
       ),
       .id = 'Variable'
-    ) 
-  
-  df_pubdate_multi <-
-    df_allvars_multi %>%
-    dplyr::filter(term == 'pub_date') %>% 
-    mutate(
-      Variable = fct_reorder(Variable, estimate),
-      p_adj = p.adjust(p.value, method = 'BH'),
-      Model = 'Mulitvariate'
     ) %>% 
-    dplyr::filter(p_adj < 0.05) %>% 
-    dplyr::select(
-      Model, Variable, estimate, p.value, conf.low, conf.high
+    mutate(
+      Type = 'Multivariate'
     )
   
-  bind_rows(df_pubdate_multi, df_pubdate_uni)
+  bind_rows(df_allvars_uni, df_allvars_multi)
 }
 
-bias_plot <- function(df_pubdate_both){
-  plot_pubdate <-
-    ggplot(df_pubdate_both, aes(estimate, Variable, colour = Model)) + 
+bias_plot <- function(d, term, fdr = 0.05){
+
+  dterm <-
+    d %>%
+    dplyr::filter(term == {{term}}) %>% 
+    mutate(
+      Variable = fct_reorder(Variable, estimate),
+      p_adj = p.adjust(p.value, method = 'BH')
+    ) %>% 
+    dplyr::filter(p_adj < fdr) %>% 
+    dplyr::select(
+      Type, Variable, term, estimate, p_adj, conf.low, conf.high
+    )
+  
+ ggplot(dterm, aes(estimate, Variable, colour = Type)) + 
     geom_point(position=position_dodge(width = 0.3)) +
     geom_errorbarh(aes(xmin = conf.low, xmax = conf.high), position=position_dodge(width = 0.2), height = 0, alpha=0.5) +
     geom_vline(xintercept = 1, linetype = 'dotted') +
-    scale_x_log10(breaks = c(0.3, 0.5, 0.7, 1, 1.5, 2, 3)) +
-    labs(x = "\nCoefficient of publication year Z-score (odds ratio)", y = "") +
+    scale_x_log10() +
+    labs(x = glue("\nCoefficient of {term}"), y = "") +
     theme_minimal(15)
 }
 

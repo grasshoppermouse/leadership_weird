@@ -104,14 +104,14 @@ plan <- drake_plan(
   func_cvlpca = cv.lpca(df_func, ks = 1:20, ms = 5:15),
   
   # NMF (about 90 minutes)
-  m_nmf = nmf(t(df_all), rank = 2:15),
-  m_nmfrandom = nmf(randomize(t(df_all), rank=2:15),
+  # m_nmf = nmf(t(df_all), rank = 2:15),
+  # m_nmfrandom = nmf(randomize(t(df_all), rank=2:15)),
 
   # Elasticnet regression of high status by word freq
   highstatus_plot = model_words(all_data, leader_dtm, 'qualities_HighStatus', lam = "1se", title = 'Leader quality: High status'),
   
   mm_bias = bias_models(readd(all_data), all_study_vars),
-  plot_pubdate = bias_plot(mm_bias),
+  plot_pubdate = bias_plot(mm_bias, 'pub_dateZ', fdr = 0.05),
   
   report = rmarkdown::render(
     knitr_in("leadership_across_cultures_contexts.Rmd"),
