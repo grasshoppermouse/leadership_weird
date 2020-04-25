@@ -143,18 +143,28 @@ func_qual_support_plot <- function(...){
 benefit_cost_support_plot <- function(...){
   thedata <- 
     bind_rows(...) %>% 
-    mutate(
-      Variable = fct_reorder(Variable, Estimate)
-    ) %>% 
+    # mutate(
+    #   Variable = fct_reorder(Variable, Estimate)
+    # ) %>% 
     separate(Type, into = c('leader_follower', 'cost_benefit'), sep = '\\.') %>% 
     mutate(
       cost_benefit = str_to_title(cost_benefit)
     )
+  # return(thedata)
+  lvls <-
+    thedata %>% 
+    dplyr::filter(leader_follower == 'Leader', Level == 'Cultures') %>% 
+    arrange(
+      Estimate
+    ) %>% 
+    dplyr::select(Variable)
+  
+  thedata$Variable <- factor(thedata$Variable, levels = lvls[[1]])
   
   ggplot(thedata, aes(Estimate, Variable, xmin = lowerCI, xmax = upperCI, colour = Level)) +
     geom_errorbarh(height = 0, lwd = 2.5, alpha = 0.5) +
     geom_point() +
-    scale_x_continuous(breaks=seq(0,1,.1), labels=scales::percent, limits=c(0,1)) +
+    scale_x_continuous(breaks=seq(0,1,.2), labels=scales::percent, limits=c(0,1)) +
     hagenutils::scale_color_binary() +
     facet_grid(cost_benefit~leader_follower, scales = 'free_y', space = 'free_y') +
     labs(x = '', y = '') +
