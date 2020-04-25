@@ -106,7 +106,7 @@ plan <- drake_plan(
   # NMF (about 90 minutes)
   m_nmf = nmf(t(df_all), rank = 2:15),
   m_nmfrandom = nmf(randomize(t(df_all), rank=2:15),
-  
+
   # Elasticnet regression of high status by word freq
   highstatus_plot = model_words(all_data, leader_dtm, 'qualities_HighStatus', lam = "1se", title = 'Leader quality: High status'),
   

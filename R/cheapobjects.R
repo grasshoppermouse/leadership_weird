@@ -42,9 +42,9 @@ textstats <- text_records %>%
   dplyr::select(cs_textrec_ID, raw_text) %>% 
   unnest_tokens(word, raw_text) %>% 
   # dplyr::filter(is.na(as.numeric(word))) %>% # filters out numbers, some of which are page numbers
-  group_by(cs_textrec_ID) %>% 
-  summarise(count = n()) %>% 
-  summarise(min = min(count), max = max(count), mean = mean(count), median = median(count), sd = sd(count)) %>% 
+  dplyr::group_by(cs_textrec_ID) %>% 
+  dplyr::summarise(count = n()) %>% 
+  dplyr::summarise(min = min(count), max = max(count), mean = mean(count), median = median(count), sd = sd(count)) %>% 
   round(1)
 
 df_groups <- 
@@ -55,7 +55,7 @@ df_groups <-
     subsistence
   ) %>% 
   dplyr::filter(group.structure2 != 'other') %>% 
-  mutate(
+  dplyr::mutate(
     demo_sex = factor(demo_sex, levels = c('male', 'female')),
     group = factor(
       group.structure2,
@@ -110,8 +110,8 @@ leader_text3 <-
     demo_sex,
     female_coauthor
   ) %>% 
-  mutate(
-    female_leader_present = case_when(
+  dplyr::mutate(
+    female_leader_present = dplyr::case_when(
       demo_sex == 'unknown' ~ 'unknown',
       demo_sex == 'male' ~ 'no',
       TRUE ~ 'yes'
@@ -121,7 +121,7 @@ leader_text3 <-
   dplyr::filter(
     demo_sex != 'unknown'
   ) %>% 
-  left_join(
+  dplyr::left_join(
     text_records[c("document_d_ID", "cs_textrec_ID")]
   )
 
@@ -138,7 +138,7 @@ mm_coauthorOR <- exp(fixef(mm_coauthor))[[2]]
 
 leader_text4 <-
   all_data %>% 
-  mutate(
+  dplyr::mutate(
     leadertotalbenefits = rowSums(.[leader_benefit_vars]),
     leaderbenefitfailure = length(leader_benefit_vars) - leadertotalbenefits,
     leadertotalcosts = rowSums(.[leader_cost_vars]),
@@ -219,7 +219,7 @@ documents2 <-
     !is.na(d_field_date_end),
     d_field_date_start > 1799
   ) %>% 
-  left_join(leader_cult[c('c_culture_code', 'region')], by = c("d_culture" = "c_culture_code")) %>% 
+  dplyr::left_join(leader_cult[c('c_culture_code', 'region')], by = c("d_culture" = "c_culture_code")) %>% 
   mutate(
     d_ID = reorder(d_ID, d_field_date_start)
   )
@@ -260,7 +260,7 @@ leader_text5 <-
     demo_sex,
     female_coauthor
   ) %>% 
-  mutate(
+  dplyr::mutate(
     female_leader_present = case_when(
       demo_sex == 'unknown' ~ 'unknown',
       demo_sex == 'male' ~ 'no',
@@ -271,7 +271,7 @@ leader_text5 <-
   dplyr::filter(
     demo_sex != 'unknown'
   ) %>% 
-  left_join(
+  dplyr::left_join(
     text_records[c("document_d_ID", "cs_textrec_ID")]
   ) 
 
