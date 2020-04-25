@@ -53,7 +53,7 @@ plan <- drake_plan(
   # Only use coded columns
   
   df_qual = 
-    all_data %>% 
+    merge_dfs(leader_text2, all_ids, leader_cult, documents, threshold = 3) %>% 
     dplyr::select(all_of(variable_names(., 'qualities'))) %>% 
     dplyr::filter(rowSums(.)>0),
 
@@ -62,14 +62,15 @@ plan <- drake_plan(
     dplyr::select(all_of(variable_names(., 'functions'))) %>% 
     dplyr::filter(rowSums(.)>0),
   
-  df_all =
+   df_all =
     all_data %>% 
-    dplyr::select(all_of(unname(variable_names(., c('qualities', 'functions', 'leader.costs', 'leader.benefits', 'follower.costs', 'follower.benefits'))))),
+    dplyr::select(all_of(unname(variable_names(., c('qualities', 'functions', 'leader.costs', 'leader.benefits', 'follower.costs', 'follower.benefits'))))) %>% 
+    dplyr::filter(rowSums(.)>0),
   
   # Cluster analyses
   m_pvclust_qual = pvclust(
     df_qual, 
-    method.hclust = 'ward', 
+    method.hclust = 'ward.D2', 
     method.dist = 'correlation', 
     nboot = 10000,
     parallel = T
@@ -85,7 +86,7 @@ plan <- drake_plan(
   m_pvclust_func = 
     pvclust(
       df_func, 
-      method.hclust = 'ward', 
+      method.hclust = 'ward.D2', 
       method.dist = 'correlation', 
       nboot = 10000,
       parallel = T
@@ -104,7 +105,7 @@ plan <- drake_plan(
   
   # NMF (about 90 minutes)
   m_nmf = nmf(t(df_all), rank = 2:15),
-  m_nmfrandom = nmf(randomize(t(df_all)), rank=2:15),
+  m_nmfrandom = nmf(randomize(t(df_all), rank=2:15),
   
   # Elasticnet regression of high status by word freq
   highstatus_plot = model_words(all_data, leader_dtm, 'qualities_HighStatus', lam = "1se", title = 'Leader quality: High status'),
