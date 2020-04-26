@@ -23,6 +23,8 @@ loadd(functions_support_cult)
 loadd(highstatus_plot)
 loadd(plot_costs_benefits)
 loadd(plot_pubdate)
+loadd(m_lpca_qual)
+loadd(m_lpca_func)
 source("R/cheapobjects.R")
 ```
 
@@ -576,7 +578,13 @@ plot_morality_region / plot_prosocial_region
 
 ## Dimension reduction
 
+```{r logisticpcafunc, fig.height=8, fig.width=10, fig.cap="Logistic PCA of leader function variables with two principal components."}
+logisticPCA_loadings_plot(m_lpca_func, df_func)
+```
 
+```{r logisticpcaqual, fig.height=10, fig.width=10, fig.cap="Logistic PCA of leader quality variables with two principal components."}
+logisticPCA_loadings_plot(m_lpca_qual, df_qual)
+```
 
 ## Feature models
 

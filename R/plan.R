@@ -107,6 +107,9 @@ plan <- drake_plan(
   qual_cvlpca = cv.lpca(df_qual, ks = 1:20, ms = 5:15),
   func_cvlpca = cv.lpca(df_func, ks = 1:20, ms = 5:15),
   
+  m_lpca_qual = logisticPCA(df_qual, k = 2, m = which.min(qual_cvlpca[2,]) + 4),
+  m_lpca_func = logisticPCA(df_func, k = 2, m = which.min(func_cvlpca[2,]) + 4),
+  
   # NMF (about 90 minutes)
   # m_nmf = nmf(t(df_all), rank = 2:15),
   # m_nmfrandom = nmf(randomize(t(df_all), rank=2:15)),
