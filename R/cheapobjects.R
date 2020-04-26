@@ -281,9 +281,31 @@ leader_text5 <-
 # Assuming each record is independent
 tab_coauthor <- xtabs(~female_coauthor + female_leader_present, leader_text5)
 
-# Group structure by subsistence --------------------------------------------------
 
-# High status by subsistence groups
+# High status by subsistence and region ---------------------------------------
+
+m_status_subsistence <-
+  glmer(
+    qualities_HighStatus ~
+      subsistence +
+      region +
+      (1|d_culture/author_ID),
+    family = binomial,
+    data = all_data,
+    nAGQ = 0
+  )
+
+plot_status_subsistence <-
+  hagenutils::ggemmeans(emmeans(m_status_subsistence, 'subsistence', type = 'response')) +
+  scale_x_continuous(limits = c(0, 0.7)) +
+  labs(title = 'High status by subsistence strategy', x = '\nProbability', y = '')
+
+plot_status_region <-
+  hagenutils::ggemmeans(emmeans(m_status_subsistence, 'region', type = 'response')) +
+  scale_x_continuous(limits = c(0, 0.7)) +
+  labs(title = 'High status by region', x = '\nProbability', y = '')
+
+# High status by group structure --------------------------------------------------
 
 # Simple proportions
 # x <- table(leader_text2$group.structure2, leader_text2$qualities_HighStatus)
@@ -301,20 +323,10 @@ m_status_group <-
     data = all_data
   )
 
-emm_status_group <-
-  emmeans(m_status_group, 'group.structure2', type = 'response') %>% 
-  summary %>% 
-  mutate(
-    group.structure2 = fct_reorder(group.structure2, prob)
-  )
-
 plot_emm_status_group <-
-  ggplot(emm_status_group, aes(prob, group.structure2, xmin = asymp.LCL, xmax = asymp.UCL)) +
-  geom_errorbarh(height = 0, lwd=2.5, alpha = 0.3) +
-  geom_point() +
-  scale_x_continuous(limits = c(0, 0.7)) +
-  labs(title="Proportion of evidence that leaders are high status", x = '\nProportion', y = "") +
-  theme_minimal(15)
+  hagenutils::ggemmeans(emmeans(m_status_group, 'group.structure2', type = 'response')) +
+  scale_x_continuous(limits = c(0, NA)) +
+  labs(title = 'High status by group structure', x = '\nProbability', y = '')
 
 # Treemaps -----------------------------------------------------------------
 

@@ -328,13 +328,15 @@ plot_costs_benefits
 
 We then explored relationships between total leader benefits and costs, summed across all leader benefit and cost variables, respectively, and levels of social and political organization. In general, leaders at the highest supracommunity level had the most evidence for receiving benefits and the least evidence for suffering costs. See Figure \@ref(fig:leadertotalbenefitscosts).
 
-```{r leadertotalbenefitscosts, fig.cap="Estimated marginal means of A. leader total benefits, and B. total costs, as a function of group structure, based on a Poisson mixed effects regression model with random intercepts for ethnographer nested within culture. Values are on the response scale."}
+```{r leadertotalbenefitscosts, fig.cap="Estimated marginal means of A. leader total benefits, and B. total costs, as a function of group structure, based on a logistic mixed effects regression model with random intercepts for ethnographer nested within culture. Values are on the response scale."}
 p1 <- 
   hagenutils::ggemmeans(emmeans(m_ldrtotben, type = 'response', specs = 'group.structure2')) +
+  scale_x_continuous(limits = c(0, 0.1)) +
   labs(title = "Total leader benefits", x = "", y = "")
 
 p2 <- hagenutils::ggemmeans(emmeans(m_ldrtotcost, type = 'response', specs = 'group.structure2')) +
-  labs(title = "Total leader costs", x = "\nRate", y = "")
+  scale_x_continuous(limits = c(0, 0.1)) +
+  labs(title = "Total leader costs", x = "\nProbability", y = "")
 
 p1 + p2 + plot_layout(ncol = 1) + plot_annotation(tag_levels = 'A')
 
@@ -558,6 +560,11 @@ We then investigated if the proportion of text records with evidence for high st
 plot_emm_status_group
 ```
 
+Finally, we examined the relationship between evidence for high status and subsistence strategy and continental region. See Figure \@ref(fig:statusregion).
+
+```{r statusregion, fig.cap="Estimated marginal means of a mixed effects logistic regression model of evidence for high status (0/1) as a function of subsistence strategy and region as covariates, with random effects for ethnographer nested within culture."}
+plot_status_subsistence + plot_status_region + plot_layout(ncol = 1)
+```
 
 ## Dimension reduction
 
