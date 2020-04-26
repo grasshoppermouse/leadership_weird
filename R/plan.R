@@ -49,6 +49,10 @@ plan <- drake_plan(
       follower_costs_cult
     ),
   
+  # Variable support by subsistence strategy and region
+  functions_support_subsis_region = textrecord_support_subsis_region(readd(all_data), 'functions'),
+  qualities_support_subsis_region = textrecord_support_subsis_region(readd(all_data), 'qualities'),
+  
   # Prepare data for dimension reduction
   # Only use coded columns
   

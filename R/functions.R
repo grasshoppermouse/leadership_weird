@@ -166,9 +166,46 @@ benefit_cost_support_plot <- function(...){
     hagenutils::scale_color_binary() +
     facet_grid(cost_benefit~leader_follower, scales = 'free_y', space = 'free_y') +
     labs(x = '', y = '') +
-    theme_bw(15) +
-    theme(strip.text.y = element_text(angle=0), axis.text=element_text(size=rel(1.3)))
+    theme_bw(20) +
+    theme(strip.text.y = element_text(angle=0)) # , axis.text=element_text(size=rel(1.3))
 }
+
+# Variable support by subsistence and region ------------------------------
+
+textrecord_support_subsis_region <- function(thedata, type){
+  
+  thevars <- variable_names(thedata, type)
+  formulae <- glue_data(list(outcome = thevars), "{outcome} ~ subsistence + region + (1|d_culture/author_ID)")
+
+  models <-
+    map(
+      formulae,
+      ~ glmer(
+        as.formula(.x),
+        family = binomial,
+        data = thedata,
+        nAGQ = 0
+      )
+    )
+  
+  tibble(
+    Level = "Text records",
+    Type = str_to_title(type),
+    vars = thevars,
+    Variable = names(thevars),
+    Model = models,
+    Anova = map(Model, Anova),
+    pvalues = map(Anova, 'Pr(>Chisq)'),
+    pvalue_subsis = map_dbl(pvalues, 1),
+    pvalue_region = map_dbl(pvalues, 2),
+    adj_pvalue_subsis = p.adjust(pvalue_subsis, method = 'BH'),
+    adj_pvalue_region = p.adjust(pvalue_region, method = 'BH'),
+    emmeans_subsis = map(Model, ~emmeans(., spec = 'subsistence', type = "response")),
+    emmeans_region = map(Model, ~emmeans(., spec = 'region', type = "response"))
+    
+  )
+}
+
 
 # Text analysis -----------------------------------------------------------
 
@@ -242,7 +279,7 @@ bias_models <- function(all_data, all_study_vars){
   df_allvars_uni <- 
     pmap_dfr(
       df_cross['Formula'],
-      ~ tidy(
+      ~ broom.mixed::tidy(
         glmer(
           as.formula(.),
           family = binomial,
@@ -272,7 +309,7 @@ bias_models <- function(all_data, all_study_vars){
   df_allvars_multi <- 
     map_df(
       multiformula, 
-      ~ tidy(
+      ~ broom.mixed::tidy(
         glmer(
           as.formula(.),
           family = binomial,

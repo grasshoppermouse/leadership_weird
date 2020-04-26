@@ -4,6 +4,8 @@ loadd(functions_support_txt)
 loadd(qualities_support_txt)
 loadd(m_pvclust_qual)
 loadd(m_pvclust_func)
+loadd(functions_support_subsis_region)
+loadd(qualities_support_subsis_region)
 
 function_vars = variable_names(all_data, type = 'functions')
 quality_vars = variable_names(all_data, type = 'qualities')
@@ -328,6 +330,25 @@ plot_emm_status_group <-
   scale_x_continuous(limits = c(0, NA)) +
   labs(title = 'High status by group structure', x = '\nProbability', y = '')
 
+
+# All vars by subsistence and region --------------------------------------
+
+sig_func_region <-
+  functions_support_subsis_region %>% 
+  tidylog::filter(adj_pvalue_region < 0.05)
+
+plot_morality_region <-
+  hagenutils::ggemmeans(emmeans(sig_func_region$emmeans_region[[1]], 'region', type = 'response')) +
+  scale_x_continuous(limits = c(0, 0.3)) +
+  labs(title = sig_func_region$Variable[1], x = '\nProbability', y = '')
+
+plot_prosocial_region <-
+  hagenutils::ggemmeans(emmeans(sig_func_region$emmeans_region[[2]], 'region', type = 'response')) +
+  scale_x_continuous(limits = c(0, 0.3)) +
+  labs(title = sig_func_region$Variable[2], x = '\nProbability', y = '')
+
+
+
 # Treemaps -----------------------------------------------------------------
 
 # docs nested in cultures nested in subsistence types
@@ -453,7 +474,7 @@ all_data2 <-
 #   )
 # pca_loadings_plot(m_feature_pca_cult)
 
-feature_formulae <- map_chr(features, ~glue("{.} ~ subsistence + (1|d_culture/doc_ID)"))
+feature_formulae <- map_chr(features, ~glue("{.} ~ subsistence + region + (1|d_culture/doc_ID)"))
 
 # Note that the outcome var is a n x 2 matrix of successes vs. failures
 feature_sub_models <-
@@ -466,27 +487,42 @@ feature_sub_models <-
         data = all_data2,
         nAGQ = 0
       )),
+    Drop1 = map(Model, drop1),
     Anova = map(Model, Anova),
-    p_value = map_dbl(Anova, 'Pr(>Chisq)'),
-    adj_p_value = p.adjust(p_value, method = 'BH'),
-    emmeans = map(Model, ~summary(emmeans(., spec = 'subsistence', type = "response")))
+    pvalues = map(Anova, 'Pr(>Chisq)'),
+    pvalue_subsis = map_dbl(pvalues, 1),
+    pvalue_region = map_dbl(pvalues, 2),
+    adj_pvalue_subsis = p.adjust(pvalue_subsis, method = 'BH'),
+    adj_pvalue_region = p.adjust(pvalue_region, method = 'BH'),
+    emmeans_subsis = map(Model, ~emmeans(., spec = 'subsistence', type = "response")),
+    emmeans_region = map(Model, ~emmeans(., spec = 'region', type = "response"))
   )
 
-sub_models_sig <- 
+subsis_models_sig <- 
   feature_sub_models %>% 
-  filter(adj_p_value < 0.10) %>% 
-  unnest(emmeans)
+  tidylog::filter(adj_pvalue_subsis < 0.05)
 
-plot_feature_models <-
+feature_model_plot <- function(d, term){
   ggplot(
-    sub_models_sig, 
-    aes(prob, subsistence, xmin = asymp.LCL, xmax = asymp.UCL)
+    d, 
+    aes_string("prob", term, xmin = "asymp.LCL", xmax = "asymp.UCL")
   ) +
-  geom_errorbarh(height = 0, lwd = 2.5, alpha = .2) + 
-  geom_point() + 
-  scale_x_continuous(limits = c(0, NA)) +
-  facet_grid(Feature~.) + 
-  labs(x = '\nProbability', y = '') +
-  theme_bw(15) + 
-  theme(strip.text.y = element_text(angle=0))
-plot_feature_models
+    geom_errorbarh(height = 0, lwd = 2.5, alpha = .2) + 
+    geom_point() + 
+    scale_x_continuous(limits = c(0, NA)) +
+    facet_grid(Feature~.) + 
+    labs(x = '\nProbability', y = '') +
+    theme_bw(15) + 
+    theme(strip.text.y = element_text(angle=0))
+}
+
+plot_feature_models_subsis <- feature_model_plot(subsis_models_sig, 'subsistence')
+
+region_models_sig <- 
+  feature_sub_models %>% 
+  # Deliberately filtering on subsis here
+  tidylog::filter(adj_pvalue_subsis < 0.05)
+
+plot_feature_models_region <- feature_model_plot(region_models_sig, 'region')
+
+

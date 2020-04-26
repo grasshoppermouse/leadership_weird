@@ -198,7 +198,7 @@ The analyses computing levels of evidence for each variable used the entire set 
 
 # Results
 
-The geographic distribution of the cultures in our sample is displayed in Figure \@ref(fig:geographic), with cultures labeled by mode of subsistence and represented by a symbol proportional to the number of documents that provided ethnographic texts for that culture. Our search yielded `r nrow(all_data)` text records from `r length(unique(leadershipdata::documents$d_ID))` unique documents describing `r length(unique(all_data$d_culture))` cultures. The number of text records per culture ranged from `r min(leader_cult$number_leader_records, na.rm=T)` to `r max(leader_cult$number_leader_records, na.rm=T)`, with a median of `r median(leader_cult$number_leader_records, na.rm=T)`, a mean of `r signif(mean(leader_cult$number_leader_records, na.rm=T), 3)`, and a standard deviation of `r signif(sd(leader_cult$number_leader_records, na.rm=T), 3)`. The text records were generally short, ranging from `r textstats$min` to `r textstats$max` words, with a median word count of `r textstats$median`, a mean of `r textstats$mean`, and standard deviation of `r textstats$sd`. Of the `r nrow(all_data)` text records, `r final_record_count` had evidence for at least one variable in the study.
+The geographic distribution of the cultures in our sample is displayed in Figure \@ref(fig:geographic), with cultures labeled by subsistence strategy and represented by a symbol proportional to the number of documents that provided ethnographic texts for that culture. Our search yielded `r nrow(all_data)` text records from `r length(unique(leadershipdata::documents$d_ID))` unique documents describing `r length(unique(all_data$d_culture))` cultures. The number of text records per culture ranged from `r min(leader_cult$number_leader_records, na.rm=T)` to `r max(leader_cult$number_leader_records, na.rm=T)`, with a median of `r median(leader_cult$number_leader_records, na.rm=T)`, a mean of `r signif(mean(leader_cult$number_leader_records, na.rm=T), 3)`, and a standard deviation of `r signif(sd(leader_cult$number_leader_records, na.rm=T), 3)`. The text records were generally short, ranging from `r textstats$min` to `r textstats$max` words, with a median word count of `r textstats$median`, a mean of `r textstats$mean`, and standard deviation of `r textstats$sd`. Of the `r nrow(all_data)` text records, `r final_record_count` had evidence for at least one variable in the study.
 
 ```{r corpus}
 cor_pages_tr <- cor.test(~number_leader_records + ehraf_pages, leader_cult)
@@ -206,7 +206,7 @@ cor_pages_tr <- cor.test(~number_leader_records + ehraf_pages, leader_cult)
 
 There was a weak positive relationship between the number of leader text records we retrieved from each culture and the total number of pages of ethnography for each culture in eHRAF (r = `r signif(cor_pages_tr$estimate, 2)`, p = `r signif(cor_pages_tr$p.value, 2)`). A loess regression suggested that the number of records initially increased with the total number of pages of ethnography, plateauing at about 35 records around 4500 pages (see Figure \@ref(fig:eHRAFpages)).
 
-```{r geographic, fig.width=15, fig.cap="The geographical distributions of cultures in this analysis. Symbol shapes indicate mode of subsistence and symbol size indicates the number of documents available for that culture."}
+```{r geographic, fig.width=15, fig.cap="The geographical distributions of cultures in this analysis. Symbol shapes indicate subsistence strategy and symbol size indicates the number of documents available for that culture."}
 library(maps)
 world_map <- map_data("world")
 p_map <- ggplot(world_map, aes(x = long, y = lat)) +
@@ -232,9 +232,9 @@ p_map
 
 <!-- NEED TO DISCUSS 1187 and split records.  -->
 
-## Distribution of text records by mode of subsistence and group type
+## Distribution of text records by subsistence strategy and group type
 
-The type of group to which a leader text referred was coded into seven researcher-coded categories: residential groups, kin groups, economic groups, political groups at the community level, political group beyond the community level, military groups, and religious groups (see Methods section). Figure \@ref(fig:grouptype) indicates the proportion of text records that were categorized into each of these groups, broken out by mode of subsistence. We rely on a modified classification of subsistence from the HRAF, collapsing “hunter-gatherers” and “primarily hunter-gatherers” into a single category, “hunter-gatherers,” and by collapsing “agro-pastoralists” and “pastoralists” into a single “pastoralists” category. We renamed the HRAF’s “Other” subsistence category, which is applied to societies with various combinations of hunting, fishing, gathering, pastoralism, and horticulture or intensive agriculture, as “mixed.” This produced a subsistence classification with five groups: Hunter-gatherers, Pastoralists, Horticulturalists, Agriculturalists, and Mixed.
+The type of group to which a leader text referred was coded into seven researcher-coded categories: residential groups, kin groups, economic groups, political groups at the community level, political group beyond the community level, military groups, and religious groups (see Methods section). Figure \@ref(fig:grouptype) indicates the proportion of text records that were categorized into each of these groups, broken out by subsistence strategy. We rely on a modified classification of subsistence from the HRAF, collapsing “hunter-gatherers” and “primarily hunter-gatherers” into a single category, “hunter-gatherers,” and by collapsing “agro-pastoralists” and “pastoralists” into a single “pastoralists” category. We renamed the HRAF’s “Other” subsistence category, which is applied to societies with various combinations of hunting, fishing, gathering, pastoralism, and horticulture or intensive agriculture, as “mixed.” This produced a subsistence classification with five groups: Hunter-gatherers, Pastoralists, Horticulturalists, Agriculturalists, and Mixed.
 
 ```{r grouptype, fig.width=20, fig.height=10, fig.cap="The distribution of text records by subsistence and group type. Areas of the bars are proportional to the number of text records in that category."}
 ggsave(file="Figures/group_subsis.pdf", plot_group_subsis, width=16, height=6)
@@ -492,7 +492,7 @@ Contemporary theoretical models of the evolution of leadership often emphasize l
 
 ## Ethnographic sample
 
-```{r subsisttree, fig.cap="The area of the entire rectangle represents the total number of text records in the study data (N = 2012). The nested rectangles represent (from smallest to largest) the proportion of text records in each document, culture, and mode of subsistence."}
+```{r subsisttree, fig.cap="The area of the entire rectangle represents the total number of text records in the study data (N = 2012). The nested rectangles represent (from smallest to largest) the proportion of text records in each document, culture, and subsistence strategy."}
 
 plot_cult_docs_subsis
 ```
@@ -514,7 +514,7 @@ The eHRAF provides information on the time frame of field work associated with e
 doc_fielddates_plot
 ```
 
-## Continental region is confounded with mode of subsistence
+## Continental region is confounded with subsistence strategy
 
 ```{r regionsubsistence, fig.width=11, fig.cap="Proportion of text records for different regions and subsistence types. Size of rectangles is proportional to the number of text records."}
 ggplot(all_data) + geom_mosaic(aes(x = product(subsistence, region), fill = subsistence)) + scale_fill_viridis(discrete = T) + theme_minimal(15)
@@ -548,7 +548,7 @@ These data present an opportunity to explore the relationship between high statu
 
 We used lasso regression as a variable selection technique, which is especially useful when the number of predictors is much greater than the number of cases (i.e., $p > > n$). Lasso regression has a penalty or shrinkage term, $\lambda$: larger values of $\lambda$ retain more variables in the model, at the risk of over-fitting, whereas smaller values of $\lambda$ decrease the number of predictors retained in the model, at the risk of under-fitting. The optimal value of $\lambda$ can be estimated with cross-validation [@tibshirani_regression_1996; @zou_regularization_2005]. We used the glmnet package [@friedman_regularization_2010] to fit a lasso regression model to determine which words best predicted evidence for high status as a leader quality. We used tenfold cross-validation to choose the $\lambda$ parameter that minimized deviance. We then plotted all the non-zero coefficients (Figure \@ref(fig:highstatusplot)). 
 
-```{r highstatusplot, echo=F, message=F, fig.width=8, fig.height=6, fig.align='center', fig.cap="Lasso logistic regression coefficients, which indicate the words whose frequencies in each text record best predicted evidence for the *high status* leader quality in each text record. Coefficients estimated with glmnet package using cross-validation to determine the optimal value of lambda [@friedman_regularization_2010]. Blue values are positive predictors; red values are negative predictors. X-axis is on a log 10 scale."}
+```{r highstatusplot, echo=F, message=F, fig.width=8, fig.height=6, fig.align='center', fig.cap="Lasso logistic regression coefficients, which indicate the words whose frequencies in each text record best predicted evidence for the *high status* leader quality in each text record. Coefficients estimated with glmnet package using cross-validation to determine the optimal value of lambda [@friedman_regularization_2010]. Red values are positive predictors; purple values are negative predictors. X-axis is on a log 10 scale."}
 highstatus_plot + scale_x_log10()
 ```
 
@@ -566,19 +566,43 @@ Finally, we examined the relationship between evidence for high status and subsi
 plot_status_subsistence + plot_status_region + plot_layout(ncol = 1)
 ```
 
+## Effects of subsistence strategy and region on function and quality variables
+
+```{r varsubsisregion, fig.cap="Estimated marginal means of logistic mixed effects models of each leader function and quality variable as a function of subsistence strategy and region, with random effects for author nested within culture. These are the only models with significant coefficients for either subsistence strategy or region, after correcting p-values for an FDR of 0.05."}
+
+plot_morality_region / plot_prosocial_region
+```
+
+
 ## Dimension reduction
 
 
 
 ## Feature models
 
-We constructed `r length(features)` "feature" variables from the higher-level clusters (Figure \@ref(fig:cluster)): `r paste(features, collapse = ', ')`. We then fit separate logistic mixed effects models of each feature as a function of subsistence mode, with random effects for author nested within culture. After adjusting the subsistence coefficient p-values for an FDR of 0.05, we computed and plotted the estimated marginal means of the remaining significant model(s). See Figure \@ref(fig:features).
+We constructed `r length(features)` "feature" variables from the higher-level clusters (Figure \@ref(fig:cluster)): `r paste(features, collapse = ', ')`. We then fit separate logistic mixed effects models of each feature as a function of subsistence strategy and region, with random effects for author nested within culture. After adjusting the subsistence coefficient p-values for an FDR of 0.05, we computed and plotted the estimated marginal means of the significant models. See Figure \@ref(fig:features).
 
-```{r features, fig.width=8, fig.cap="Esimtated marginal means [@lenth2020] of logistic mixed effects regression models of Feature variables by mode of subsistence. Only models whose subsistence coefficient had a corrected p-value < 0.10. Plotted on the response scale. See text for details."}
+```{r features, fig.width=11, fig.cap="Esimtated marginal means [@lenth2020] of logistic mixed effects regression models of Feature variables by subsistence strategy and region. Only models whose subsistence coefficient had a corrected p-value < 0.05. The coefficient for region was also significant in the model of the 'Big man' feature. Plotted on the response (probablity) scale. See text for details."}
 
-# x <- pmap(sub_models_sig, ~ plot(..6, main = ..1))
+feature_scale <- scale_x_continuous(limits = c(0, 0.20))
 
-plot_feature_models
+p_subsis_mediate <- ggemmeans(subsis_models_sig$emmeans_subsis[[1]]) +
+  feature_scale +
+  labs(title = 'Mediate', x = '', y = '')
+
+p_subsis_bigman <- ggemmeans(subsis_models_sig$emmeans_subsis[[2]]) +
+  feature_scale +
+  labs(title = 'Big man', x = '', y = '')
+
+p_region_mediate <- ggemmeans(subsis_models_sig$emmeans_region[[1]]) +
+  feature_scale +
+  labs(title = 'Mediate', x = '', y = '')
+
+p_region_bigman <- ggemmeans(subsis_models_sig$emmeans_region[[2]]) +
+  feature_scale +
+  labs(title = 'Big man', x = '', y = '')
+
+(p_subsis_mediate + p_region_mediate) / (p_subsis_bigman + p_region_bigman)
 
 ```
 
