@@ -66,6 +66,7 @@ merge_dfs <- function(
 }
 
 textrecord_support <- function(thedata, type){
+  
   thevars <- variable_names(thedata, type)
   formulae <- glue_data(list(outcome = thevars), "{outcome} ~ pub_dateZ + (1|d_culture/author_ID)")
   

@@ -325,7 +325,7 @@ docsum <-
   dplyr::select(d_culture, doc_ID, subsistence, region) %>% 
   left_join(leader_cult[c('c_culture_code', 'Name')], by = c('d_culture' = 'c_culture_code')) %>% 
   group_by(subsistence, Name, doc_ID) %>% 
-  summarise(record_num = n())
+  tidylog::summarise(record_num = n())
 
 plot_cult_docs_subsis <-
   ggplot(docsum, aes(area = record_num, label = Name, subgroup = subsistence, subgroup2 = Name, fill=subsistence)) + 
@@ -472,8 +472,9 @@ plot_feature_models <-
   ) +
   geom_errorbarh(height = 0, lwd = 2.5, alpha = .2) + 
   geom_point() + 
+  scale_x_continuous(limits = c(0, NA)) +
   facet_grid(Feature~.) + 
   labs(x = '\nProbability', y = '') +
-  theme_bw() + 
+  theme_bw(15) + 
   theme(strip.text.y = element_text(angle=0))
 plot_feature_models
