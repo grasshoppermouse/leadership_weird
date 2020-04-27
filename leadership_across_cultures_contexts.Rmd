@@ -582,13 +582,33 @@ plot_morality_region / plot_prosocial_region
 logisticPCA_loadings_plot(m_lpca_func, df_func)
 ```
 
+We then explored associations of PC1 and PC2 with the following culture-level and document level variables: continental region, subsistence strategy, cultural complexity, settlement fixity, population density, community size, discussion of female leadership, female ethnographer, number of pages of ethnography, and publication date. We did not find any convincing associations with any of these culture-level or document-level variables.
+
+```{r lpcafuncbiplot, fig.cap="Function variable PC scores for each text record. Colors represent text records that had evidence for a function variable that loaded highly on either PC1 or PC2 (but no evidence for the other high-loading variables). Mixed: evidence for two or more of high-loading variables."}
+plot_lpca_func
+```
+
+
 ```{r logisticpcaqual, fig.height=10, fig.width=10, fig.cap="Logistic PCA of leader quality variables with two principal components."}
 logisticPCA_loadings_plot(m_lpca_qual, df_qual)
 ```
 
+
+```{r lpcaqualbiplot, fig.cap="Quality variable PC scores for each text record. Colors represent text records that had evidence for a quality variable that loaded highly on either PC1 or PC2 (but no evidence for the other high-loading variables). Mixed: evidence for two or more of high-loading variables."}
+plot_lpca_qual
+```
+
+
 ## Feature models
 
-We constructed `r length(features)` "feature" variables from the higher-level clusters (Figure \@ref(fig:cluster)): `r paste(features, collapse = ', ')`. We then fit separate logistic mixed effects models of each feature as a function of subsistence strategy and region, with random effects for author nested within culture. After adjusting the subsistence coefficient p-values for an FDR of 0.05, we computed and plotted the estimated marginal means of the significant models. See Figure \@ref(fig:features).
+We constructed `r length(features)` "feature" variables from the higher-level clusters (Figure \@ref(fig:cluster)): `r paste(features, collapse = ', ')`. The Mediate, Prosociality, and Organize features were modestly positively correlated with each other, but not with Prestige or Social/material success. Big man was correlated with Cultural conformity. See Figure \@ref(fig:featurecor).
+
+
+```{r featurecor, fig.cap="Feature variable correlation matrix. Values are correlation coefficients."}
+plot_feature_cor
+```
+
+We then fit separate logistic mixed effects models of each feature as a function of subsistence strategy and region, with random effects for author nested within culture. After adjusting the subsistence coefficient p-values for an FDR of 0.05, we computed and plotted the estimated marginal means of the significant models. See Figure \@ref(fig:features).
 
 ```{r features, fig.width=11, fig.cap="Esimtated marginal means [@lenth2020] of logistic mixed effects regression models of Feature variables by subsistence strategy and region. Only models whose subsistence coefficient had a corrected p-value < 0.05. The coefficient for region was also significant in the model of the 'Big man' feature. Plotted on the response (probablity) scale. See text for details."}
 

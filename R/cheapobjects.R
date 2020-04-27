@@ -6,6 +6,10 @@ loadd(m_pvclust_qual)
 loadd(m_pvclust_func)
 loadd(functions_support_subsis_region)
 loadd(qualities_support_subsis_region)
+loadd(m_lpca_qual)
+loadd(m_lpca_func)
+loadd(df_func)
+loadd(df_qual)
 
 function_vars = variable_names(all_data, type = 'functions')
 quality_vars = variable_names(all_data, type = 'qualities')
@@ -444,6 +448,22 @@ all_data2 <-
   dplyr::select(demo_sex:pub_dateZ) %>% 
   bind_cols(map_dfc(features, feature_var))
 
+df_features <- 
+  all_data2 %>%
+  mutate_at(
+    vars(Prosociality:Prestige), function(x) apply(x, MARGIN = 1, function(x) x[1]/sum(x))
+  ) %>% 
+  dplyr::select(Prosociality:Prestige)
+
+plot_feature_cor <- ggcorrplot(
+  cor(df_features), 
+  show.diag = F, 
+  hc.order = T, 
+  hc.method = 'ward.D',
+  lab = T
+  )
+plot_feature_cor
+  
 # Summarize by culture
 # df_culture_sum <-
 #   all_data2 %>%
@@ -526,3 +546,72 @@ region_models_sig <-
 plot_feature_models_region <- feature_model_plot(region_models_sig, 'region')
 
 
+# logisticPCA -------------------------------------------------------------
+
+df_lpca_func <- as_tibble(m_lpca_func$PCs)
+names(df_lpca_func) <- c("PC1", "PC2")
+
+df_cultvars <-
+  all_data %>% 
+  dplyr::select(cs_textrec_ID, d_culture, demo_sex:pub_dateZ) %>% 
+  left_join(leader_cult[c('c_culture_code', 'c_name')], by = c('d_culture' = 'c_culture_code'))
+
+df_func2 = 
+  all_data %>% 
+  dplyr::select(cs_textrec_ID, all_of(variable_names(., 'functions'))) %>% 
+  dplyr::filter(rowSums(.[-1])>0) %>% 
+  bind_cols(df_lpca_func) %>% 
+  left_join(df_cultvars)
+
+df_func2$Record_type <- "Mixed"
+for (i in 1:nrow(df_func2)){
+  if (df_func2$`Organize cooperation`[i] + df_func2$`Resolve conflict`[i] + df_func2$`Military command`[i] + df_func2$`Misc. social functions`[i] == 1){
+    if (df_func2$`Organize cooperation`[i] == 1) df_func2$Record_type[i] <- 'Organize cooperation'
+    if (df_func2$`Resolve conflict`[i] == 1) df_func2$Record_type[i] <- 'Resolve conflict'
+    if (df_func2$`Military command`[i] == 1) df_func2$Record_type[i] <- 'Military command'
+    if (df_func2$`Misc. social functions`[i] == 1) df_func2$Record_type[i] <- 'Misc. social functions'
+  }
+}
+
+plot_lpca_func <-
+  ggplot(df_func2, aes(PC1, PC2, colour = Record_type)) + 
+  geom_point() +
+  stat_ellipse() +
+  # scale_colour_viridis(discrete=T) +
+  theme_bw(15)
+
+# Qualities
+df_lpca_qual <- as_tibble(m_lpca_qual$PCs)
+names(df_lpca_qual) <- c("PC1", "PC2")
+
+df_qual2 = 
+  all_data %>% 
+  dplyr::select(cs_textrec_ID, all_of(variable_names(., 'qualities'))) %>% 
+  dplyr::filter(rowSums(.[-1])>0) %>% 
+  bind_cols(df_lpca_qual) %>% 
+  left_join(df_cultvars)
+
+df_qual2$`Knowledge/Experience` <- pmax(df_qual2$`Knowledgeable/intelligent`, df_qual2$`Experienced/accomplished`)
+df_qual2$Record_type <- "Mixed"
+for (i in 1:nrow(df_qual2)){
+  if (df_qual2$`Polygynous`[i] + df_qual2$`Knowledge/Experience`[i] + df_qual2$`Aggressiveness`[i] + df_qual2$`High status`[i] == 1){
+    if (df_qual2$`Polygynous`[i] == 1) df_qual2$Record_type[i] <- 'Polygynous'
+    if (df_qual2$`Knowledge/Experience`[i] == 1) df_qual2$Record_type[i] <- 'Knowledge/Experience'
+    if (df_qual2$`Aggressiveness`[i] == 1) df_qual2$Record_type[i] <- 'Aggressiveness'
+    if (df_qual2$`High status`[i] == 1) df_qual2$Record_type[i] <- 'High status'
+  }
+}
+
+plot_lpca_qual <-
+  ggplot(df_qual2, aes(PC1, PC2, colour = Record_type)) + 
+  geom_point() +
+  stat_ellipse() +
+  theme_bw(15)
+
+
+plot_lpca_qual_tmp <-
+  ggplot(df_qual2, aes(PC1, PC2, colour = pub_dateZ > 0)) + 
+  geom_point() +
+  stat_ellipse() +
+  theme_bw(15)
+plot_lpca_qual_tmp
