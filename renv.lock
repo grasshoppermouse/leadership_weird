@@ -619,8 +619,14 @@
     "hagenutils": {
       "Package": "hagenutils",
       "Version": "0.0.1.9000",
-      "Source": "unknown",
-      "Hash": "3acd77dd0b33283ba6a3c2f9df37b2f1"
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteUsername": "grasshoppermouse",
+      "RemoteRepo": "hagenutils",
+      "RemoteRef": "master",
+      "RemoteSha": "5823fe9911b0464d36f83b67c0512508489a889d",
+      "Hash": "2103df04138d329eff77783ae59f00ba"
     },
     "haven": {
       "Package": "haven",
@@ -1370,14 +1376,13 @@
       "Package": "vctrs",
       "Version": "0.2.99.9011",
       "Source": "GitHub",
-      "Remotes": "r-lib/pillar",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
-      "RemoteRepo": "vctrs",
       "RemoteUsername": "r-lib",
+      "RemoteRepo": "vctrs",
       "RemoteRef": "master",
-      "RemoteSha": "7736275e4898f968fb437e4e6967050c80517742",
-      "Hash": "b7373a699fd0d1f48202fc7787fbdf71"
+      "RemoteSha": "f65f71c8fe70731339d5c6f7748fc3b6b5c66b4b",
+      "Hash": "7c15111f43a660f114d3dbab903ccc2c"
     },
     "viridis": {
       "Package": "viridis",
