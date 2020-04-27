@@ -328,11 +328,11 @@ bias_models <- function(all_data, all_study_vars){
   bind_rows(df_allvars_uni, df_allvars_multi)
 }
 
-bias_plot <- function(d, term, fdr = 0.05){
+bias_plot <- function(d, theterm, fdr = 0.05){
 
   dterm <-
     d %>%
-    dplyr::filter(term == {{term}}) %>% 
+    dplyr::filter(term == theterm) %>% 
     mutate(
       Variable = fct_reorder(Variable, estimate),
       p_adj = p.adjust(p.value, method = 'BH')
@@ -347,7 +347,7 @@ bias_plot <- function(d, term, fdr = 0.05){
     geom_errorbarh(aes(xmin = conf.low, xmax = conf.high), position=position_dodge(width = 0.2), height = 0, alpha=0.5) +
     geom_vline(xintercept = 1, linetype = 'dotted') +
     scale_x_log10() +
-    labs(x = glue("\nCoefficient of {term}"), y = "") +
+    labs(x = glue("\n\nCoefficient of {theterm}"), y = "") +
     theme_minimal(15)
 }
 
