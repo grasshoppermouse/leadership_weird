@@ -757,8 +757,14 @@
     "leadershipdata": {
       "Package": "leadershipdata",
       "Version": "1.0.0.0001",
-      "Source": "unknown",
-      "Hash": "e22919f39b88ccadb9160e9ef844146b"
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteUsername": "zhgarfield",
+      "RemoteRepo": "leadershipdata",
+      "RemoteRef": "master",
+      "RemoteSha": "c379435b5cc569547a60c53718a8bc6a39a91378",
+      "Hash": "1a7c2a686007bb73f0bd1b84e5f6ba94"
     },
     "lifecycle": {
       "Package": "lifecycle",
