@@ -169,15 +169,23 @@ We now discuss these disctintions in more detail in the methods and limitations 
 
 **Can you control for phylogeny (e.g. linguistic affinity). See Minocher et al. 2019 in Evolution and Human Behavior. It may be that covariation you detect between qualities and leader functions is driven by shared cultural history more than direct causal relationship between qualities and leader functions.**
 
+We appreciate this point, however as mentioned above, we did not incorporate proper phylogeny controls. The PSF as a stratified random sample provide some safeguards against effects of non-independence, although not perfectly. We do now include significant additional analyses reporting region and subsistence effects as control measures. We also now report the GLMM for each of our researcher-coded variables which includes fixed effects for publication date and random effects for author nested within culture. 
+
+NEED TO DO. ADD MORE. 
+
 **Can you report text records pertaining to male vs. female leadership by subsistence type (lines 966-982)?**
 
 **While your analysis strategy was not designed to test particular predictions, I'd be very interested to see you report how the authority variable covaries with different leader functions in different subsistence types, which has relevance to institutionalization of leadership and evolution of social inequality.**
+
+In the SI we now include a section with additional analyses on our "Feature models." One feature of leader qualities, which was extracted from the updated cluster analysis results, is "Dominance," which includes the "coercive authority" variable. In response to the reviewers comments we provide a correlation plot illustrating the relationship between these features at the text-record level. Correlations between features are modest, but interestingly the "Organize", "Prosociality", and "Mediate" features -- each of the leader functions features -- correlate positively with the "Dominance" leader qualities features; these are among the strongest inter-feature correlations, which in our view supports the perspective that the dominance-style of leadership is closely linked with the emergence of leadership in collective action and conflict resolution. We now discuss this result in the MS. 
+
+NEED TO DO. Add to MS. 
 
 **Give more explanation of prestige theory and computational services theory (lines 1279-1280), including what different predictions they make.**
 
 **Followers in many cases may be making best of limited options, particularly in societies with steeper hierarchy. So I'm not sure benefits of followership must outweigh the costs (1414-1415) in same way as for leadership.**
 
-We completely agree. This statement was intneded to be in reference to a priori assumptions on the evolution and emergence of leader-follower dynamics, similar to discourse on the conundrum of the evolution of cooperation. Though, clearly, in particular circumstances an individual will cooperate when doing so incurs a cost just as followers in particular circumstances will follow when doing so incurs a cost. We assume that over evolutionary history and for leader-follower dynamics to be selected for, both leaders and followers would have to recieve benefits on average, over time. 
+We completely agree. This statement was intended to be in reference to a priori assumptions on the evolution and emergence of leader-follower dynamics, similar to discourse on the conundrum of the evolution of cooperation. Though, clearly, in particular circumstances an individual will cooperate when doing so incurs a cost just as followers in particular circumstances will follow when doing so incurs a cost. We assume that over evolutionary history and for leader-follower dynamics to be selected for, both leaders and followers would have to receive benefits on average, over time. 
 
 We have revised this statement. CHECK. NEED TO DO. 
 
