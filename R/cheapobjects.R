@@ -1,7 +1,13 @@
 loadd(all_data)
 loadd(all_study_vars)
+
 loadd(functions_support_txt)
 loadd(qualities_support_txt)
+loadd(leader_benefits_txt)
+loadd(leader_costs_txt)
+loadd(follower_benefits_txt)
+loadd(follower_costs_txt)
+
 loadd(m_pvclust_qual)
 loadd(m_pvclust_func)
 loadd(functions_support_subsis_region)
@@ -20,6 +26,26 @@ follower_cost_vars = variable_names(all_data, type = 'follower.costs')
 
 reverse_vars_dict <- names(var_names)
 names(reverse_vars_dict) <- var_names
+
+# Coefficient table -------------------------------------------------------
+
+all_coefs <- 
+  bind_rows(
+    functions_support_txt,
+    qualities_support_txt,
+    leader_benefits_txt,
+    leader_costs_txt,
+    follower_benefits_txt,
+    follower_costs_txt
+  ) %>% 
+  dplyr::select(Type, Outcome = Variable, Tidy) %>% 
+  unnest(Tidy) %>% 
+  group_by(Type, Outcome) %>% 
+  mutate(
+    Type = c(Type[1], rep(NA, n() - 1)),
+    Outcome = c(Outcome[1], rep(NA, n() - 1))
+  ) %>% 
+  ungroup
 
 # Compute values -----------------------------------------------------------
 
@@ -43,9 +69,8 @@ statustxts <- sum(all_data$qualities_HighStatus)
 intellpolytxts <- sum(all_data$qualities_Polygynous & all_data$qualities_KnowlageableIntellect)
 statuspolytxts <- sum(all_data$qualities_Polygynous & all_data$qualities_HighStatus)
 
-# text analysis
-# leader_text has 1000 rows
-# need raw texts for all 1212 rows
+
+# Text analysis -----------------------------------------------------------
 
 textstats <- text_records %>% 
   dplyr::select(cs_textrec_ID, raw_text) %>% 
@@ -448,6 +473,7 @@ all_data2 <-
   dplyr::select(demo_sex:pub_dateZ) %>% 
   bind_cols(map_dfc(features, feature_var))
 
+# Create df with feature vars as 1-d vectors: successes/(successes + failures)
 df_features <- 
   all_data2 %>%
   mutate_at(
@@ -462,7 +488,6 @@ plot_feature_cor <- ggcorrplot(
   hc.method = 'ward.D',
   lab = T
   )
-plot_feature_cor
   
 # Summarize by culture
 # df_culture_sum <-

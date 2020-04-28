@@ -12,6 +12,7 @@ csl: evolution-and-human-behavior.csl
 knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=F)
 library(pander)
 library(patchwork)
+library(gt)
 loadd(all_study_vars)
 loadd(df_qual)
 loadd(df_func)
@@ -533,6 +534,21 @@ We explored three possible sources of bias in discovery of evidence for each of 
 ```{r pubdate, fig.cap=glue_data(list(n=length(all_study_vars)), "The effect of publication date on the probability of finding evidence for leader qualities, functions, benefits, and costs. Multivariate values are  controlling for female authorship and number of pages of ethonography for each culture. All models had random intercepts for ethnographers nested within cultures. Models were fit for each of the {n} variables as outcomes, and after adjusing p-values for a false discovery rate of 5%, the effect of publication date on these outcome variables remained significant. Publication date was centered and standardized by 1 SD. Each dot is one coefficient (converted from log odds to odds ratios). Bars are 95% CI.")}
 plot_pubdate
 ```
+
+## GLMM coefficients
+
+```{r glmmcoefs}
+# kable(all_coefs)
+
+all_coefs %>% 
+  gt %>% 
+  fmt_missing(columns = everything(), missing_text = '') %>% 
+  fmt_number(vars(estimate, std.error, statistic, conf.low, conf.high)) %>% 
+  fmt_scientific(vars(p.value), decimals = 1) %>% 
+  tab_options(table.font.size=10, data_row.padding = 0)
+
+```
+
 
 ## Ethnographer and Culture random effects
 

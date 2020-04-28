@@ -13,11 +13,17 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ### Editor comments
 
-**Statistical reporting and further analysis: The GLMM should be reported in full somewhere. This could go in the supplemental materials. However, can we learn more from it? Do the random effects matter for the ethnographers? What about the national origin effects for the ethnographers? We recommend taking seriously the reflexive analytical techniques of putting the ethnographer in the analysis (see work by Robert Aunger working in the Congo Basin). Does the ethnographer matter? If so, how much?**
+**Statistical reporting and further analysis: The GLMM should be reported in full somewhere.**
+
+The GlMM is actually 109 GLMMs (one for each coded variable). We now include a table of all GLMM coefficients in the SI.
+
+**This could go in the supplemental materials. However, can we learn more from it? Do the random effects matter for the ethnographers?* **
+
+We now report random effects for ethnographer and culture, and also plot the SDs.
+
+**What about the national origin effects for the ethnographers? We recommend taking seriously the reflexive analytical techniques of putting the ethnographer in the analysis (see work by Robert Aunger working in the Congo Basin). Does the ethnographer matter? If so, how much?**
 
 Although we determined the gender of almost all ethnographers (see below), we were not able to confirm the national origins of most.
-
-We now briefly describe the random effects for ethnographers. [need to do]
 
 **Further, and we realize there may not be sufficient power for this, but does the gender of the ethnographer predict ‘seeing’ female leaders in a population? This can (potentially) speak quantitatively to some of the qualitative discussion about limitations and biases in the approach.**
 
@@ -25,15 +31,15 @@ We determined the gender of almost all authors of all documents included in our 
 
 **Could further analyses be done to obtain more information on the nature of the variation within the data?**
 
+In the original version of the ms we did not describe our numerous efforts at dimension reduction, including various flavors of logistic PCA, non-negative matrix factorization (NMF), and various flavors of cluster analysis, and we regressed the resulting components against our various culture-level variables. These efforts did not yield much convincing "stucture" in our data or results beyond what we reported. We now briefly describe these efforts so as to better contexualize the results that we do report, and we report logisticPCA and NMF results in the SI.
+
 **1.	The cluster analysis is nice, but it opens up the option to combine items within both qualities and functions to create a smaller number of higher-level categories or codes that, arguably, are better measured. The issue here is that some things that don’t appear frequently might rise in frequency when they are combined with other similar items. Suppose you use a higher-level category that contains 4 codes and you code the society as ‘1’ if any of the codes appears and zero otherwise. In our view, you need not go crazy with this approach, but look for any tightly bound clusters and consider pursuing those. If you are able to do this, the presentation could be more compact and easier to digest for the reader.**
 
-In the original version of the ms we did not describe our numerous efforts at dimension reduction, including various flavors of logistic PCA, non-negative matrix factorization (NMF), and various flavors of cluster analysis, and we regressed the resulting components against our various culture-level variables. These efforts did not yield any convincing "stucture" in our data or results beyond what we reported. We now briefly describe these efforts so as to better contexualize the results that we do report. 
-
-We now additionally create variables based on the clusters we did find, and investigate their relationship to culture-level variables. As before, we find little convincing evidence of meaningful patterns, which we now briefly report in the SI.
+We now additionally create "feature" variables based on the clusters we did find, and investigate their relationship to culture-level variables. As before, we find little convincing evidence of meaningful patterns, which we now briefly report. Two feature variables -- Mediate and Big man -- were significantly associated with region and subsistence strategy, as we now report in the SI.
 
 **2.	Why not take either some of your original codes or some of these higher-level codes (from the above cluster analysis) and regress them on societal-level features related to subsistence type (foragers, pastoralist, etc. or simply forager vs. non-forager if that’s appropriate), levels of jurisdictional hierarchy (or other measures of societal complexity), population size, and potentially ecological variables. Your sample is not big, but you might be able to get some juice out of this. If interesting findings do emerge, you should consider adding or otherwise altering your visualizations.**
 
-See above.
+See above. We now include some additional plots in the SI.
 
 **3.	Be clearer about how you are accounting for research effort in each society. For example, are you controlling for the total number of words or pages for each population?**
 
@@ -41,7 +47,7 @@ We incorporate total number of pages of ethnography for each culture. Results no
 
 **This seems very important since we want to make sure that the variation observed isn’t due to some populations getting more or less total study effort or writing effort.**
 
-We investigated three possible sources of bias: total number of pages of ethnography, year of publication of each document, and the presence or absence of a female author/co-author for each document. We found evidence for bias in reporting of evidence for 9 of 105 [get new value] variables based on year of publication only. There was no convincing evidence of bias in any variable based on the total number of pages of ethnography or ethographer gender. Results now reported.
+We investigated three possible sources of bias: total number of pages of ethnography, year of publication of each document, and the presence or absence of a female author/co-author for each document. We found evidence for bias in reporting of evidence for 9 of 109 variables based on year of publication only. There was no convincing evidence of bias in any variable based on the total number of pages of ethnography or ethographer gender. Results now reported.
 
 **4.	Did you control for observation year? This might be too highly correlated with ethnographer identity, but worth checking**
 
@@ -49,7 +55,7 @@ Yes. See above.
 
 **5.	Phylogenetic controls. While this is the probability sample, worries persist about non-independence (see R1). There are a variety of approaches to mitigate (and study!) this. Is there any clumping among related groups that cannot be explained by other variables? Do the patterns hold when you either control for linguistic distance or cluster in some way (continental fixed effects at a minimum)?**
 
-We agree that worries persist about the putative independence of the PSF. We now investigate continental effects for each variable. We find xxx, yyy, zzz.
+We agree that worries persist about the putative independence of the PSF. We now investigate continental effects for each variable. As we now report, continental region is confounded with subsistence strategy, so we fit models of all variables as functions of subsistence and region. After correcting p-values for a false discovery rate of 0.05, we found that 2 of our variables -- Moral authority and Prosocial investment -- varied significantly by region. We now report these effects.
 
 **6.	Analyze the degree to which ‘researcher efforts’ (say measured by total words on that society and/or number of paragraphs on leadership) predict the appearance of a code. For example, what if the total ethnographic pages strongly predict the the appearance of “high status” as a code. Suppose the 10% of populations who don’t mention “high status” hardly wrote anything about leadership. On the other hand, if for other traits, there’s no relationship between researcher effort and appearance, then a case can be made that absence of evidence could very well be evidence of absence.**
 
@@ -57,7 +63,7 @@ As discussed above, we investigated the possible effects of total number of page
 
 **We recommend making liberal use of supplemental materials. Some of the analyses may not yield findings of sufficient interest to warrant placement in the main text, but some readers may want to have a look at them, so put them in the supplemental and briefly mention them in the main.**
 
-We have expanded our supplemental materials, xx, yy, zz.
+We have expanded our supplemental materials considerably.
 
 **Returning to the WEIRD Problem: in your discussion, please circle back to the question of what research might be missing by focusing on leadership in Western or industrialized societies. Say more on how leaders in small-scale societies are the same and different—and perhaps you will be able to explain some of that variation with variables like jurisdictional hierarchy or subsistence type or mobility measures. As mentioned by R1, this likely involves returning to the GLOBE data and putting it together with your findings more directly.** 
 
@@ -65,7 +71,7 @@ We agree we need to better situate our study within the theme of the special iss
 
 **Status vs. Leadership: R2 asks about status vs. leadership. Given recent debates about a “leadership psychology” as distinct and separable from status psychologies (like prestige and dominance, van Vugt), it might be worth expanding a bit on what these data say about the connection between status and leadership.** 
 
-This is a good idea. We now include a short section on our "status" variable, and what distinguishes leadership records with evidence for social status from those without such evidence. We found xx, yy.
+This is a good idea. We now include a short section on our "status" variable, and what distinguishes leadership records with evidence for social status from those without such evidence. We found a small set of words, such "respect", "prestige", and "honor", that were significant predictors of "high status" leaders. We found a weak effect of group structure on evidence for high status, and moderate effects of subistence strategy and continental region. We now report these results.
 
 **Expanding the dataset: the natural next step with this project is to use this small sample of hand coded categories to create an automated approach for all of the eHRAF, perhaps based on key words. The idea is to develop a set of keywords or other patterns that reliably predict when a paragraph should be coded in a particular way. The method can be developed and benchmarked using the dataset you’ve created and then simply applied in automated fashion to the entire eHRAF corpus. We offer this as a suggestion, but realize that it’s a lot to ask in this context.** 
 
@@ -76,16 +82,19 @@ This is a good suggestion for future research, but goes beyond remit of the curr
 ## Reviewer 1 comments
 
 **This manuscript presents a descriptive analysis of the HRAF to provide information about leadership in traditional societies. Overall, I enjoyed reading the paper and thought it was a useful resource. It provides a comprehensive analysis of leadership across a wide swath of traditional cultures. It reports on the types of functions leaders serve, the qualities possessed by leaders, and the costs and benefits of leadership experienced by both leaders and followers. The paper will likely be of interest to anyone working in the area of leadership, social hierarchy, or group behavior. I provide some comments below aimed at helping the authors increase the potential accessibility and impact of the work.** 
-
 We greatly appreciate the detailed comments and very useful suggestions. 
 
 **The paper was framed partially as providing an analysis of differences between traditional societies and WEIRD societies but, unless I missed it, there was not much analysis along these lines. Neither the background section nor the Discussion section focuses much on contrasting WEIRD and traditional societies. The paper appears to miss out on a useful opportunity to provide some commentary on this issue. Also, I realize the paper is decidedly exploratory/descriptive, but did the authors have any hypotheses about differences between WEIRD and traditional societies?** 
 
 We agree our initial submisson did not sufficently accomplish this goal. We have now added summarizing, concluding statements on the qualities and functions of leaders in WEIRD and non-WEIRD settings in the introduction. 
 
+We did not have any predictions.
+
 NEED TO ADD TO DISCUSSION & ANALYSES?
 
 **The paper suggests that one of the most important qualities and benefits of being a leader involves being of "high status." That's a little dissatisfying. What's the difference between being high status and being a leader? I realize the authors provided brief operational definitions of the two constructions, but might they simply be two ways of describing the same thing (having a high degree of influence)? Perhaps the authors could do just a bit more to differentiate them.** 
+
+Good suggestion. We now report several analyses of text records that had evidence for high status vs. those that did not. See above for details.
 
 <!-- IDEA: Perform some textual analysis on teh 10% of text records in which there was not evidence leaders were high status. How does these records compare RE gender, group structure, or other qualities (maybe), or the most frequent functions, i.e., try to charachterize non-high status leaders.  
 
@@ -98,7 +107,7 @@ OR, better idea (?), use LASSO technique from paper one, to identify words predi
 
 **Some readers might appreciate a bit more detail about how the HRAF database was created, including how the ethnographic records were identified and selected and whom and when they are from.** 
 
-We added a few additional details in the methods section on the eHRAF and ethnographic sample and now more clearly direct readers to the original publication from which the database was built, which includes additional details. 
+We added additional details in the methods section on the eHRAF and ethnographic sample and now more clearly direct readers to the original publication from which the database was built, which includes additional details. 
 
 We also include additional details in the results and supplementary information on the corpus of ethnographic documents which provide the sample of ethnographic paragraphs. NEED TO DO. 
 
@@ -120,9 +129,11 @@ We greatly appreciate the detailed comments and very useful suggestions.
 
 **The abstract could be tightened up in terms of description of particular costs and benefits to leaders and followers. And a brief justification in the abstract for why the study compares costs and benefits would be useful- e.g. understanding evolution of leader or follower strategies requires understanding the (fitness-relevant) costs and benefits to them.**
 
+Good point. [Need to do]
+
 **Lines 88-89 suggest that the paper's ethnographic analysis will include leadership at all levels of social organization. But does the theory and analysis reported in the paper really extend to all levels of social organization- such as child play groups or households? It seems the focus is still community-level cooperation among adults. Perhaps clarify.**
 
-This statement in the introduction is intended to apply across disciplines focused on leadership dynamics and not specifically apply to the methods of the current study. The reviewer brings up a well-recieved point, however. Any work in developmental psychology on social hierarchy adn leadership would not be subjec to this critique. We have not rephrased this claim to better fit with our objectives and outcomes here. 
+This statement in the introduction is intended to apply across disciplines focused on leadership dynamics and not specifically apply to the methods of the current study. The reviewer brings up a well-received point, however. Any work in developmental psychology on social hierarchy adn leadership would not be subject to this critique. We have not rephrased this claim to better fit with our objectives and outcomes here. 
 
 **In the "Functions of leadership" section, I would expand on your claim that leadership emerges when there is demand for a "managerial presence". You might describe collective action or coordination problems here. That might better motivate the subsequent discussion of different functions of leadership in small-scale societies, as well as discussion of the conditions (e.g. demographic change, wealth access) that increase institutionalization or authority of leaders. Glowacki and von Rueden (2015) suggest that inter-family conflict resolution is where leader institutionalization often first arises, and Roscoe (2009) makes a similar argument concerning leadership in highland New Guinea, where the institutionalized display of material wealth organized by Big Men is rewarded more than ad hoc leadership during war.**
 

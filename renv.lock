@@ -255,6 +255,13 @@
       "Repository": "CRAN",
       "Hash": "f61dbaec772ccd2e17705c1e872e9e7c"
     },
+    "checkmate": {
+      "Package": "checkmate",
+      "Version": "2.0.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "a667800d5f0350371bedeb8b8b950289"
+    },
     "cli": {
       "Package": "cli",
       "Version": "2.0.2",
@@ -303,6 +310,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "6b436e95723d1f0e861224dd9b094dfb"
+    },
+    "commonmark": {
+      "Package": "commonmark",
+      "Version": "1.7",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "0f22be39ec1d141fd03683c06f3a6e67"
     },
     "crayon": {
       "Package": "crayon",
@@ -608,6 +622,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "7d7f283939f563670a697165b2cf5560"
+    },
+    "gt": {
+      "Package": "gt",
+      "Version": "0.2.0.5",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "e04f0b7d985a2ff97da3c1ede4b4938d"
     },
     "gtable": {
       "Package": "gtable",
@@ -1198,6 +1219,13 @@
       "Repository": "CRAN",
       "Hash": "6a20c2cdf133ebc7ac45888c9ccc052b"
     },
+    "sass": {
+      "Package": "sass",
+      "Version": "0.2.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "441417bbd40d5bbd07561cc40fb182ed"
+    },
     "scales": {
       "Package": "scales",
       "Version": "1.1.0",
@@ -1387,8 +1415,8 @@
       "RemoteUsername": "r-lib",
       "RemoteRepo": "vctrs",
       "RemoteRef": "master",
-      "RemoteSha": "f65f71c8fe70731339d5c6f7748fc3b6b5c66b4b",
-      "Hash": "7c15111f43a660f114d3dbab903ccc2c"
+      "RemoteSha": "4a43860747fe806e7f337e7bb3f326fe5de0f534",
+      "Hash": "d45f84e51ef055f40232aedb7017790e"
     },
     "viridis": {
       "Package": "viridis",
