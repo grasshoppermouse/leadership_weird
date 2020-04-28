@@ -291,6 +291,16 @@ statusPercCult <- signif(100*statusFracCult, 3)
 
 *High status* was the most frequent leader quality in the ethnographic record, with `r statusPercTxt`% of text records and `r statusPercCult`% cultures containing evidence that leaders were of high social status. To explore factors that distinguished these records from those with no evidence for status, we first created a document-term matrix (DTM) of all "informative" words in our corpus of texts and the frequency with which they occurred in each text record (see SI for details). We then fit an elasticnet logistic regression model (with lasso penalty) of high status (0/1) as a function of the frequencies of all `r ncol(leader_dtm)-1` words. Words that were strong positive predictors epitomized the semantic content of the text records which provide evidence of high status as a quality of leaders. These included *`r rev(highstatus_plot$data$Word)[1:4]`*, and *`r rev(highstatus_plot$data$Word)[5]`*. See Figure \@ref(fig:highstatusplot).
 
+We then investigated if the proportion of text records with evidence for high status differed among the different levels of social and political organization. There were modest differences. Somewhat counter-intuitively, the proportion of text records indicating high status was lowest at the highest level of political organization, perhaps because it would have been superfluous to note that kings and chiefs were high status. See Figure \@ref(fig:groupstatus).
+
+```{r groupstatus, fig.width=10, fig.cap="Estimated marginal means of a mixed effects logistic regression model of evidence for high status (0/1) as a function of group type, with random effects for ethnographer nested within culture."}
+((plot_emm_status_group2 / plot_emm_status_sex2) | (plot_emm_status_subsistence2 / plot_emm_status_region2)) + plot_annotation(title = "Predictors of high status", tag_levels = 'A')
+```
+
+Finally, we examined the relationship between evidence for high status and subsistence strategy and continental region. See Figure \@ref(fig:statusregion).
+
+```{r statusregion, fig.cap="Estimated marginal means of a mixed effects logistic regression model of evidence for high status (0/1) as a function of subsistence strategy and region as covariates, with random effects for ethnographer nested within culture."}
+```
 
 
 ## Dimension reduction
@@ -299,12 +309,9 @@ statusPercCult <- signif(100*statusFracCult, 3)
 num_removed <- sum(rowSums(all_data[all_study_vars]) == 0)
 ```
 
-To investigate features in our data, we first removed `r num_removed` text records with no evidence for any variable.
+Our qualities and functions data comprised sparse $`r nrow(all_data)` \times `r length(quality_vars)`$ and $`r nrow(all_data)` \times `r length(function_vars)`$ matrices of binary data, respectively. Most data reduction methods did not find strong evidence of structure in the data. We therefore explored reduced matrices that removed uninformative rows with no evidence for any variable and columns with only a few text records with evidence. Stable clusters emerged with $`r nrow(df_qual)` \times `r ncol(df_qual)`$ and $`r nrow(df_func)` \times `r ncol(df_func)`$ matrices for qualities and functions, respectively.
 
-Our qualities and functions data comprised sparse $`r nrow(all_data)` \times `r length(quality_vars)`$ and $`r nrow(all_data)` \times `r length(function_vars)`$ matrices of binary data, respectively. 
-
-
-Most data reduction methods did not find strong evidence of structure in the data. Here we report the cluster analysis of variables that used the correlation distance metric ($1 - cor$), and the Ward agglomeration algorithm (for results from the other methods, see the SI). Figure \@ref(fig:cluster)A displays a dendrogram from the cluster analysis of the `r length(quality_vars)` leader quality variables and Figure \@ref(fig:cluster)B displays a dendrogram from the cluster analysis of the `r length(function_vars)` leader function variables. Each cluster analysis includes two estimates of significance for how strongly each cluster within the dendrogram is supported by the data. We rely on the AU (Approximately Unbiased) *p* values, which are computed by multiscale bootstrap resampling and represented as percentages (e.g., clusters with AU values $>95$ are strongly supported, and the top-level clusters are automatically highlighted by rectangles).
+Here we report the cluster analysis of variables that used the correlation distance metric ($1 - cor$), and the Ward agglomeration algorithm (for results from the other methods, see the SI). Figure \@ref(fig:cluster)A displays a dendrogram from the cluster analysis of the `r length(quality_vars)` leader quality variables and Figure \@ref(fig:cluster)B displays a dendrogram from the cluster analysis of the `r length(function_vars)` leader function variables. Each cluster analysis includes two estimates of significance for how strongly each cluster within the dendrogram is supported by the data. We rely on the AU (Approximately Unbiased) *p* values, which are computed by multiscale bootstrap resampling and represented as percentages (e.g., clusters with AU values $>95$ are strongly supported, and the top-level clusters are automatically highlighted by rectangles).
 
 ```{r cluster, fig.cap="Cluster analysis of leader quality variables (A) and leader function variables (B). Distances were $1 - cor$. Ward agglomeration method. AU p-values (red) computed with 10,000 bootstrap samples using the pvclust package [@pvclust2015]."}
 # plot(m_pvclust_qual)
@@ -317,6 +324,32 @@ The leader quality cluster analysis (Figure \@ref(fig:cluster)A) identified two 
 The leader functions cluster analysis (Figure \@ref(fig:cluster)B) also identified two top-level clusters; the larger of which we identified as a management functions cluster (i.e., *Organize cooperation*, *Military command*, *Resolve conflict*) and the smaller of which we identified as a prosociality cluster (i.e., *Social functions*, *Distribute resources*, *Hospitality*). Within the management cluster, we identified a mediation subcluster (e.g., *Resolve conflict*, *Provide counsel*), and an organization subcluster (e.g., *Organize cooperation*, *Military command*).
 
 In naming the clusters and subclusters, we gave extra weight to variables that were strongly supported in the ethnographic record (Figure \@ref(fig:varsupport)), and therefore not all variables within these clusters were clearly related to the themes we identified.
+
+We then fit separate logistic mixed effects models of each feature as a function of subsistence strategy and region, with random effects for author nested within culture. After adjusting the subsistence coefficient p-values for an FDR of 0.05, we computed and plotted the estimated marginal means of the significant models. See Figure \@ref(fig:features).
+
+```{r features, fig.width=11, fig.cap="Esimtated marginal means [@lenth2020] of logistic mixed effects regression models of Feature variables by subsistence strategy and region. Only models whose subsistence coefficient had a corrected p-value < 0.05. The coefficient for region was also significant in the model of the 'Big man' feature. Plotted on the response (probablity) scale. See text for details."}
+
+feature_scale <- scale_x_continuous(limits = c(0, 0.20))
+
+p_subsis_mediate <- ggemmeans(subsis_models_sig$emmeans_subsis[[1]]) +
+  feature_scale +
+  labs(title = 'Mediate', x = '', y = '')
+
+p_subsis_bigman <- ggemmeans(subsis_models_sig$emmeans_subsis[[2]]) +
+  feature_scale +
+  labs(title = 'Prosocial competencies', x = '', y = '')
+
+p_region_mediate <- ggemmeans(subsis_models_sig$emmeans_region[[1]]) +
+  feature_scale +
+  labs(title = 'Mediate', x = '', y = '')
+
+p_region_bigman <- ggemmeans(subsis_models_sig$emmeans_region[[2]]) +
+  feature_scale +
+  labs(title = 'Prosocial competencies', x = '', y = '')
+
+(p_subsis_mediate + p_region_mediate) / (p_subsis_bigman + p_region_bigman)
+
+```
 
 ## Benefits and costs of leadership and followership
 
@@ -535,30 +568,6 @@ We explored three possible sources of bias in discovery of evidence for each of 
 plot_pubdate
 ```
 
-## GLMM coefficients
-
-```{r glmmcoefs}
-# kable(all_coefs)
-
-all_coefs %>% 
-  gt %>% 
-  fmt_missing(columns = everything(), missing_text = '') %>% 
-  fmt_number(vars(estimate, std.error, statistic, conf.low, conf.high)) %>% 
-  fmt_scientific(vars(p.value), decimals = 1) %>% 
-  tab_options(table.font.size=10, data_row.padding = 0)
-
-```
-
-
-## Ethnographer and Culture random effects
-
-```{r FunctionRE, fig.cap="Ethnographer and Culture random effects for function variables."}
-plot_fun_auth_cult_re
-```
-
-```{r QualityRE, fig.height=8, fig.cap="Ethnographer and Culture random effects for quality variables."}
-plot_qual_auth_cult_re
-```
 
 ## Disentangling the relationship between leadership and high status
 
@@ -571,18 +580,6 @@ highstatus_plot + scale_x_log10()
 ```
 
 Figure \@ref(fig:highstatusplot) depicts the `r length(highstatus_plot$data$Word)` words with non-zero (mostly positive) coefficients. The words most predictive of evidence for high status leaders are *`r rev(highstatus_plot$data$Word)[1:4]`*, and *`r rev(highstatus_plot$data$Word)[5]`*.
-
-We then investigated if the proportion of text records with evidence for high status differed among the different levels of social and political organization. There were modest differences. Somewhat counter-intuitively, the proportion of text records indicating high status was lowest at the highest level of political organization, perhaps because it would have been superfluous to note that kings and chiefs were high status. See Figure \@ref(fig:groupstatus).
-
-```{r groupstatus, fig.cap="Estimated marginal means of a mixed effects logistic regression model of evidence for high status (0/1) as a function of group type, with random effects for ethnographer nested within culture."}
-plot_emm_status_group
-```
-
-Finally, we examined the relationship between evidence for high status and subsistence strategy and continental region. See Figure \@ref(fig:statusregion).
-
-```{r statusregion, fig.cap="Estimated marginal means of a mixed effects logistic regression model of evidence for high status (0/1) as a function of subsistence strategy and region as covariates, with random effects for ethnographer nested within culture."}
-plot_status_subsistence + plot_status_region + plot_layout(ncol = 1)
-```
 
 ## Effects of subsistence strategy and region on function and quality variables
 
@@ -624,32 +621,29 @@ We constructed `r length(features)` "feature" variables from the higher-level cl
 plot_feature_cor
 ```
 
-We then fit separate logistic mixed effects models of each feature as a function of subsistence strategy and region, with random effects for author nested within culture. After adjusting the subsistence coefficient p-values for an FDR of 0.05, we computed and plotted the estimated marginal means of the significant models. See Figure \@ref(fig:features).
+## Ethnographer and Culture random effects
 
-```{r features, fig.width=11, fig.cap="Esimtated marginal means [@lenth2020] of logistic mixed effects regression models of Feature variables by subsistence strategy and region. Only models whose subsistence coefficient had a corrected p-value < 0.05. The coefficient for region was also significant in the model of the 'Big man' feature. Plotted on the response (probablity) scale. See text for details."}
-
-feature_scale <- scale_x_continuous(limits = c(0, 0.20))
-
-p_subsis_mediate <- ggemmeans(subsis_models_sig$emmeans_subsis[[1]]) +
-  feature_scale +
-  labs(title = 'Mediate', x = '', y = '')
-
-p_subsis_bigman <- ggemmeans(subsis_models_sig$emmeans_subsis[[2]]) +
-  feature_scale +
-  labs(title = 'Big man', x = '', y = '')
-
-p_region_mediate <- ggemmeans(subsis_models_sig$emmeans_region[[1]]) +
-  feature_scale +
-  labs(title = 'Mediate', x = '', y = '')
-
-p_region_bigman <- ggemmeans(subsis_models_sig$emmeans_region[[2]]) +
-  feature_scale +
-  labs(title = 'Big man', x = '', y = '')
-
-(p_subsis_mediate + p_region_mediate) / (p_subsis_bigman + p_region_bigman)
-
+```{r FunctionRE, fig.width=10, fig.cap="Ethnographer and Culture random effects for function variables."}
+plot_fun_auth_cult_re
 ```
 
+```{r QualityRE, fig.width=10, fig.cap="Ethnographer and Culture random effects for quality variables."}
+plot_qual_auth_cult_re
+```
+
+## GLMM coefficients
+
+```{r glmmcoefs}
+# kable(all_coefs)
+
+all_coefs %>% 
+  gt %>% 
+  fmt_missing(columns = everything(), missing_text = '') %>% 
+  fmt_number(vars(estimate, std.error, statistic, conf.low, conf.high)) %>% 
+  fmt_scientific(vars(p.value), decimals = 1) %>% 
+  tab_options(table.font.size=10, data_row.padding = 0)
+
+```
 
 # References
 

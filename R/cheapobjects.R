@@ -329,14 +329,14 @@ m_status_subsistence <-
 plot_status_subsistence <-
   hagenutils::ggemmeans(emmeans(m_status_subsistence, 'subsistence', type = 'response')) +
   scale_x_continuous(limits = c(0, 0.7)) +
-  labs(title = 'High status by subsistence strategy', x = '\nProbability', y = '')
+  labs(title = '', x = '', y = '')
 
 plot_status_region <-
   hagenutils::ggemmeans(emmeans(m_status_subsistence, 'region', type = 'response')) +
   scale_x_continuous(limits = c(0, 0.7)) +
-  labs(title = 'High status by region', x = '\nProbability', y = '')
+  labs(title = '', x = '', y = '')
 
-# High status by group structure --------------------------------------------------
+# High status predictors --------------------------------------------------
 
 # Simple proportions
 # x <- table(leader_text2$group.structure2, leader_text2$qualities_HighStatus)
@@ -345,20 +345,53 @@ plot_status_region <-
 
 # logistic model
 
-m_status_group <-
+m_status_group2 <-
   glmer(
     qualities_HighStatus ~
       group.structure2 +
+      subsistence +
+      region +
+      demo_sex +
       (1|d_culture/author_ID),
     family = binomial,
-    data = all_data
+    data = all_data,
+    nAGQ = 0
   )
 
-plot_emm_status_group <-
-  hagenutils::ggemmeans(emmeans(m_status_group, 'group.structure2', type = 'response')) +
-  scale_x_continuous(limits = c(0, NA)) +
-  labs(title = 'High status by group structure', x = '\nProbability', y = '')
+plot_emm_status_group2 <-
+  hagenutils::ggemmeans(emmeans(m_status_group2, 'group.structure2', type = 'response')) +
+  scale_x_continuous(limits = c(0, 0.8)) +
+  labs(title = '', x = '', y = '')
 
+plot_emm_status_subsistence2 <-
+  hagenutils::ggemmeans(emmeans(m_status_group2, 'subsistence', type = 'response')) +
+  scale_x_continuous(limits = c(0, 0.8)) +
+  labs(title = '', x = '', y = '')
+
+plot_emm_status_region2 <-
+  hagenutils::ggemmeans(emmeans(m_status_group2, 'region', type = 'response')) +
+  scale_x_continuous(limits = c(0, 0.8)) +
+  labs(title = '', x = '', y = '')
+
+plot_emm_status_sex2 <-
+  hagenutils::ggemmeans(emmeans(m_status_group2, 'demo_sex', type = 'response')) +
+  scale_x_continuous(limits = c(0, 0.8)) +
+  labs(title = '', x = '', y = '')
+
+# Original
+# m_status_group <-
+#   glmer(
+#     qualities_HighStatus ~
+#       group.structure2 +
+#       (1|d_culture/author_ID),
+#     family = binomial,
+#     data = all_data
+#   )
+# 
+# plot_emm_status_group <-
+#   hagenutils::ggemmeans(emmeans(m_status_group, 'group.structure2', type = 'response')) +
+#   scale_x_continuous(limits = c(0, NA)) +
+#   labs(title = '', x = '', y = '')
 
 # All vars by subsistence and region --------------------------------------
 
@@ -434,10 +467,10 @@ qual_dendro <- as.dendrogram(m_pvclust_qual)
 
 qual_branches <- list(
   'Cultural_conformity' = qual_dendro[[1]][[1]],
-  'Big_man' = qual_dendro[[1]][[2]],
+  'Prosocial_competencies' = qual_dendro[[1]][[2]],
   'Social_material_success' = qual_dendro[[2]][[1]],
-  'Dominance' = qual_dendro[[2]][[2]][[1]],
-  'Prestige' = qual_dendro[[2]][[2]][[2]]
+  'Competencies' = qual_dendro[[2]][[2]]
+  # 'Prestige' = qual_dendro[[2]][[2]][[2]]
 )
 
 clust_qual_vars <- map2_df(qual_branches, names(qual_branches), branch2df)
@@ -477,9 +510,9 @@ all_data2 <-
 df_features <- 
   all_data2 %>%
   mutate_at(
-    vars(Prosociality:Prestige), function(x) apply(x, MARGIN = 1, function(x) x[1]/sum(x))
+    vars(Prosociality:Competencies), function(x) apply(x, MARGIN = 1, function(x) x[1]/sum(x))
   ) %>% 
-  dplyr::select(Prosociality:Prestige)
+  dplyr::select(Prosociality:Competencies)
 
 plot_feature_cor <- ggcorrplot(
   cor(df_features), 
