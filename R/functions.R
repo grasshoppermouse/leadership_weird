@@ -146,7 +146,8 @@ benefit_cost_support_plot <- function(...){
     bind_rows(...) %>% 
     separate(Type, into = c('leader_follower', 'cost_benefit'), sep = '\\.') %>% 
     mutate(
-      cost_benefit = str_to_title(cost_benefit)
+      cost_benefit = str_to_title(cost_benefit),
+      leader_follower = factor(leader_follower, levels = c('Leader', 'Follower'))
     )
 
   lvls <-
