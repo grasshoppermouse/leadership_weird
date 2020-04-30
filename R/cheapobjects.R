@@ -54,9 +54,17 @@ female_residential_pct <- signif(group_sex_tbl['female', 'residential subgroup']
 male_residential_pct <- signif(group_sex_tbl['male', 'residential subgroup']/sum(leader_text$demo_sex == 'male'), 3)*100
 
 group_sub_tbl <- xtabs(~ subsistence + group.structure2, all_data)
-hg_residential_pct <- signif(group_sub_tbl['hunter gatherers', 'residential subgroup']/sum(leader_text$subsistence == 'hunter gatherers'), 3)*100
-hg_kin_pct <- signif(group_sub_tbl['hunter gatherers', 'kin group']/sum(leader_text$subsistence == 'hunter gatherers'), 3)*100
-hort_kin_pct <- signif(group_sub_tbl['horticulturalists', 'kin group']/sum(leader_text$subsistence == 'horticulturalists'), 3)*100
+
+groupXsubsis <- function(group, subsis){
+  signif(group_sub_tbl[subsis, group]/sum(leader_text$subsistence == subsis), 3)*100
+}
+
+hg_residential_pct <- groupXsubsis('residential subgroup', 'hunter gatherers')
+hg_kin_pct <- groupXsubsis('kin group', 'hunter gatherers')
+hg_supra_pct <- groupXsubsis('political group (supracommunity)', 'hunter gatherers')
+hort_kin_pct <- groupXsubsis('kin group', 'horticulturalists')
+agri_supra_pct <- groupXsubsis('political group (supracommunity)', 'agriculturalists')
+agri_residential_pct <- groupXsubsis('residential subgroup', 'agriculturalists')
 
 final_record_count <- sum(rowSums(all_data[all_study_vars])>0)
 
