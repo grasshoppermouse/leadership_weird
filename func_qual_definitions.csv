@@ -33,11 +33,12 @@ Qualities,Age,The leader is an elder or is older than most followers.
 ,Attractive,The leader is described/perceived as being physically/sexually attractive.
 ,Bravery,"The leader is known for being courageous, brave, or fearless. "
 ,Charisma,"The leader is described as charismatic, able to motivate followers with their personality."
-,Coercive authority,"The leader has strong authority over followers and social norms either promote or accept this authority; or, followers are unable to resist or depose the authority of the leader."
+,Coercive authority,"The leader has strong authority over followers and social norms either promote or accept this authority; or, followers are unable to resist or depose coercion of the leader."
 ,Confidence,"The leader is confident, assured, or assertive."
 ,Culturally conservative,The leader values tradition over new/outside ideas.
 ,Culturally progressive,The leader is open to new/outside ideas and might value these ideas over tradition.
 ,Decisiveness/decision-making,The leader makes decisions swiftly or has a reputation for good decision-making abilities. 
+,Dishonest,The leader has a reputation for or has demonstrated dishonesty.  
 ,Drug consumption,"The leader is known for, or is expected to be able to consume high levels of drugs (alcohol, tobacco, etc.), is expected to have a high tolerance, or maintain superior cognitive functioning under the influence relative to followers."
 ,Experienced/accomplished,The leader has increased/specialized expertise relative to followers or has a reputation for successful and notable accomplishments. 
 ,Fairness,The leader demonstrates fairness to all group members or has a reputation for  fairness.
@@ -46,7 +47,7 @@ Qualities,Age,The leader is an elder or is older than most followers.
 ,Generosity,The leader displays or has a reputation for generosity.
 ,High status,"The leader is described as having high social status, prestige, or held in high esteem."
 ,High-quality spouse,The leader is married to a high status or high quality spouse(s).
-,Honesty,The leader has a reputation for honesty.  
+,Honesty,The leader has a reputation for or has demonstrated honesty.  
 ,Humility,The leader is modest in estimating or signaling their own abilities or qualities; has a reputation for being humble.
 ,Industriousness,The leader is hardworking and productive.
 ,Ingroup member,The leader is a member of the local group in residence and ethnicity with such membership explicitly mentioned as preferable or important.
@@ -56,6 +57,8 @@ Qualities,Age,The leader is an elder or is older than most followers.
 ,Knowledgeable/intelligent,"The leader is known for superior intelligence, knowledge, cognitive functioning, specialized education, wisdom, or esoteric knowledge. "
 ,Loyalty,The leader demonstrates loyalty to the in-group or important members of the in-group.
 ,Many children,The leader has many offspring. 
+,No coercive authority,"The leader does not have strong authority over followers and social norms limit or prohibit coercive authority; or, followers are able to resist or depose the coercion by the leader."
+,No drug consumption,"The leader is expected to, or does not consume high levels of drugs (alcohol, tobacco, etc.), or is known for abstaining from recreational drug use."
 ,Oratory skill,"The leader is a good public speaker, eloquent, demonstrates high oratory skill, or forceful/persuasive speaking abilities. "
 ,Physical health,The leader is physically healthy.
 ,Physically formidable,"The leader is physically strong, large in size, or physically formidable."
@@ -66,5 +69,6 @@ Qualities,Age,The leader is an elder or is older than most followers.
 ,Strategic nepotism,The leader or the leadership system strategically provides benefits to kin/family members. Social influence/leadership is partially determined or mediated via kinship or inheritance. 
 ,Strategic planner,The leader makes decisions/plans for the future relying on their knowledge and intellect in order to optimize outcomes for the group; considers outcomes strategically.
 ,Supernatural,The leader is perceived to possess supernatural qualities/abilities.
+,Unfair,The leader is unfair to some group members or has a reputation for not being fair.
 ,Wealthy,"The leader is wealthier than followers including cash, material or other economic wealth measures."
 ,Xenophobia,The leader is described as fearing and mistrusting outsiders.
