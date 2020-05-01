@@ -418,6 +418,20 @@ plot_prosocial_region <-
   labs(title = sig_func_region$Variable[2], x = '\nProbability', y = '')
 
 
+# All vars by subsistence, region, sex, groups ----------------------------
+
+models_allvars <- textrecord_support_subsis_region(all_data, all_study_vars)
+
+models_aic <-
+  models_allvars %>% 
+  dplyr::filter(AIC_diff < -2)
+
+models_allvars2 <- textrecord_support_subsis_region(all_data, all_study_vars)
+
+models2_aic <-
+  models_allvars2 %>% 
+  dplyr::filter(AIC_diff < -2)
+
 
 # Treemaps -----------------------------------------------------------------
 

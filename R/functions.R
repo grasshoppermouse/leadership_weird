@@ -14,7 +14,7 @@ variable_names <- function(df, type){
   return(thevars)
 }
 
-# df that links the ids of texts, docs, and cultures
+# df that links the ids of texts, docs, and cultures -----------------------
 
 text_doc_auth_cult_ID <- function(df_text = leader_text_original, df_doc = documents){
   df_text %>% 
@@ -22,7 +22,7 @@ text_doc_auth_cult_ID <- function(df_text = leader_text_original, df_doc = docum
     left_join(df_doc[c('d_ID', 'd_culture')], by = c("doc_ID" = "d_ID"))
 }
 
-# Merge data frames
+# Merge data frames --------------------------------------------------------
 
 merge_dfs <- function(
   leader_text2, 
@@ -65,6 +65,9 @@ merge_dfs <- function(
     )
 }
 
+
+# Variable support in text records ----------------------------------------
+
 textrecord_support <- function(thedata, type){
   
   thevars <- variable_names(thedata, type)
@@ -95,6 +98,9 @@ textrecord_support <- function(thedata, type){
     cultureSD = map_dbl(Tidy, ~ .x$estimate[4])
   )
 }
+
+
+# Variable support by culture ---------------------------------------------
 
 culture_support <- function(df, type, n = 10){
   thevars <- variable_names(df, type)
@@ -173,14 +179,26 @@ benefit_cost_support_plot <- function(...){
 
 # Variable support by subsistence and region ------------------------------
 
-textrecord_support_subsis_region <- function(thedata, type){
+textrecord_support_subsis_region <- function(thedata, thevars){
   
-  thevars <- variable_names(thedata, type)
-  formulae <- glue_data(list(outcome = thevars), "{outcome} ~ subsistence + region + (1|d_culture/author_ID)")
-
-  models <-
+  # thevars <- variable_names(thedata, type)
+  uniformulae <- glue_data(list(outcome = thevars), "{outcome} ~ 1 + (1|d_culture/author_ID)")
+  multiformulae <- glue_data(list(outcome = thevars), "{outcome} ~ subsistence + region + female_coauthor + group.structure2 + (1|d_culture/author_ID)")
+  
+  unimodels <-
     map(
-      formulae,
+      uniformulae,
+      ~ glmer(
+        as.formula(.x),
+        family = binomial,
+        data = thedata,
+        nAGQ = 0
+      )
+    )
+  
+  multimodels <-
+    map(
+      multiformulae,
       ~ glmer(
         as.formula(.x),
         family = binomial,
@@ -191,22 +209,31 @@ textrecord_support_subsis_region <- function(thedata, type){
   
   tibble(
     Level = "Text records",
-    Type = str_to_title(type),
     vars = thevars,
     Variable = names(thevars),
-    Model = models,
-    Anova = map(Model, Anova),
+    Unimodel = unimodels,
+    Unistats = map(Unimodel, glance),
+    uniAIC = map_dbl(Unistats, 3),
+    Multimodel = multimodels,
+    Multistats = map(Multimodel, glance),
+    multiAIC = map_dbl(Multistats, 3),
+    AIC_diff = multiAIC - uniAIC,
+    Anova = map(Multimodel, Anova),
     pvalues = map(Anova, 'Pr(>Chisq)'),
     pvalue_subsis = map_dbl(pvalues, 1),
     pvalue_region = map_dbl(pvalues, 2),
+    pvalue_female = map_dbl(pvalues, 3),
+    pvalue_groups = map_dbl(pvalues, 4),
     adj_pvalue_subsis = p.adjust(pvalue_subsis, method = 'BH'),
     adj_pvalue_region = p.adjust(pvalue_region, method = 'BH'),
-    emmeans_subsis = map(Model, ~emmeans(., spec = 'subsistence', type = "response")),
-    emmeans_region = map(Model, ~emmeans(., spec = 'region', type = "response"))
-    
+    adj_pvalue_female = p.adjust(pvalue_female, method = 'BH'),
+    adj_pvalue_groups = p.adjust(pvalue_groups, method = 'BH'),
+    emmeans_subsis = map(Multimodel, ~emmeans(., spec = 'subsistence', type = "response")),
+    emmeans_region = map(Multimodel, ~emmeans(., spec = 'region', type = "response")),
+    emmeans_female = map(Multimodel, ~emmeans(., spec = 'female_coauthor', type = "response")),
+    emmeans_groups = map(Multimodel, ~emmeans(., spec = 'group.structure2', type = "response"))
   )
 }
-
 
 # Text analysis -----------------------------------------------------------
 
