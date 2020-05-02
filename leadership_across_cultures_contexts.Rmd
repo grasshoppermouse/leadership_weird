@@ -369,7 +369,9 @@ We identify these named subclusters as "features" of leader qualities and functi
 
 We then fit separate logistic mixed effects models of each feature as a function of subsistence strategy and region, with random effects for author nested within culture. After adjusting the subsistence coefficient p-values for an FDR of 0.05, we computed and plotted the estimated marginal means of the significant models. Two of these models (*Mediate* and *Prosocial competencies*) produced significant effects. See Figure \@ref(fig:features).
 
-```{r features, fig.width=11, fig.cap="Esimtated marginal means [@lenth2020] of logistic mixed effects regression models of Feature variables by subsistence strategy and region. Only models whose subsistence coefficient had a corrected p-value < 0.05. The coefficient for region was also significant in the model of the 'Big man' feature. Plotted on the response (probablity) scale. See text for details."}
+<!-- NEED TO DO -- ADD TABLE? -->
+
+```{r features, fig.width=11, fig.cap="Esimtated marginal means [@lenth2020] of logistic mixed effects regression models of Feature variables by subsistence strategy and region. Only models whose subsistence coefficient had a corrected p-value < 0.05. The coefficient for region was also significant in the model of the 'Prosocial cometencies' feature. Plotted on the response (probablity) scale. See text for details."}
 
 feature_scale <- scale_x_continuous(limits = c(0, 0.20))
 
@@ -395,16 +397,16 @@ p_region_bigman <- ggemmeans(subsis_models_sig$emmeans_region[[2]]) +
 
 ## Benefits and costs of leadership and followership
 
-The frequency of leader and follower costs and benefits were estimated similarly to the leader qualities and functions described above. In these data leaders are most commonly receiving benefits in the form of greater access to material resources (documented in about 70% of cultures) and increased social status (documented in about 65% of cultures). Receiving social services, mating benefits, and food benefits are also relatively frequent benefits of leadership cross-culturally. The costs follow the potential benefits and leaders stand to lose their high social status (documented in about 45% of cultures) and greater access to resources (documented in about 40% of cultures). See Figure \@ref(fig:varsupportcb).
+The frequency of leader and follower costs and benefits were estimated similarly to the leader qualities and functions described above. In these data leaders most commonly receivied benefits in the form of greater access to material resources (documented in about 70% of cultures) and increased social status (documented in about 65% of cultures). Mating benefits and receiving social services were also relatively frequent benefits of leadership. In general, the costs tracked the benefits. Leaders were often described as losing their high social status (documented in about 45% of cultures) and greater access to resources (documented in about 40% of cultures). See Figure \@ref(fig:varsupportcb).
 
-Followers on the other hand also benefit from leadership systems through receiving material resources (documented in about 50% of cultures) but otherwise most frequently benefit through social *services* provided (documented in about 35% of cultures). Mating and fitness benefits are relatively rare for followers. Followers most frequently incur costs in the form of material resources lost (documented in about 40% of cultures) and in providing social services (documented in about 25% of cultures). See Figure \@ref(fig:varsupportcb).
+Followers on the other hand most commonly benefited from leadership systems through receiving material resources (documented in about 50% of cultures) but otherwise most frequently through social services provided (documented in about 35% of cultures). Mating and fitness benefits were relatively rare for followers. Followers were most frequently described as incuring costs in the form of material resources lost (documented in about 40% of cultures) and in providing social services (documented in about 25% of cultures). See Figure \@ref(fig:varsupportcb).
 
 ```{r varsupportcb, echo=FALSE, warning=FALSE, message=F, fig.width=15, fig.height=11, fig.cap="Support for each coded variable for the costs and benefits of leadership and followership. Blue circles: percent of text records with evidence of support (95% CI computed with a binomial mixed effects models with random intercept for author nested within culture). Red triangles: percent of cultures with evidence of support (95% CI computed with a cluster bootstrap)."}
 ggsave(file="Figures/variablecostsbenefits.pdf", plot_costs_benefits)
 plot_costs_benefits
 ```
 
-We then explored relationships between total leader benefits and costs, summed across all leader benefit and cost variables, respectively, and levels of social and political organization. In general, leaders at the highest supracommunity level had the most evidence for receiving benefits and the least evidence for suffering costs. See Figure \@ref(fig:leadertotalbenefitscosts).
+We then explored relationships between total leader benefits and costs, summed across all leader benefit and cost variables, respectively, and levels of group context. In general, leaders at the highest supracommunity political level had the most evidence for receiving benefits and the least evidence for suffering costs and leaders of military groups has the highest total costs. See Figure \@ref(fig:leadertotalbenefitscosts).
 
 ```{r leadertotalbenefitscosts, fig.cap="Estimated marginal means of A. leader total benefits, and B. total costs, as a function of group structure, based on a logistic mixed effects regression model with random intercepts for ethnographer nested within culture. Values are on the response scale."}
 p1 <- 
