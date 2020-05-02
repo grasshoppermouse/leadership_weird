@@ -28,6 +28,11 @@ loadd(plot_costs_benefits)
 loadd(plot_pubdate)
 loadd(m_lpca_qual)
 loadd(m_lpca_func)
+loadd(multi_allvars)
+loadd(p_heatmap_subsis)
+loadd(p_heatmap_region)
+loadd(p_heatmap_sex)
+loadd(p_heatmap_groups)
 source("R/cheapobjects.R")
 ```
 
@@ -636,6 +641,29 @@ highstatus_plot + scale_x_log10()
 
 Figure \@ref(fig:highstatusplot) depicts the `r length(highstatus_plot$data$Word)` words with non-zero (mostly positive) coefficients. The words most predictive of evidence for high status leaders are *`r rev(highstatus_plot$data$Word)[1:4]`*, and *`r rev(highstatus_plot$data$Word)[5]`*.
 
+
+## Relative effects of subsistence strategy, region, leader sex, and group structure on all variables
+
+```{r heatmapsubsis}
+
+plot(p_heatmap_subsis)
+```
+
+```{r heatmapregion}
+
+plot(p_heatmap_region)
+```
+
+```{r heatmapsex}
+
+plot(p_heatmap_sex)
+```
+
+```{r heatmapgroups}
+
+plot(p_heatmap_groups)
+```
+
 ## Effects of subsistence strategy and region on function and quality variables
 
 ```{r varsubsisregion, fig.cap="Estimated marginal means of logistic mixed effects models of each leader function and quality variable as a function of subsistence strategy and region, with random effects for author nested within culture. These are the only models with significant coefficients for either subsistence strategy or region, after correcting p-values for an FDR of 0.05."}
@@ -678,11 +706,11 @@ plot_feature_cor
 
 ## Ethnographer and Culture random effects
 
-```{r FunctionRE, fig.width=10, fig.cap="Ethnographer and Culture random effects for function variables."}
+```{r FunctionRE, fig.cap="Ethnographer and Culture random effects for function variables."}
 plot_fun_auth_cult_re
 ```
 
-```{r QualityRE, fig.width=10, fig.cap="Ethnographer and Culture random effects for quality variables."}
+```{r QualityRE, fig.cap="Ethnographer and Culture random effects for quality variables."}
 plot_qual_auth_cult_re
 ```
 

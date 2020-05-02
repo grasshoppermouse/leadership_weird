@@ -2,6 +2,7 @@
 
 # Create vectors of variable names by type --------------------------------
 
+# variable names encode their type
 variable_names <- function(df, type){
   dfnames <- names(df)
   dfnames <- dfnames[!str_detect(dfnames, "functions_Context")]
@@ -16,7 +17,7 @@ variable_names <- function(df, type){
 
 # df that links the ids of texts, docs, and cultures -----------------------
 
-text_doc_auth_cult_ID <- function(df_text = leader_text_original, df_doc = documents){
+text_doc_auth_cult_ID <- function(df_text, df_doc){
   df_text %>% 
     dplyr::select(cs_textrec_ID, doc_ID, author_ID) %>% 
     left_join(df_doc[c('d_ID', 'd_culture')], by = c("doc_ID" = "d_ID"))
@@ -68,10 +69,10 @@ merge_dfs <- function(
 
 # Variable support in text records ----------------------------------------
 
-textrecord_support <- function(thedata, type){
+textrecord_support <- function(thedata, type, formula_string){
   
   thevars <- variable_names(thedata, type)
-  formulae <- glue_data(list(outcome = thevars), "{outcome} ~ pub_dateZ + (1|d_culture/author_ID)")
+  formulae <- glue_data(list(outcome = thevars), formula_string)
   
   models <-
     map(
@@ -86,7 +87,7 @@ textrecord_support <- function(thedata, type){
   
   tibble(
     Level = "Text records",
-    Type = str_to_title(type),
+    Type = ifelse(length(type) == 1, str_to_title(type), 'Multiple'),
     vars = thevars,
     Variable = names(thevars),
     Model = models,
@@ -94,8 +95,8 @@ textrecord_support <- function(thedata, type){
     Estimate = map_dbl(Tidy, ~ logit.inv(.x$estimate[1])),
     lowerCI = map_dbl(Tidy, ~ logit.inv(.x$conf.low[1])),
     upperCI = map_dbl(Tidy, ~ logit.inv(.x$conf.high[1])),
-    authorSD  = map_dbl(Tidy, ~ .x$estimate[3]),
-    cultureSD = map_dbl(Tidy, ~ .x$estimate[4])
+    authorSD  = map_dbl(Tidy, ~ .x$estimate[2]), # Very fragile
+    cultureSD = map_dbl(Tidy, ~ .x$estimate[3])  # Very fragile
   )
 }
 
@@ -179,11 +180,11 @@ benefit_cost_support_plot <- function(...){
 
 # Variable support by subsistence and region ------------------------------
 
-textrecord_support_subsis_region <- function(thedata, thevars){
+textrecord_support_multi <- function(thedata, thevars){
   
   # thevars <- variable_names(thedata, type)
   uniformulae <- glue_data(list(outcome = thevars), "{outcome} ~ 1 + (1|d_culture/author_ID)")
-  multiformulae <- glue_data(list(outcome = thevars), "{outcome} ~ subsistence + region + female_coauthor + group.structure2 + (1|d_culture/author_ID)")
+  multiformulae <- glue_data(list(outcome = thevars), "{outcome} ~ subsistence + region + demo_sex + group.structure2 + (1|d_culture/author_ID)")
   
   unimodels <-
     map(
@@ -209,8 +210,9 @@ textrecord_support_subsis_region <- function(thedata, thevars){
   
   tibble(
     Level = "Text records",
-    vars = thevars,
+    var = thevars,
     Variable = names(thevars),
+    Sum = map_dbl(var, ~ sum(thedata[.])),
     Unimodel = unimodels,
     Unistats = map(Unimodel, glance),
     uniAIC = map_dbl(Unistats, 3),
@@ -218,6 +220,12 @@ textrecord_support_subsis_region <- function(thedata, thevars){
     Multistats = map(Multimodel, glance),
     multiAIC = map_dbl(Multistats, 3),
     AIC_diff = multiAIC - uniAIC,
+    Drop1 = map(Multimodel, drop1),
+    AIC_full = map_dbl(Drop1, c(2,1)),
+    AIC_subsis = map_dbl(Drop1, c(2,2)),
+    AIC_region = map_dbl(Drop1, c(2,3)),
+    AIC_female = map_dbl(Drop1, c(2,4)),
+    AIC_groups = map_dbl(Drop1, c(2,5)),
     Anova = map(Multimodel, Anova),
     pvalues = map(Anova, 'Pr(>Chisq)'),
     pvalue_subsis = map_dbl(pvalues, 1),
@@ -227,14 +235,29 @@ textrecord_support_subsis_region <- function(thedata, thevars){
     adj_pvalue_subsis = p.adjust(pvalue_subsis, method = 'BH'),
     adj_pvalue_region = p.adjust(pvalue_region, method = 'BH'),
     adj_pvalue_female = p.adjust(pvalue_female, method = 'BH'),
-    adj_pvalue_groups = p.adjust(pvalue_groups, method = 'BH'),
-    emmeans_subsis = map(Multimodel, ~emmeans(., spec = 'subsistence', type = "response")),
-    emmeans_region = map(Multimodel, ~emmeans(., spec = 'region', type = "response")),
-    emmeans_female = map(Multimodel, ~emmeans(., spec = 'female_coauthor', type = "response")),
-    emmeans_groups = map(Multimodel, ~emmeans(., spec = 'group.structure2', type = "response"))
+    adj_pvalue_groups = p.adjust(pvalue_groups, method = 'BH')
   )
 }
 
+
+var_heatmap <- function(df_models, spec){
+  d <- 
+    df_models %>%
+    select(Variable, Multimodel) %>% 
+    mutate(
+      emmeans = map(Multimodel, ~emmeans(., spec = spec, type = "response")),
+      emm_summary = map(emmeans, summary)
+    ) %>% 
+    unnest(emm_summary) %>% 
+    select(Variable, prob, all_of(spec)) %>% 
+    spread(key=spec, value=prob) # worried about using char vec here, but it seems to work
+  
+  mat <- as.matrix(d[-1])
+  rownames(mat) <- d$Variable
+  # heatmap(mat, hclustfun = function(x) hclust(x, method = 'ward.D'), scale = 'row')
+  ggheatmap(mat, hclustmethod = 'ward.D', scale = 'row')
+  
+}
 # Text analysis -----------------------------------------------------------
 
 model_words <- function(all_data, leader_dtm, var, lam = 'lambda.min', exponentiate = T, title){

@@ -420,18 +420,18 @@ plot_prosocial_region <-
 
 # All vars by subsistence, region, sex, groups ----------------------------
 
-models_allvars <- textrecord_support_subsis_region(all_data, all_study_vars)
+# does pub_dateZ make much difference?
 
-models_aic <-
-  models_allvars %>% 
-  dplyr::filter(AIC_diff < -2)
-
-models_allvars2 <- textrecord_support_subsis_region(all_data, all_study_vars)
-
-models2_aic <-
-  models_allvars2 %>% 
-  dplyr::filter(AIC_diff < -2)
-
+# all_var_names <- c('functions', 'qualities', 'leader.benefit', 'leader.cost', 'follower.benefit', 'follower.cost')
+# 
+# formula_string = "{outcome} ~ pub_dateZ + (1|d_culture/author_ID)"
+# m_pubdate <- textrecord_support(all_data, all_var_names, formula_string)
+# 
+# formula_string = "{outcome} ~ 1 + (1|d_culture/author_ID)"
+# m_nopubdate <- textrecord_support(all_data, all_var_names, formula_string)
+# 
+# # Nope
+# plot(m_nopubdate$Estimate, m_pubdate$Estimate)
 
 # Treemaps -----------------------------------------------------------------
 

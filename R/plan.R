@@ -2,23 +2,26 @@
 plan <- drake_plan(
   
   # Prepare data
+  leader_text_original = leadershipdata::leader_text_original,
   leader_text2 = leadershipdata::leader_text2,
   leader_cult = leadershipdata::leader_cult,
   leader_dtm = leadershipdata::leader_dtm,
   documents = leadershipdata::documents,
-  all_ids = text_doc_auth_cult_ID(),
+  all_ids = text_doc_auth_cult_ID(leader_text_original, documents),
   all_data = merge_dfs(leader_text2, all_ids, leader_cult, documents, threshold = 1),
   all_study_vars = variable_names(all_data, type = c('functions', 'qualities', 'leader.benefit', 'leader.cost', 'follower.benefit', 'follower.cost')),
   
   # Misc objects for Rmd file
   
   # Variable support at the text record level
-  functions_support_txt = textrecord_support(readd(all_data), 'functions'),
-  qualities_support_txt = textrecord_support(readd(all_data), 'qualities'),
-  leader_benefits_txt = textrecord_support(readd(all_data), 'leader.benefits'),
-  leader_costs_txt = textrecord_support(readd(all_data), 'leader.costs'),
-  follower_benefits_txt = textrecord_support(readd(all_data), 'follower.benefits'),
-  follower_costs_txt = textrecord_support(readd(all_data), 'follower.costs'),
+  formula_string = "{outcome} ~ 1 + (1|d_culture/author_ID)",
+  
+  functions_support_txt = textrecord_support(readd(all_data), 'functions', formula_string),
+  qualities_support_txt = textrecord_support(readd(all_data), 'qualities', formula_string),
+  leader_benefits_txt = textrecord_support(readd(all_data), 'leader.benefits', formula_string),
+  leader_costs_txt = textrecord_support(readd(all_data), 'leader.costs', formula_string),
+  follower_benefits_txt = textrecord_support(readd(all_data), 'follower.benefits', formula_string),
+  follower_costs_txt = textrecord_support(readd(all_data), 'follower.costs', formula_string),
 
   # Variable support at the culture level
   functions_support_cult = culture_support(all_data, 'functions', n=1000),
@@ -49,10 +52,14 @@ plan <- drake_plan(
       follower_costs_cult
     ),
   
-  # Variable support by subsistence strategy and region
-  functions_support_subsis_region = textrecord_support_subsis_region(readd(all_data), 'functions'),
-  qualities_support_subsis_region = textrecord_support_subsis_region(readd(all_data), 'qualities'),
-  
+  # Variable support by subsistence strategy, region, leader sex, group structure
+  multi_allvars = textrecord_support_multi(readd(all_data), all_study_vars),
+  multi_aic = multi_allvars %>% dplyr::filter(AIC_diff < -2),
+  p_heatmap_subsis = var_heatmap(multi_aic, 'subsistence'),
+  p_heatmap_region = var_heatmap(multi_aic, 'region'),
+  p_heatmap_sex    = var_heatmap(multi_aic, 'demo_sex'),
+  p_heatmap_groups = var_heatmap(multi_aic, 'group.structure2'),
+
   # Prepare data for dimension reduction
   # Only use coded columns
   
