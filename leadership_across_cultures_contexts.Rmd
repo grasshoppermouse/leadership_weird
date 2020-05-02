@@ -345,7 +345,7 @@ plot_costs_benefits
 
 ## Variation in study variables by subsistence strategy, continental region, leader sex, and group structure
 
-To investigate variation in functions, qualities, costs, and benefits, we fit a multiple logistic mixed effects regression model of each variable as a function of subsistence strategy, continental region, leader sex, and group structure, with random intercepts for author nested within culture. We then compared the AIC value of each model to a model with only the fixed and random intercepts, retaining `r nrow(multi_aic)` models that showed at least a two point reduction in AIC value. We then created heatmaps that displayed the relative estimated marginal means for each level of these categorical explanatory variables for each outcome variable. See Figures \@ref(fig:heatmapsubsis), \@ref(fig:heatmapregion), \@ref(fig:heatmapsex), and \@ref(fig:heatmapgroups), and Tables \@ref(tab:variablevars) and \@ref(tab:universalvars).
+To investigate variation in functions, qualities, costs, and benefits, we fit a multiple logistic mixed effects regression model of each variable as a function of subsistence strategy, continental region, leader sex, and group structure, with random intercepts for author nested within culture. We then compared the AIC value of each model to a model with only the fixed and random intercepts, retaining `r nrow(multi_aic)` models that showed at least a two-point reduction in AIC value. We then created heatmaps that displayed the relative estimated marginal means for each level of these categorical explanatory variables for each outcome variable. See Figures \@ref(fig:heatmapsubsis), \@ref(fig:heatmapregion), \@ref(fig:heatmapsex), and \@ref(fig:heatmapgroups), and Tables \@ref(tab:variablevars) and \@ref(tab:universalvars).
 
 For subsistence strategy, hunter-gatherers had relatively more evidence for polygyny, mating benefits, no coercive authority, political appointments and military command than other subsistence strategies. Pastoralists had more evidence for ritual functions, supernatural, aggressiveness and high quality spouse. Hunter-gatherers and pastoralists both had more evidence for high status, providing counsel/direction, and providing subsistence. The remaining subsistence strategies generally had relatively less evidence for all variables, except that the mixed strategy had relatively more evidence for organizing cooperation, distributing resources, and prosocial investment. See Figure \@ref(fig:heatmapsubsis).
 
@@ -359,7 +359,7 @@ There was also strong patterning of relatively evidence for almost all variables
 
 We then explored relationships between total leader benefits and costs, summed across all leader benefit and cost variables, respectively, and levels of group context. In general, leaders at the highest supracommunity political level had the most evidence for receiving benefits and the least evidence for suffering costs and leaders of military groups has the highest total costs. See Figure \@ref(fig:leadertotalbenefits).
 
-```{r leadertotalbenefits, fig.cap="Estimated marginal means of A. leader total benefits, and B. total costs, as a function of group structure, based on a logistic mixed effects regression model with random intercepts for ethnographer nested within culture. Values are on the response scale."}
+```{r leadertotalbenefits, fig.width=10, fig.cap="Estimated marginal means of A. leader total benefits, and B. total costs, as a function of group structure, based on a logistic mixed effects regression model with random intercepts for ethnographer nested within culture. Values are on the response scale."}
 # p1 <- 
 #   hagenutils::ggemmeans(emmeans(m_ldrtotben, type = 'response', specs = 'group.structure2')) +
 #   scale_x_continuous(limits = c(0, 0.1)) +
@@ -403,9 +403,9 @@ We then investigated if the proportion of text records with evidence for *High s
 ```{r groupstatus, fig.width=10, fig.cap="Estimated marginal means of a mixed effects logistic regression model of evidence for high status (0/1) as a function of group type, subsistence strategy, continental region, and leader sex, with random effects for ethnographer nested within culture. Values are on the response scale (probability)."}
 # ((plot_emm_status_group2 / plot_emm_status_sex2) | (plot_emm_status_subsistence2 / plot_emm_status_region2)) + plot_annotation(title = "Predictors of high status", tag_levels = 'A')
 
-theplot <- all_emms(m_status_group2, c('subsistence', 'group.structure2', 'region', 'demo_sex'), 0.8, 'Predictors of leader status')
+theplots <- all_emms(m_status_group2, c('subsistence', 'group.structure2', 'region', 'demo_sex'), 0.8, 'Predictors of leader status')
 
-((theplots[[1]] / theplots[[2]]) | (theplots[[3]] / theplots[[4]])) + plot_annotation(title = title, tag_levels = 'A')
+((theplots[[1]] / theplots[[2]]) | (theplots[[3]] / theplots[[4]])) + plot_annotation(title = 'Predictors of leader status', tag_levels = 'A')
 ```
 
 ## Dimension reduction
@@ -679,22 +679,23 @@ Figure \@ref(fig:highstatusplot) depicts the `r length(highstatus_plot$data$Word
 
 ## Relative effects of subsistence strategy, region, leader sex, and group structure on all variables
 
-```{r heatmapsubsis}
+```{r heatmapsubsis, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each outcome variable by each subsistence strategy. Estimated marginal means were standardized by rows, and therefore can only be compared within rows, i.e., the colors represent the relative amount of evidence across levels of the categorical predictor within the same outcome variable."}
 
 plot(p_heatmap_subsis)
 ```
 
-```{r heatmapregion}
+```{r heatmapregion, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each outcome variable by each subsistence strategy. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
 
 plot(p_heatmap_region)
 ```
 
-```{r heatmapsex}
+
+```{r heatmapsex, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each outcome variable by each subsistence strategy. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
 
 plot(p_heatmap_sex)
 ```
 
-```{r heatmapgroups}
+```{r heatmapgroups, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each outcome variable by each subsistence strategy. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
 
 plot(p_heatmap_groups)
 ```
