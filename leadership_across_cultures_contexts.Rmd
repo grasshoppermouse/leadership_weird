@@ -29,6 +29,7 @@ loadd(plot_pubdate)
 loadd(m_lpca_qual)
 loadd(m_lpca_func)
 loadd(multi_allvars)
+loadd(multi_aic)
 loadd(p_heatmap_subsis)
 loadd(p_heatmap_region)
 loadd(p_heatmap_sex)
@@ -228,7 +229,7 @@ For additional details on ethnographic sampling and creation of the *leadershipd
 
 Our data comprised one row for each of our text records. For each of our variables, each row was coded as 1 if there was evidence in the text record for that variable, and 0 otherwise. Because absence of evidence is not evidence of absence, our data only inform the extent to which there is evidence for each of the operationalized leader traits.
 
-We analyzed data from our researcher-coded operationalized variables at the text-record level and at the culture-level. Our first goal was to assess the proportion of text records and cultures that provided evidence for each of our coded variables to discover the qualities, functions, benefits and costs of leadership that are most and least frequently noted in the ethnographic record. We computed the proportion of text records supporting each variable, and their 95% confidence intervals, using logistic generalized linear mixed effects models with random intercepts for document authors nested within cultures (which partially accounts for potential variation due to differences in ethnographers such as gender, nationality, or theoretical framework), controlling for one potential source of bias as a fixed effect: the date of publication. For each variable, we then computed the proportion of cultures with at least one text record with evidence for that variable, with confidence intervals computed using a cluster bootstrap.
+We analyzed data from our researcher-coded operationalized variables at the text-record level and at the culture-level. Our first goal was to assess the proportion of text records and cultures that provided evidence for each of our coded variables to discover the qualities, functions, benefits and costs of leadership that are most and least frequently noted in the ethnographic record. We computed the proportion of text records supporting each variable, and their 95% confidence intervals, using logistic generalized linear mixed effects models with random intercepts for document authors nested within cultures (which partially accounts for potential variation due to differences in ethnographers such as gender, nationality, or theoretical framework). For each variable, we then computed the proportion of cultures with at least one text record with evidence for that variable, with confidence intervals computed using a cluster bootstrap.
 
 Our second goal was to extract higher-order dimensions of leader qualities and functions from our researcher coded variables. We used several methods to explore lower dimensional representations of these data that might reveal informative "features." These included logistic PCA, non-negative matrix factorization (NMF), and hierarchical cluster analysis. Logistic PCA generalizes Pearson's original formulation of PCA to find a projection of the natural parameters of the saturated model that minimizes the Bernoulli deviance [@logisticPCA]. 
 
@@ -331,6 +332,59 @@ The most common functions of leaders, documented in over 70% of cultures, were r
 
 The most common qualities of leaders were having high social status (documented in over 90% of cultures), being experienced or accomplished, and being described as knowledgeable or intelligent (documented in approximately 80% of cultures). Also, in about 60% of the cultures sampled here leaders were wealthy, nepotistic, possessed supernatural qualities, were generous, or maintained coercive authority over followers. Notable infrequent qualities of leaders in these data included physical formidability, having many social contacts, and being feared (documented in about 35% of cultures) and charisma and fairness (documented in about 20% of cultures).
 
+## Benefits and costs of leadership and followership
+
+The frequency of leader and follower costs and benefits were estimated similarly to the leader qualities and functions described above. In these data leaders most commonly receivied benefits in the form of greater access to material resources (documented in about 70% of cultures) and increased social status (documented in about 65% of cultures). Mating benefits and receiving social services were also relatively frequent benefits of leadership. In general, the costs tracked the benefits. Leaders were often described as losing their high social status (documented in about 45% of cultures) and greater access to resources (documented in about 40% of cultures). See Figure \@ref(fig:varsupportcb).
+
+Followers on the other hand most commonly benefited from leadership systems through receiving material resources (documented in about 50% of cultures) but otherwise most frequently through social services provided (documented in about 35% of cultures). Mating and fitness benefits were relatively rare for followers. Followers were most frequently described as incuring costs in the form of material resources lost (documented in about 40% of cultures) and in providing social services (documented in about 25% of cultures). See Figure \@ref(fig:varsupportcb).
+
+```{r varsupportcb, echo=FALSE, warning=FALSE, message=F, fig.width=15, fig.height=11, fig.cap="Support for each coded variable for the costs and benefits of leadership and followership. Blue circles: percent of text records with evidence of support (95% CI computed with a binomial mixed effects models with random intercept for author nested within culture). Red triangles: percent of cultures with evidence of support (95% CI computed with a cluster bootstrap)."}
+ggsave(file="Figures/variablecostsbenefits.pdf", plot_costs_benefits)
+plot_costs_benefits
+```
+
+## Variation in study variables by subsistence strategy, continental region, leader sex, and group structure
+
+To investigate variation in functions, qualities, costs, and benefits, we fit a multiple logistic mixed effects regression model of each variable as a function of subsistence strategy, continental region, leader sex, and group structure, with random intercepts for author nested within culture. We then compared the AIC value of each model to a model with only the fixed and random intercepts, retaining `r nrow(multi_aic)` models that showed at least a two point reduction in AIC value. We then created heatmaps that displayed the relative estimated marginal means for each level of these categorical explanatory variables for each outcome variable. See Figures \@ref(fig:heatmapsubsis), \@ref(fig:heatmapregion), \@ref(fig:heatmapsex), and \@ref(fig:heatmapgroups), and Tables \@ref(tab:variablevars) and \@ref(tab:universalvars).
+
+For subsistence strategy, hunter-gatherers had relatively more evidence for polygyny, mating benefits, no coercive authority, political appointments and military command than other subsistence strategies. Pastoralists had more evidence for ritual functions, supernatural, aggressiveness and high quality spouse. Hunter-gatherers and pastoralists both had more evidence for high status, providing counsel/direction, and providing subsistence. The remaining subsistence strategies generally had relatively less evidence for all variables, except that the mixed strategy had relatively more evidence for organizing cooperation, distributing resources, and prosocial investment. See Figure \@ref(fig:heatmapsubsis).
+
+For continental region, there was little strong patterning, except that Africa generally had relatively less evidence for any retained variable except providing counsel/direction, and South America had relatively more evidence for several variables, including age, social services, and high status. See Figure \@ref(fig:heatmapregion).
+
+There was strong patterning of relative evidence for almost all variables by leader sex. Female leaders had relatively more evidence for high quality spouse, mating benefit, polygyny, high status, and age. Male leaders had relatively more evidence for social services, political appointments, prosocial investment, and loss of social services. Records pertaining to both sexes had relatively more evidence for organizing cooperation, providing subsistence, ritual functions, bravery, experience/accompished, and few that overlapped with males, such as military command and distributing resources. See Figure \@ref(fig:heatmapsex).
+
+There was also strong patterning of relatively evidence for almost all variables by group structure. There was relatively more evidence for military traits in military groups, relatively more evidence for ritual and supernatural traits in relgious groups, relatively more evidenc for organizing cooperation and providing subsistence in economic groups, and so forth. Kin groups had relatively more evidence for providing counsel/direction, prosocial investment, age, and high status. Community and residential groups had relatively low evidence for most variables, except that there was relatively more evidence for high quality spouses among residential group leaders. See Figure \@ref(fig:heatmapgroups).
+
+## Total leader benefits and costs
+
+We then explored relationships between total leader benefits and costs, summed across all leader benefit and cost variables, respectively, and levels of group context. In general, leaders at the highest supracommunity political level had the most evidence for receiving benefits and the least evidence for suffering costs and leaders of military groups has the highest total costs. See Figure \@ref(fig:leadertotalbenefits).
+
+```{r leadertotalbenefits, fig.cap="Estimated marginal means of A. leader total benefits, and B. total costs, as a function of group structure, based on a logistic mixed effects regression model with random intercepts for ethnographer nested within culture. Values are on the response scale."}
+# p1 <- 
+#   hagenutils::ggemmeans(emmeans(m_ldrtotben, type = 'response', specs = 'group.structure2')) +
+#   scale_x_continuous(limits = c(0, 0.1)) +
+#   labs(title = "Total leader benefits", x = "", y = "")
+# 
+# p2 <- hagenutils::ggemmeans(emmeans(m_ldrtotcost, type = 'response', specs = 'group.structure2')) +
+#   scale_x_continuous(limits = c(0, 0.1)) +
+#   labs(title = "Total leader costs", x = "\nProbability", y = "")
+# 
+# p1 + p2 + plot_layout(ncol = 1) + plot_annotation(tag_levels = 'A')
+
+theplots <- all_emms(m_ldrtotben, c('subsistence', 'group.structure2', 'region', 'demo_sex'), 0.1, 'Predictors of leader benefits')
+
+((theplots[[1]] / theplots[[2]]) | (theplots[[3]] / theplots[[4]])) + plot_annotation(title = 'Predictors of leader benefits', tag_levels = 'A')
+
+```
+
+```{r leadertotalcosts}
+theplots <- all_emms(m_ldrtotcost, c('subsistence', 'group.structure2'), 0.06, 'Predictors of leader costs')
+
+theplots[[1]] / theplots[[2]] + plot_annotation(title = 'Predictors of leader costs', tag_levels = 'A')
+
+```
+
+
 ## When do leaders also have high status?
 
 ```{r highstatuscalc}
@@ -347,7 +401,11 @@ statusPercCult <- signif(100*statusFracCult, 3)
 We then investigated if the proportion of text records with evidence for *High status* differed among the different levels of group structure, subsistence strategies, continental regions, and leader sex (again using a logistic mixed effects model with these variables as fixed effects and authors nested within cultures as random intercepts). There were modest differences. Hunter-gatherers and pastoralists were more likely to provide evidence for high status leaders, as was South America and East Asia. Female leaders were also more likely to be identified as high status. Somewhat counter-intuitively, the proportion of text records indicating high status leaders was lowest at the highest level of political organization, perhaps because it would have been superfluous to note that kings and chiefs were high status. See Figure \@ref(fig:groupstatus). For the table of coefficients, see Supplementary Table X.
 
 ```{r groupstatus, fig.width=10, fig.cap="Estimated marginal means of a mixed effects logistic regression model of evidence for high status (0/1) as a function of group type, subsistence strategy, continental region, and leader sex, with random effects for ethnographer nested within culture. Values are on the response scale (probability)."}
-((plot_emm_status_group2 / plot_emm_status_sex2) | (plot_emm_status_subsistence2 / plot_emm_status_region2)) + plot_annotation(title = "Predictors of high status", tag_levels = 'A')
+# ((plot_emm_status_group2 / plot_emm_status_sex2) | (plot_emm_status_subsistence2 / plot_emm_status_region2)) + plot_annotation(title = "Predictors of high status", tag_levels = 'A')
+
+theplot <- all_emms(m_status_group2, c('subsistence', 'group.structure2', 'region', 'demo_sex'), 0.8, 'Predictors of leader status')
+
+((theplots[[1]] / theplots[[2]]) | (theplots[[3]] / theplots[[4]])) + plot_annotation(title = title, tag_levels = 'A')
 ```
 
 ## Dimension reduction
@@ -400,32 +458,6 @@ p_region_bigman <- ggemmeans(subsis_models_sig$emmeans_region[[2]]) +
 
 ```
 
-## Benefits and costs of leadership and followership
-
-The frequency of leader and follower costs and benefits were estimated similarly to the leader qualities and functions described above. In these data leaders most commonly receivied benefits in the form of greater access to material resources (documented in about 70% of cultures) and increased social status (documented in about 65% of cultures). Mating benefits and receiving social services were also relatively frequent benefits of leadership. In general, the costs tracked the benefits. Leaders were often described as losing their high social status (documented in about 45% of cultures) and greater access to resources (documented in about 40% of cultures). See Figure \@ref(fig:varsupportcb).
-
-Followers on the other hand most commonly benefited from leadership systems through receiving material resources (documented in about 50% of cultures) but otherwise most frequently through social services provided (documented in about 35% of cultures). Mating and fitness benefits were relatively rare for followers. Followers were most frequently described as incuring costs in the form of material resources lost (documented in about 40% of cultures) and in providing social services (documented in about 25% of cultures). See Figure \@ref(fig:varsupportcb).
-
-```{r varsupportcb, echo=FALSE, warning=FALSE, message=F, fig.width=15, fig.height=11, fig.cap="Support for each coded variable for the costs and benefits of leadership and followership. Blue circles: percent of text records with evidence of support (95% CI computed with a binomial mixed effects models with random intercept for author nested within culture). Red triangles: percent of cultures with evidence of support (95% CI computed with a cluster bootstrap)."}
-ggsave(file="Figures/variablecostsbenefits.pdf", plot_costs_benefits)
-plot_costs_benefits
-```
-
-We then explored relationships between total leader benefits and costs, summed across all leader benefit and cost variables, respectively, and levels of group context. In general, leaders at the highest supracommunity political level had the most evidence for receiving benefits and the least evidence for suffering costs and leaders of military groups has the highest total costs. See Figure \@ref(fig:leadertotalbenefitscosts).
-
-```{r leadertotalbenefitscosts, fig.cap="Estimated marginal means of A. leader total benefits, and B. total costs, as a function of group structure, based on a logistic mixed effects regression model with random intercepts for ethnographer nested within culture. Values are on the response scale."}
-p1 <- 
-  hagenutils::ggemmeans(emmeans(m_ldrtotben, type = 'response', specs = 'group.structure2')) +
-  scale_x_continuous(limits = c(0, 0.1)) +
-  labs(title = "Total leader benefits", x = "", y = "")
-
-p2 <- hagenutils::ggemmeans(emmeans(m_ldrtotcost, type = 'response', specs = 'group.structure2')) +
-  scale_x_continuous(limits = c(0, 0.1)) +
-  labs(title = "Total leader costs", x = "\nProbability", y = "")
-
-p1 + p2 + plot_layout(ncol = 1) + plot_annotation(tag_levels = 'A')
-
-```
 
 
 <!-- ## Exploring population-level variation -->
@@ -667,11 +699,63 @@ plot(p_heatmap_sex)
 plot(p_heatmap_groups)
 ```
 
-## Effects of subsistence strategy and region on function and quality variables
+```{r variablevars}
+
+multi_aic %>% 
+  select(
+    var,
+    Variable, 
+    Sum, 
+    uniAIC, 
+    multiAIC, 
+    AIC_diff,
+    pvalue_subsis,
+    pvalue_region,
+    pvalue_female,
+    pvalue_groups
+    ) %>% 
+  mutate(
+    var = map_chr(var, ~ str_split(., '_')[[1]][[1]])
+  ) %>% 
+  arrange(Variable) %>% 
+  kable(
+  caption = 'Retained logistic mixed effects models of each variable as functions of subsistence strategy, continental region, leader sex, and group stuctures. Models were retained due to improvement in AIC values relative to an intercept-only model. Sum: the number of rows with evidence for the variable. uniAIC: AIC of intercept-only model. multiAIC: AIC of multivariate model. AIC_diff: difference in AIC values. P-values are the unadjusted p-values of each explanatory variable in the model.',
+  digits = 2
+  )
+```
+
+```{r universalvars}
+multi_allvars %>%
+  dplyr::filter(AIC_diff >= -2) %>% 
+  select(
+    var,
+    Variable, 
+    Sum, 
+    uniAIC, 
+    multiAIC, 
+    AIC_diff,
+    pvalue_subsis,
+    pvalue_region,
+    pvalue_female,
+    pvalue_groups
+    ) %>% 
+  mutate(
+    var = map_chr(var, ~ str_split(., '_')[[1]][[1]])
+  ) %>% 
+  arrange(Variable) %>% 
+  kable(
+  caption = 'Logistic mixed effects models that did not show improvement in AIC values relative to an intercept-only model. These study variables either did not vary much by subsistence strategy, continental region, leader sex, or group stuctures, or had little evidence. Sum: the number of rows with evidence for the variable. uniAIC: AIC of intercept-only model. multiAIC: AIC of multivariate model. AIC_diff: difference in AIC values. P-values are the unadjusted p-values of each explanatory variable in the model.',
+  digits = 2
+  )
+  
+```
+
+
+<!-- ## Effects of subsistence strategy and region on function and quality variables -->
 
 ```{r varsubsisregion, fig.cap="Estimated marginal means of logistic mixed effects models of each leader function and quality variable as a function of subsistence strategy and region, with random effects for author nested within culture. These are the only models with significant coefficients for either subsistence strategy or region, after correcting p-values for an FDR of 0.05."}
 
-plot_morality_region / plot_prosocial_region
+# plot_morality_region / plot_prosocial_region
 ```
 
 

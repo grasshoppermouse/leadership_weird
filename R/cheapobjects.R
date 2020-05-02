@@ -196,6 +196,9 @@ mat <- as.matrix(cbind(leader_text4$leadertotalbenefits, leader_text4$leaderbene
 m_ldrtotben <-
   glmer(
     cbind(leadertotalbenefits, leaderbenefitfailure) ~
+      subsistence +
+      region +
+      demo_sex +
       group.structure2 +
       (1|d_culture/doc_ID),
     family = binomial,
@@ -203,11 +206,14 @@ m_ldrtotben <-
     nAGQ = 0
   )
 
+# Reduced model to avoid severe overfitting
 m_ldrtotcost <-
   glmer(
     cbind(leadertotalcosts, leadercostfailure) ~
+      subsistence +
+      # region +
+      # demo_sex +
       group.structure2 +
-      subsistence + 
       (1|d_culture/doc_ID),
     family = binomial,
     data = leader_text4,
@@ -366,25 +372,38 @@ m_status_group2 <-
     nAGQ = 0
   )
 
-plot_emm_status_group2 <-
-  hagenutils::ggemmeans(emmeans(m_status_group2, 'group.structure2', type = 'response')) +
-  scale_x_continuous(limits = c(0, 0.8)) +
-  labs(title = '', x = '', y = '')
+all_emms <- function(m, specs, upperlimit, title){
+  
+  theplots = list()
+  for (spec in specs){
+    p <- 
+      hagenutils::ggemmeans(emmeans(m, spec, type = 'response')) +
+      scale_x_continuous(limits = c(0, upperlimit)) +
+      labs(title = '', x = '', y = '')
+    theplots <- c(theplots, list(p))
+  }
+  return(theplots)
+}
 
-plot_emm_status_subsistence2 <-
-  hagenutils::ggemmeans(emmeans(m_status_group2, 'subsistence', type = 'response')) +
-  scale_x_continuous(limits = c(0, 0.8)) +
-  labs(title = '', x = '', y = '')
-
-plot_emm_status_region2 <-
-  hagenutils::ggemmeans(emmeans(m_status_group2, 'region', type = 'response')) +
-  scale_x_continuous(limits = c(0, 0.8)) +
-  labs(title = '', x = '', y = '')
-
-plot_emm_status_sex2 <-
-  hagenutils::ggemmeans(emmeans(m_status_group2, 'demo_sex', type = 'response')) +
-  scale_x_continuous(limits = c(0, 0.8)) +
-  labs(title = '', x = '', y = '')
+# plot_emm_status_group2 <-
+#   hagenutils::ggemmeans(emmeans(m_status_group2, 'group.structure2', type = 'response')) +
+#   scale_x_continuous(limits = c(0, 0.8)) +
+#   labs(title = '', x = '', y = '')
+# 
+# plot_emm_status_subsistence2 <-
+#   hagenutils::ggemmeans(emmeans(m_status_group2, 'subsistence', type = 'response')) +
+#   scale_x_continuous(limits = c(0, 0.8)) +
+#   labs(title = '', x = '', y = '')
+# 
+# plot_emm_status_region2 <-
+#   hagenutils::ggemmeans(emmeans(m_status_group2, 'region', type = 'response')) +
+#   scale_x_continuous(limits = c(0, 0.8)) +
+#   labs(title = '', x = '', y = '')
+# 
+# plot_emm_status_sex2 <-
+#   hagenutils::ggemmeans(emmeans(m_status_group2, 'demo_sex', type = 'response')) +
+#   scale_x_continuous(limits = c(0, 0.8)) +
+#   labs(title = '', x = '', y = '')
 
 # Original
 # m_status_group <-

@@ -143,6 +143,13 @@
       "Repository": "CRAN",
       "Hash": "8ca17435ea11df17dfe4fb22f1375b16"
     },
+    "TSP": {
+      "Package": "TSP",
+      "Version": "1.1-10",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "58f127ba1d26ddb0435f9959e814dbea"
+    },
     "abind": {
       "Package": "abind",
       "Version": "1.4-5",
@@ -199,6 +206,13 @@
       "Repository": "CRAN",
       "Hash": "8d96f3da9e7ec851e14e39c0872ad1ab"
     },
+    "bitops": {
+      "Package": "bitops",
+      "Version": "1.0-6",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "0b118d5900596bae6c4d4865374536a6"
+    },
     "bookdown": {
       "Package": "bookdown",
       "Version": "0.18",
@@ -226,6 +240,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "5a1fa6357b34113ad73c7d06b8835ecd"
+    },
+    "caTools": {
+      "Package": "caTools",
+      "Version": "1.18.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "6f7c1405e500ef25a7c147e860b5fe32"
     },
     "callr": {
       "Package": "callr",
@@ -408,6 +429,13 @@
       "Repository": "CRAN",
       "Hash": "0f9263a4ac2467adc445fecacf4f693b"
     },
+    "egg": {
+      "Package": "egg",
+      "Version": "0.4.5",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "d958917f7b60c13089ab0c8d17114053"
+    },
     "ellipsis": {
       "Package": "ellipsis",
       "Version": "0.3.0",
@@ -513,6 +541,20 @@
       "Repository": "CRAN",
       "Hash": "20c20385da360f28c07364f2d099a6d7"
     },
+    "gclus": {
+      "Package": "gclus",
+      "Version": "1.3.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "8f905e7f70ac42e5b0e39d6ba360dd44"
+    },
+    "gdata": {
+      "Package": "gdata",
+      "Version": "2.18.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "465ccb84427f5fe2c54f8620666db131"
+    },
     "generics": {
       "Package": "generics",
       "Version": "0.0.2",
@@ -609,6 +651,13 @@
       "Repository": "CRAN",
       "Hash": "2aefa994e8df5da17dc09afd80f924d5"
     },
+    "gplots": {
+      "Package": "gplots",
+      "Version": "3.0.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "8c9dd0fe4766504762688b9f1de3139e"
+    },
     "gridBase": {
       "Package": "gridBase",
       "Version": "0.4-7",
@@ -637,6 +686,13 @@
       "Repository": "CRAN",
       "Hash": "ac5c6baf7822ce8732b343f14c072c4d"
     },
+    "gtools": {
+      "Package": "gtools",
+      "Version": "3.8.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "0a749b4458d19a54acae93c64e3e7c85"
+    },
     "hagenutils": {
       "Package": "hagenutils",
       "Version": "0.0.1.9000",
@@ -655,6 +711,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "e3f662e125e9fdffd1ee4e94baea3451"
+    },
+    "heatmaply": {
+      "Package": "heatmaply",
+      "Version": "1.1.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "9489f6a85aca4bb2dd55795d7281c7e1"
     },
     "hexbin": {
       "Package": "hexbin",
@@ -1102,6 +1165,13 @@
       "Repository": "CRAN",
       "Hash": "87148f8ca311d2de5aacb3339df90e3d"
     },
+    "qap": {
+      "Package": "qap",
+      "Version": "0.1-1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "753e69deffc32851121955ea150ecf8d"
+    },
     "quantreg": {
       "Package": "quantreg",
       "Version": "5.55",
@@ -1239,6 +1309,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "3838071b66e0c566d55cc26bd6e27bf4"
+    },
+    "seriation": {
+      "Package": "seriation",
+      "Version": "1.2-8",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "8ecd38ae23eea07aad8d4136f9a2fd63"
     },
     "shades": {
       "Package": "shades",
@@ -1438,6 +1515,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "3bf03b3fbbac0c125141ba7be6dfa12c"
+    },
+    "webshot": {
+      "Package": "webshot",
+      "Version": "0.5.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "e99d80ad34457a4853674e89d5e806de"
     },
     "whisker": {
       "Package": "whisker",
