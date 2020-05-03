@@ -1,5 +1,10 @@
 
 
+# Reverse variable name dict ----------------------------------------------
+
+reverse_vars_dict <- names(var_names)
+names(reverse_vars_dict) <- var_names
+
 # Create vectors of variable names by type --------------------------------
 
 # variable names encode their type
@@ -212,7 +217,7 @@ textrecord_support_multi <- function(thedata, thevars){
     Level = "Text records",
     var = thevars,
     Variable = names(thevars),
-    Evidence = map_dbl(var, ~ sum(thedata[.])),
+    Evidence = map_dbl(var, ~ sum(thedata[.])), # This won't work for 2xn matrices
     Unimodel = unimodels,
     Unistats = map(Unimodel, glance),
     interceptAIC = map_dbl(Unistats, 3),
@@ -227,6 +232,7 @@ textrecord_support_multi <- function(thedata, thevars){
     AIC_female = map_dbl(Drop1, c(2,4)),
     AIC_groups = map_dbl(Drop1, c(2,5)),
     Anova = map(Multimodel, Anova),
+    Tidy = map(Multimodel, ~broom.mixed::tidy(., conf.int = T)),
     pvalues = map(Anova, 'Pr(>Chisq)'),
     pvalue_subsis = map_dbl(pvalues, 1),
     pvalue_region = map_dbl(pvalues, 2),
@@ -238,7 +244,6 @@ textrecord_support_multi <- function(thedata, thevars){
     adj_pvalue_groups = p.adjust(pvalue_groups, method = 'BH')
   )
 }
-
 
 var_heatmap <- function(df_models, spec){
   d <- 
@@ -258,6 +263,67 @@ var_heatmap <- function(df_models, spec){
   ggheatmap(mat, hclustmethod = 'ward.D', scale = 'row')
   
 }
+
+
+# Create feature variables ------------------------------------------------
+
+create_feature_vars <- function(d, m_pvclust_func, m_pvclust_qual){
+  
+  branch2df <- function(branch, name){
+    lbls <- labels(branch)
+    tibble(
+      Feature = rep(name, length(lbls)),
+      Label = lbls, 
+      Variable = reverse_vars_dict[lbls]
+    )
+  }
+  
+  qual_dendro <- as.dendrogram(m_pvclust_qual)
+  
+  qual_branches <- list(
+    'Cultural_conformity' = qual_dendro[[1]][[1]],
+    'Prosocial_competencies' = qual_dendro[[1]][[2]],
+    'Social_material_success' = qual_dendro[[2]][[1]],
+    'Competencies' = qual_dendro[[2]][[2]]
+    # 'Prestige' = qual_dendro[[2]][[2]][[2]]
+  )
+  
+  clust_qual_vars <- map2_df(qual_branches, names(qual_branches), branch2df)
+  
+  func_dendro <- as.dendrogram(m_pvclust_func)
+  
+  func_branches <- list(
+    'Prosociality' = func_dendro[[1]],
+    'Mediate' = func_dendro[[2]][[1]],
+    'Organize' = func_dendro[[2]][[2]]
+  )
+  
+  clust_func_vars <- map2_df(func_branches, names(func_branches), branch2df)
+  
+  clust_vars <- bind_rows(clust_func_vars, clust_qual_vars)
+  features <- unique(clust_vars$Feature)
+  names(features) <- features
+  
+  # Feature analysis
+  
+  feature_var <- function(feature){
+    featurevars <- clust_vars$Variable[clust_vars$Feature == feature]
+    n <- length(featurevars)
+    rs <- rowSums(d[featurevars])
+    cbind(rs, n - rs) # successes, failures
+  }
+  
+  # Add feature vars to d
+  # feature vars are n x 2 matrices; col 1: successes, col 2: failures
+  d <-
+    d %>% 
+    dplyr::select(demo_sex:pub_dateZ) %>% 
+    bind_cols(map_dfc(features, feature_var))
+  
+  return(list(feature_vars = features, data = d))
+  
+}
+
 # Text analysis -----------------------------------------------------------
 
 model_words <- function(all_data, leader_dtm, var, lam = 'lambda.min', exponentiate = T, title){

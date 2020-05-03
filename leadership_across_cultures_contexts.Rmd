@@ -16,26 +16,45 @@ library(knitr)
 library(pander)
 library(patchwork)
 library(gt)
+
+# Need there here so they are identified as dependencies of this report
+loadd(all_data)
+loadd(all_data2)
 loadd(all_study_vars)
-loadd(df_qual)
 loadd(df_func)
-loadd(plot_func_qual)
-loadd(qualities_support_txt)
-loadd(qualities_support_cult)
-loadd(functions_support_txt)
+loadd(df_qual)
+loadd(features)
+loadd(feature_models)
+loadd(follower_benefits_txt)
+loadd(follower_costs_txt)
 loadd(functions_support_cult)
+loadd(functions_support_subsis_region)
+loadd(functions_support_txt)
 loadd(highstatus_plot)
-loadd(plot_costs_benefits)
-loadd(plot_pubdate)
-loadd(m_lpca_qual)
+loadd(leader_benefits_txt)
+loadd(leader_costs_txt)
 loadd(m_lpca_func)
-loadd(multi_allvars)
+loadd(m_lpca_qual)
+loadd(m_pvclust_func)
+loadd(m_pvclust_qual)
 loadd(multi_aic)
-loadd(p_heatmap_subsis)
+loadd(multi_allvars)
+loadd(p_heatmap_groups)
 loadd(p_heatmap_region)
 loadd(p_heatmap_sex)
-loadd(p_heatmap_groups)
-source("R/cheapobjects.R")
+loadd(p_heatmap_subsis)
+loadd(p_heatmap_feature_subsis)
+loadd(p_heatmap_feature_region)
+loadd(p_heatmap_feature_sex)
+loadd(p_heatmap_feature_groups)
+loadd(plot_costs_benefits)
+loadd(plot_func_qual)
+loadd(plot_pubdate)
+loadd(qualities_support_cult)
+loadd(qualities_support_subsis_region)
+loadd(qualities_support_txt)
+
+source("R/cheapobjects.R", local = T)
 ```
 
 
@@ -306,7 +325,7 @@ mm_coauthorSUM <- summary(mm_coauthor)
 mm_coauthorP <- mm_coauthorSUM$coefficients['female_coauthorTRUE', 'Pr(>|z|)']
 ```
 
-We explored whether three features of our corpus of ethnographic texts -- date of publication, female gender of any author, and total pages of ethnography from each culture -- were associated with discovery of evidence for the `r length(all_study_vars)` variables in our study that coded for functions and qualities, benefits, and costs (see Tables \@ref(tab:qualfuncvars) and \@ref(tab:costbenefitvars)). Dates of publication ranged from `r min(documents$d_publication_date)` to `r max(documents$d_publication_date)`, with a median year of `r median(documents$d_publication_date)` (see Supplementary Figure \@ref(fig:doc-years)). There were `r tab_author_gender['male']` male authors, `r tab_author_gender['female']` females authors, and `r tab_author_gender['unkown']` authors whose gender we could not determine (some authors were co-authors). Of the `r nrow(documents)` source documents, `r sum(documents$female_coauthor)` (`r signif(100*sum(documents$female_coauthor)/nrow(documents), 2)`%) had a female author or co-author. Total pages of ethnography on each culture in the PSF ranged from `r min(leader_cult[['ehraf_pages']])` to `r as.integer(max(leader_cult[['ehraf_pages']]))`, with a median of `r median(leader_cult[['ehraf_pages']])`.
+We explored whether three features of our corpus of ethnographic texts -- date of publication, female gender of any author or co-author, and total pages of ethnography from each culture -- were associated with discovery of evidence for the `r length(all_study_vars)` variables in our study that coded for functions and qualities, benefits, and costs (see Tables \@ref(tab:qualfuncvars) and \@ref(tab:costbenefitvars)). Dates of publication ranged from `r min(documents$d_publication_date)` to `r max(documents$d_publication_date)`, with a median year of `r median(documents$d_publication_date)` (see Supplementary Figure \@ref(fig:doc-years)). There were `r tab_author_gender['male']` male authors, `r tab_author_gender['female']` females authors, and `r tab_author_gender['unkown']` authors whose gender we could not determine (some authors were co-authors). Of the `r nrow(documents)` source documents, `r sum(documents$female_coauthor)` (`r signif(100*sum(documents$female_coauthor)/nrow(documents), 2)`%) had a female author or co-author. Total pages of ethnography on each culture in the PSF ranged from `r min(leader_cult[['ehraf_pages']])` to `r as.integer(max(leader_cult[['ehraf_pages']]))`, with a median of `r median(leader_cult[['ehraf_pages']])`.
 
 The number of text records on leadership retrieved for a particular culture was weakly correlated with the total number of pages of ethnography in the eHRAF (r = `r signif(cor_pages_tr$estimate, 2)`, p = `r signif(cor_pages_tr$p.value, 2)`). A loess regression suggested that the number of text records initially increased with the total number of pages of ethnography, plateauing at about 35 records around 4500 pages (see Supplementary Figure \@ref(fig:eHRAFpages)).
 
@@ -429,35 +448,7 @@ The leader functions cluster analysis (Figure \@ref(fig:cluster)B) also identifi
 
 We identify these named subclusters as "features" of leader qualities and functions in the ethnographic record. In naming these features, we gave extra weight to variables that were strongly supported in the sample (Figure \@ref(fig:varsupport)), and therefore not all variables within these clusters were clearly related to the themes of each feature.
 
-We then fit separate logistic mixed effects models of each feature as a function of subsistence strategy and region, with random effects for author nested within culture. After adjusting the subsistence coefficient p-values for an FDR of 0.05, we computed and plotted the estimated marginal means of the significant models. Two of these models (*Mediate* and *Prosocial competencies*) produced significant effects. See Figure \@ref(fig:features).
-
-<!-- NEED TO DO -- ADD TABLE? -->
-
-```{r features, fig.width=11, fig.cap="Esimtated marginal means [@lenth2020] of logistic mixed effects regression models of Feature variables by subsistence strategy and region. Only models whose subsistence coefficient had a corrected p-value < 0.05. The coefficient for region was also significant in the model of the 'Prosocial cometencies' feature. Plotted on the response (probablity) scale. See text for details."}
-
-feature_scale <- scale_x_continuous(limits = c(0, 0.20))
-
-p_subsis_mediate <- ggemmeans(subsis_models_sig$emmeans_subsis[[1]]) +
-  feature_scale +
-  labs(title = 'Mediate', x = '', y = '')
-
-p_subsis_bigman <- ggemmeans(subsis_models_sig$emmeans_subsis[[2]]) +
-  feature_scale +
-  labs(title = 'Prosocial competencies', x = '', y = '')
-
-p_region_mediate <- ggemmeans(subsis_models_sig$emmeans_region[[1]]) +
-  feature_scale +
-  labs(title = 'Mediate', x = '', y = '')
-
-p_region_bigman <- ggemmeans(subsis_models_sig$emmeans_region[[2]]) +
-  feature_scale +
-  labs(title = 'Prosocial competencies', x = '', y = '')
-
-(p_subsis_mediate + p_region_mediate) / (p_subsis_bigman + p_region_bigman)
-
-```
-
-
+We then fit separate logistic mixed effects models of each feature as a function of subsistence strategy, continental region, group context, and leader sex, with random effects for author nested within culture, comparing these to intercept-only models, and selecting all models whose AIC values were at least two points less than the intercept-only models. See Figures S\@ref(fig:heatmapfeaturesubsis), S\@ref(fig:heatmapfeatureregion), S\@ref(fig:heatmapfeaturesex), and S\@ref(fig:heatmapfeaturegroups).
 
 <!-- ## Exploring population-level variation -->
 
@@ -736,6 +727,7 @@ multi_out <-
     var = map_chr(var, ~ str_split(., '_')[[1]][[1]])
   ) %>% 
   arrange(Variable)
+
 ```
 
 
@@ -757,15 +749,6 @@ multi_out %>%
   )
   
 ```
-
-
-<!-- ## Effects of subsistence strategy and region on function and quality variables -->
-
-```{r varsubsisregion, fig.cap="Estimated marginal means of logistic mixed effects models of each leader function and quality variable as a function of subsistence strategy and region, with random effects for author nested within culture. These are the only models with significant coefficients for either subsistence strategy or region, after correcting p-values for an FDR of 0.05."}
-
-# plot_morality_region / plot_prosocial_region
-```
-
 
 ## Dimension reduction
 
@@ -798,6 +781,58 @@ We constructed `r length(features)` "feature" variables from the higher-level cl
 ```{r featurecor, fig.cap="Feature variable correlation matrix. Values are correlation coefficients."}
 plot_feature_cor
 ```
+
+```{r heatmapfeaturesubsis, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each feature variable by subsistence strategy. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
+plot(p_heatmap_feature_subsis)
+```
+
+```{r heatmapfeatureregion, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each feature variable by continental region. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
+plot(p_heatmap_feature_region)
+```
+
+```{r heatmapfeaturesex, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each feature variable by leader sex. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
+plot(p_heatmap_feature_sex)
+```
+
+```{r heatmapfeaturegroups, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each feature variable by group context. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
+plot(p_heatmap_feature_groups)
+```
+
+```{r featurecoefs}
+
+feature_models %>%
+  unnest(Tidy) %>% 
+  select(
+    Variable,
+    interceptAIC, 
+    multiAIC, 
+    AIC_diff,
+    effect,
+    group,
+    term,
+    estimate,
+    std.error,
+    conf.low,
+    conf.high,
+    statistic,
+    p.value
+  ) %>%
+  group_by(Variable) %>% 
+  mutate(
+    interceptAIC = c(interceptAIC[1], rep(NA, n() - 1)),
+    multiAIC = c(multiAIC[1], rep(NA, n() - 1)),
+    AIC_diff = c(AIC_diff[1], rep(NA, n() - 1)),
+  ) %>% 
+  ungroup %>% 
+  arrange(Variable) %>% 
+  gt %>% 
+  fmt_missing(columns = everything(), missing_text = '') %>% 
+  fmt_number(vars(estimate, std.error, statistic, conf.low, conf.high)) %>% 
+  fmt_scientific(vars(p.value), decimals = 1) %>% 
+  tab_options(table.font.size=10, data_row.padding = 0)
+
+```
+
 
 ## Ethnographer and Culture random effects
 

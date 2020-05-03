@@ -73,7 +73,7 @@ plan <- drake_plan(
     dplyr::select(all_of(variable_names(., 'functions'))) %>% 
     dplyr::filter(rowSums(.)>0),
   
-   df_all =
+  df_all =
     all_data %>% 
     dplyr::select(all_of(unname(variable_names(., c('qualities', 'functions', 'leader.costs', 'leader.benefits', 'follower.costs', 'follower.benefits'))))) %>% 
     dplyr::filter(rowSums(.)>0),
@@ -109,6 +109,17 @@ plan <- drake_plan(
     pvrect(m_pvclust_func, alpha = 0.9)
     dev.off()
   },
+  
+  # Add feature variables to all_data
+  feature_data = create_feature_vars(all_data, m_pvclust_func, m_pvclust_qual),
+  features = feature_data$feature_vars,
+  all_data2 = feature_data$data,
+  feature_models = textrecord_support_multi(readd(all_data2), readd(features)),
+  feature_models_aic = feature_models %>% tidylog::filter(AIC_diff < -2),
+  p_heatmap_feature_subsis = var_heatmap(feature_models_aic, 'subsistence'),
+  p_heatmap_feature_region = var_heatmap(feature_models_aic, 'region'),
+  p_heatmap_feature_sex    = var_heatmap(feature_models_aic, 'demo_sex'),
+  p_heatmap_feature_groups = var_heatmap(feature_models_aic, 'group.structure2'),
   
   # Cross-validate logisticPCA for optimal params (30-40 minutes)
   qual_cvlpca = cv.lpca(df_qual, ks = 1:20, ms = 5:15),

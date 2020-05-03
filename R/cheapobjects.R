@@ -1,21 +1,3 @@
-loadd(all_data)
-loadd(all_study_vars)
-
-loadd(functions_support_txt)
-loadd(qualities_support_txt)
-loadd(leader_benefits_txt)
-loadd(leader_costs_txt)
-loadd(follower_benefits_txt)
-loadd(follower_costs_txt)
-
-loadd(m_pvclust_qual)
-loadd(m_pvclust_func)
-loadd(functions_support_subsis_region)
-loadd(qualities_support_subsis_region)
-loadd(m_lpca_qual)
-loadd(m_lpca_func)
-loadd(df_func)
-loadd(df_qual)
 
 function_vars = variable_names(all_data, type = 'functions')
 quality_vars = variable_names(all_data, type = 'qualities')
@@ -23,9 +5,6 @@ leader_benefit_vars = variable_names(all_data, type = 'leader.benefits')
 leader_cost_vars = variable_names(all_data, type = 'leader.costs')
 follower_benefit_vars = variable_names(all_data, type = 'follower.benefits')
 follower_cost_vars = variable_names(all_data, type = 'follower.costs')
-
-reverse_vars_dict <- names(var_names)
-names(reverse_vars_dict) <- var_names
 
 # Coefficient table -------------------------------------------------------
 
@@ -422,19 +401,19 @@ all_emms <- function(m, specs, upperlimit, title){
 
 # All vars by subsistence and region --------------------------------------
 
-sig_func_region <-
-  functions_support_subsis_region %>% 
-  tidylog::filter(adj_pvalue_region < 0.05)
-
-plot_morality_region <-
-  hagenutils::ggemmeans(emmeans(sig_func_region$emmeans_region[[1]], 'region', type = 'response')) +
-  scale_x_continuous(limits = c(0, 0.3)) +
-  labs(title = sig_func_region$Variable[1], x = '\nProbability', y = '')
-
-plot_prosocial_region <-
-  hagenutils::ggemmeans(emmeans(sig_func_region$emmeans_region[[2]], 'region', type = 'response')) +
-  scale_x_continuous(limits = c(0, 0.3)) +
-  labs(title = sig_func_region$Variable[2], x = '\nProbability', y = '')
+# sig_func_region <-
+#   functions_support_subsis_region %>% 
+#   tidylog::filter(adj_pvalue_region < 0.05)
+# 
+# plot_morality_region <-
+#   hagenutils::ggemmeans(emmeans(sig_func_region$emmeans_region[[1]], 'region', type = 'response')) +
+#   scale_x_continuous(limits = c(0, 0.3)) +
+#   labs(title = sig_func_region$Variable[1], x = '\nProbability', y = '')
+# 
+# plot_prosocial_region <-
+#   hagenutils::ggemmeans(emmeans(sig_func_region$emmeans_region[[2]], 'region', type = 'response')) +
+#   scale_x_continuous(limits = c(0, 0.3)) +
+#   labs(title = sig_func_region$Variable[2], x = '\nProbability', y = '')
 
 
 # All vars by subsistence, region, sex, groups ----------------------------
@@ -495,58 +474,6 @@ plot_qual_auth_cult_re <-
 
 # Cluster objects to feature vars -------------------------------
 
-branch2df <- function(branch, name){
-  lbls <- labels(branch)
-  tibble(
-    Feature = rep(name, length(lbls)),
-    Label = lbls, 
-    Variable = reverse_vars_dict[lbls]
-  )
-}
-
-qual_dendro <- as.dendrogram(m_pvclust_qual)
-
-qual_branches <- list(
-  'Cultural_conformity' = qual_dendro[[1]][[1]],
-  'Prosocial_competencies' = qual_dendro[[1]][[2]],
-  'Social_material_success' = qual_dendro[[2]][[1]],
-  'Competencies' = qual_dendro[[2]][[2]]
-  # 'Prestige' = qual_dendro[[2]][[2]][[2]]
-)
-
-clust_qual_vars <- map2_df(qual_branches, names(qual_branches), branch2df)
-
-func_dendro <- as.dendrogram(m_pvclust_func)
-
-func_branches <- list(
-  'Prosociality' = func_dendro[[1]],
-  'Mediate' = func_dendro[[2]][[1]],
-  'Organize' = func_dendro[[2]][[2]]
-)
-
-clust_func_vars <- map2_df(func_branches, names(func_branches), branch2df)
-
-clust_vars <- bind_rows(clust_func_vars, clust_qual_vars)
-features <- unique(clust_vars$Feature)
-names(features) <- features
-
-
-# Feature analysis --------------------------------------------------------
-
-feature_var <- function(feature){
-  featurevars <- clust_vars$Variable[clust_vars$Feature == feature]
-  n <- length(featurevars)
-  rs <- rowSums(all_data[featurevars])
-  cbind(rs, n - rs) # successes, failures
-}
-
-# Add feature vars to all_data
-# feature vars are n x 2 matrices; col 1: successes, col 2: failures
-all_data2 <-
-  all_data %>% 
-  dplyr::select(demo_sex:pub_dateZ) %>% 
-  bind_cols(map_dfc(features, feature_var))
-
 # Create df with feature vars as 1-d vectors: successes/(successes + failures)
 df_features <- 
   all_data2 %>%
@@ -562,7 +489,15 @@ plot_feature_cor <- ggcorrplot(
   hc.method = 'ward.D',
   lab = T
   )
-  
+
+# feature_formulae <- map_chr(features, ~glue("{.} ~ subsistence + region + demo_sex + group.structure2 + (1|d_culture/doc_ID)"))
+# # Note that the outcome var is a n x 2 matrix of successes vs. failures
+# feature_models <- textrecord_support_multi(all_data2, features)
+# 
+# feature_models_aic <- 
+#   feature_models %>% 
+#   tidylog::filter(AIC_diff < -2)
+
 # Summarize by culture
 # df_culture_sum <-
 #   all_data2 %>%
@@ -593,56 +528,28 @@ plot_feature_cor <- ggcorrplot(
 #   )
 # pca_loadings_plot(m_feature_pca_cult)
 
-feature_formulae <- map_chr(features, ~glue("{.} ~ subsistence + region + (1|d_culture/doc_ID)"))
-
-# Note that the outcome var is a n x 2 matrix of successes vs. failures
-feature_sub_models <-
-  tibble(
-    Feature = features,
-    Model = map(
-      feature_formulae, 
-      ~ glmer(as.formula(.),
-        family = binomial,
-        data = all_data2,
-        nAGQ = 0
-      )),
-    Drop1 = map(Model, drop1),
-    Anova = map(Model, Anova),
-    pvalues = map(Anova, 'Pr(>Chisq)'),
-    pvalue_subsis = map_dbl(pvalues, 1),
-    pvalue_region = map_dbl(pvalues, 2),
-    adj_pvalue_subsis = p.adjust(pvalue_subsis, method = 'BH'),
-    adj_pvalue_region = p.adjust(pvalue_region, method = 'BH'),
-    emmeans_subsis = map(Model, ~emmeans(., spec = 'subsistence', type = "response")),
-    emmeans_region = map(Model, ~emmeans(., spec = 'region', type = "response"))
-  )
-
-subsis_models_sig <- 
-  feature_sub_models %>% 
-  tidylog::filter(adj_pvalue_subsis < 0.05)
-
-feature_model_plot <- function(d, term){
-  ggplot(
-    d, 
-    aes_string("prob", term, xmin = "asymp.LCL", xmax = "asymp.UCL")
-  ) +
-    geom_errorbarh(height = 0, lwd = 2.5, alpha = .2) + 
-    geom_point() + 
-    scale_x_continuous(limits = c(0, NA)) +
-    facet_grid(Feature~.) + 
-    labs(x = '\nProbability', y = '') +
-    theme_bw(15) + 
-    theme(strip.text.y = element_text(angle=0))
-}
-
-plot_feature_models_subsis <- feature_model_plot(subsis_models_sig, 'subsistence')
-
-region_models_sig <- 
-  feature_sub_models %>% 
-  # Deliberately filtering on subsis here
-  tidylog::filter(adj_pvalue_subsis < 0.05)
-
-plot_feature_models_region <- feature_model_plot(region_models_sig, 'region')
+# feature_model_plot <- function(d, term){
+#   ggplot(
+#     d, 
+#     aes_string("prob", term, xmin = "asymp.LCL", xmax = "asymp.UCL")
+#   ) +
+#     geom_errorbarh(height = 0, lwd = 2.5, alpha = .2) + 
+#     geom_point() + 
+#     scale_x_continuous(limits = c(0, NA)) +
+#     facet_grid(Feature~.) + 
+#     labs(x = '\nProbability', y = '') +
+#     theme_bw(15) + 
+#     theme(strip.text.y = element_text(angle=0))
+# }
+# 
+# plot_feature_models_subsis <- feature_model_plot(subsis_models_sig, 'subsistence')
+# 
+# region_models_sig <- 
+#   feature_sub_models %>% 
+#   # Deliberately filtering on subsis here
+#   tidylog::filter(adj_pvalue_subsis < 0.05)
+# 
+# plot_feature_models_region <- feature_model_plot(region_models_sig, 'region')
 
 
 # logisticPCA -------------------------------------------------------------
