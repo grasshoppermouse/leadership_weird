@@ -364,72 +364,57 @@ all_emms <- function(m, specs, upperlimit, title){
   return(theplots)
 }
 
-# plot_emm_status_group2 <-
-#   hagenutils::ggemmeans(emmeans(m_status_group2, 'group.structure2', type = 'response')) +
-#   scale_x_continuous(limits = c(0, 0.8)) +
-#   labs(title = '', x = '', y = '')
-# 
-# plot_emm_status_subsistence2 <-
-#   hagenutils::ggemmeans(emmeans(m_status_group2, 'subsistence', type = 'response')) +
-#   scale_x_continuous(limits = c(0, 0.8)) +
-#   labs(title = '', x = '', y = '')
-# 
-# plot_emm_status_region2 <-
-#   hagenutils::ggemmeans(emmeans(m_status_group2, 'region', type = 'response')) +
-#   scale_x_continuous(limits = c(0, 0.8)) +
-#   labs(title = '', x = '', y = '')
-# 
-# plot_emm_status_sex2 <-
-#   hagenutils::ggemmeans(emmeans(m_status_group2, 'demo_sex', type = 'response')) +
-#   scale_x_continuous(limits = c(0, 0.8)) +
-#   labs(title = '', x = '', y = '')
 
-# Original
-# m_status_group <-
-#   glmer(
-#     qualities_HighStatus ~
-#       group.structure2 +
-#       (1|d_culture/author_ID),
-#     family = binomial,
-#     data = all_data
-#   )
-# 
-# plot_emm_status_group <-
-#   hagenutils::ggemmeans(emmeans(m_status_group, 'group.structure2', type = 'response')) +
-#   scale_x_continuous(limits = c(0, NA)) +
-#   labs(title = '', x = '', y = '')
+# Comparing universal vs variable vars ------------------------------------
 
-# All vars by subsistence and region --------------------------------------
+df_compare <-
+  multi_allvars %>% 
+  select(var, Variable, Evidence, Unimodel, Multimodel, AIC_diff, contains('pvalue')) %>% 
+  rowwise() %>% 
+  mutate(
+    AIC_table = list(bbmle::AICtab(Multimodel, Unimodel, weights = T)),
+  ) %>% 
+  ungroup %>% 
+  mutate(
+    AIC_table = map(AIC_table, as.data.frame),
+    Intercept_weight = map(AIC_table, function(x) x['Unimodel', 'weight']),
+    Multi_weight = map(AIC_table, function(x) x['Multimodel', 'weight'])
+  )
 
-# sig_func_region <-
-#   functions_support_subsis_region %>% 
-#   tidylog::filter(adj_pvalue_region < 0.05)
-# 
-# plot_morality_region <-
-#   hagenutils::ggemmeans(emmeans(sig_func_region$emmeans_region[[1]], 'region', type = 'response')) +
-#   scale_x_continuous(limits = c(0, 0.3)) +
-#   labs(title = sig_func_region$Variable[1], x = '\nProbability', y = '')
-# 
-# plot_prosocial_region <-
-#   hagenutils::ggemmeans(emmeans(sig_func_region$emmeans_region[[2]], 'region', type = 'response')) +
-#   scale_x_continuous(limits = c(0, 0.3)) +
-#   labs(title = sig_func_region$Variable[2], x = '\nProbability', y = '')
+# Adjust p-values across all variables simultaneously (rather than per variable)
+x <- as.matrix(df_compare[,8:11])
+x2 <- p.adjust(x, method = 'BH')
+x3 <- matrix(x, 109, 4)
 
+# Need to loadd these
+df_cult_support <-
+  bind_rows(
+    functions_support_cult, 
+    qualities_support_cult,
+    leader_benefits_cult,
+    leader_costs_cult,
+    follower_benefits_cult,
+    follower_costs_cult
+  )
 
-# All vars by subsistence, region, sex, groups ----------------------------
+df_compare2 <-
+  df_compare %>% 
+  select(-Variable) %>% 
+  left_join(df_cult_support, by = c('var' = 'vars')) %>%
+  select(var, Variable, Evidence, Estimate, Multimodel, AIC_diff, Intercept_weight, Multi_weight, contains('pvalue_'))
 
-# does pub_dateZ make much difference?
+df_compare3 <-
+  df_compare2 %>% 
+  filter(Estimate >= 0.6 & AIC_diff < -2 & adj_pvalue_groups < 0.05)
 
-# all_var_names <- c('functions', 'qualities', 'leader.benefit', 'leader.cost', 'follower.benefit', 'follower.cost')
-# 
-# formula_string = "{outcome} ~ pub_dateZ + (1|d_culture/author_ID)"
-# m_pubdate <- textrecord_support(all_data, all_var_names, formula_string)
-# 
-# formula_string = "{outcome} ~ 1 + (1|d_culture/author_ID)"
-# m_nopubdate <- textrecord_support(all_data, all_var_names, formula_string)
-# 
-# # Nope
-# plot(m_nopubdate$Estimate, m_pubdate$Estimate)
+heatmap_top_context <- var_heatmap(df_compare3, spec = 'group.structure2')
+
+#' To do:
+#' 
+#' We have 20 models that show AIC improvement, but don't have
+#' any one variable with low p-values. Need to run drop1 to figure
+#' out which variables are making a difference, and then maybe figure
+#' out how to communicate those results.
 
 # Treemaps -----------------------------------------------------------------
 
@@ -620,4 +605,5 @@ plot_lpca_qual_tmp <-
   geom_point() +
   stat_ellipse() +
   theme_bw(15)
-plot_lpca_qual_tmp
+
+

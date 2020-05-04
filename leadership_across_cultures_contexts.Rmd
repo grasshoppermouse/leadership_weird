@@ -18,6 +18,7 @@ library(patchwork)
 library(gt)
 
 # Need there here so they are identified as dependencies of this report
+
 loadd(all_data)
 loadd(all_data2)
 loadd(all_study_vars)
@@ -27,12 +28,16 @@ loadd(features)
 loadd(feature_models)
 loadd(follower_benefits_txt)
 loadd(follower_costs_txt)
+loadd(follower_benefits_cult)
+loadd(follower_costs_cult)
 loadd(functions_support_cult)
 loadd(functions_support_subsis_region)
 loadd(functions_support_txt)
 loadd(highstatus_plot)
 loadd(leader_benefits_txt)
+loadd(leader_benefits_cult)
 loadd(leader_costs_txt)
+loadd(leader_costs_cult)
 loadd(m_lpca_func)
 loadd(m_lpca_qual)
 loadd(m_pvclust_func)
@@ -359,7 +364,41 @@ plot_costs_benefits
 
 ## Variation in study variables by group structure, subsistence strategy, continental region, and leader sex 
 
-To investigate variation in functions, qualities, costs, and benefits, we fit a multiple logistic mixed effects regression model of each variable as a function of group structure, subsistence strategy, continental region, and leader sex, with random intercepts for author nested within culture. We then compared the AIC value of each model to a model with only the fixed and random intercepts, retaining `r nrow(multi_aic)` models that showed at least a two-point reduction in AIC value. We then created heatmaps that displayed the relative estimated marginal means for each level of these categorical explanatory variables for each outcome variable. See Figures S\@ref(fig:heatmapsubsis), S\@ref(fig:heatmapregion), S\@ref(fig:heatmapsex), and S\@ref(fig:heatmapgroups), and Tables S\@ref(tab:variablevars) and S\@ref(tab:universalvars).
+To investigate variation in functions, qualities, costs, and benefits, we fit a multiple logistic mixed effects regression model of each variable as a function of group structure, subsistence strategy, continental region, and leader sex, with random intercepts for author nested within culture. We then compared the AIC value of each model to a model with only the fixed and random intercepts, retaining `r nrow(multi_aic)` models that showed at least a two-point reduction in AIC value. 
+
+```{r universals}
+
+commondim_n <- sum(df_compare2$Estimate > 0.6)
+universals_n <- sum(df_compare2$AIC_diff >= -2 & df_compare2$Estimate > 0.6)
+vary_n <- sum(df_compare2$AIC_diff < -2 & df_compare2$Estimate > 0.6)
+
+```
+
+Among the `r commondim_n` leader dimensions that were found in at least 60% of cultures, there were `r universals_n` that did not show evidence of varying by subsistence strategy, continental region, leader sex, or group context. Hence these variables are condidates for universal dimensions of leadership. See Table \@ref(tab:leaderuniversals).
+
+```{r leaderuniversals}
+
+df_compare2 %>% 
+  filter(AIC_diff >= -2 & Estimate > 0.6) %>% 
+  mutate(
+    Type = map_chr(var, ~ str_split(., '_')[[1]][[1]]),
+    Type = str_replace(Type, '\\.', ' '),
+    Type = str_to_title(Type),
+    `Percent of cultures` = 100*Estimate
+  ) %>% 
+  select(Type, Variable, `Percent of cultures`) %>% 
+  arrange(`Percent of cultures`) %>% 
+  kable(digits = 1, caption = "Candidate universal dimensions of leadership. These dimensions were common in the ethnographic record (appearing in at least 60% of cultures), and did not appear to vary by subsistence strategy, continental region, leader sex, or group context.")
+
+```
+
+There were `r vary_n` models of leadership dimensions with an improvement relative to an intercept-only model, by AIC. Inspection of these models showed that these dimensions varied primarily by group context, but not by subsistence strategy, continental region, or leader sex. See Figure \@ref(fig:heatmaptopcontext). The one exception was our most common variable, *High status*, which varied by multiple factors, and which we examine in detail below.
+
+```{r heatmaptopcontext, fig.cap="Leadership dimensions that were common in the ethnographic record, but varied by group context. Colors represent the relative estimated marginal means of specific group context. Means were standardized by rows, and therefore can only be compared within rows."}
+heatmap_top_context
+```
+
+We then created heatmaps that displayed the relative estimated marginal means for each level of these categorical explanatory variables for each outcome variable. See Figures S\@ref(fig:heatmapsubsis), S\@ref(fig:heatmapregion), S\@ref(fig:heatmapsex), and S\@ref(fig:heatmapgroups), and Tables S\@ref(tab:variablevars) and S\@ref(tab:universalvars).
 
 For subsistence strategy, hunter-gatherers had relatively more evidence for *Polygyny*, *Leader-Mating benefits*, *No coercive authority*, *Political appointments* and *Military command* than other subsistence strategies. Pastoralists had more evidence for *Ritual functions*, *Supernatural*, *Aggressiveness* and *High quality spouse*. Hunter-gatherers and pastoralists both had more evidence for *High status*, *Providing counsel/direction*, and *Providing subsistence*. The remaining subsistence strategies generally had relatively less evidence for all variables, except that the mixed strategy had relatively more evidence for *Organize cooperation*, *Distribute resources*, and *Prosocial investment*. See Figure S\@ref(fig:heatmapsubsis).
 
@@ -401,7 +440,7 @@ theplots[[1]] / theplots[[2]] + plot_annotation(title = 'Predictors of leader co
 ```
 
 
-## When do leaders also have high status?
+## When do leaders also have high status? {highstatus}
 
 ```{r highstatuscalc}
 statusFracTxt <- qualities_support_txt$Estimate[qualities_support_txt$vars == 'qualities_HighStatus']
