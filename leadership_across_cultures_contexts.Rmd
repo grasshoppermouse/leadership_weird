@@ -3,7 +3,8 @@ title: "Leadership across cultures and contexts: an exploratory analysis"
 author: "Zachary H. Garfield, Kristen L. Syme, and Edward H. Hagen"
 date: "4/25/2019"
 output: 
-  bookdown::html_document2
+  bookdown::html_document2:
+    number_sections: false
 bibliography: Leader2.bib
 csl: evolution-and-human-behavior.csl
 ---
@@ -15,26 +16,45 @@ library(knitr)
 library(pander)
 library(patchwork)
 library(gt)
+
+# Need there here so they are identified as dependencies of this report
+loadd(all_data)
+loadd(all_data2)
 loadd(all_study_vars)
-loadd(df_qual)
 loadd(df_func)
-loadd(plot_func_qual)
-loadd(qualities_support_txt)
-loadd(qualities_support_cult)
-loadd(functions_support_txt)
+loadd(df_qual)
+loadd(features)
+loadd(feature_models)
+loadd(follower_benefits_txt)
+loadd(follower_costs_txt)
 loadd(functions_support_cult)
+loadd(functions_support_subsis_region)
+loadd(functions_support_txt)
 loadd(highstatus_plot)
-loadd(plot_costs_benefits)
-loadd(plot_pubdate)
-loadd(m_lpca_qual)
+loadd(leader_benefits_txt)
+loadd(leader_costs_txt)
 loadd(m_lpca_func)
-loadd(multi_allvars)
+loadd(m_lpca_qual)
+loadd(m_pvclust_func)
+loadd(m_pvclust_qual)
 loadd(multi_aic)
-loadd(p_heatmap_subsis)
+loadd(multi_allvars)
+loadd(p_heatmap_groups)
 loadd(p_heatmap_region)
 loadd(p_heatmap_sex)
-loadd(p_heatmap_groups)
-source("R/cheapobjects.R")
+loadd(p_heatmap_subsis)
+loadd(p_heatmap_feature_subsis)
+loadd(p_heatmap_feature_region)
+loadd(p_heatmap_feature_sex)
+loadd(p_heatmap_feature_groups)
+loadd(plot_costs_benefits)
+loadd(plot_func_qual)
+loadd(plot_pubdate)
+loadd(qualities_support_cult)
+loadd(qualities_support_subsis_region)
+loadd(qualities_support_txt)
+
+source("R/cheapobjects.R", local = T)
 ```
 
 
@@ -223,25 +243,27 @@ Our data comprised one row for each of our text records. For each of our variabl
 
 We analyzed data from our researcher-coded operationalized variables at the text-record level and at the culture-level. Our first goal was to assess the proportion of text records and cultures that provided evidence for each of our coded variables to discover the qualities, functions, benefits and costs of leadership that are most and least frequently noted in the ethnographic record. We computed the proportion of text records supporting each variable, and their 95% confidence intervals, using logistic generalized linear mixed effects models with random intercepts for document authors nested within cultures (which partially accounts for potential variation due to differences in ethnographers such as gender, nationality, or theoretical framework). For each variable, we then computed the proportion of cultures with at least one text record with evidence for that variable, with confidence intervals computed using a cluster bootstrap.
 
-Our second goal was to extract higher-order dimensions of leader qualities and functions from our researcher coded variables. We used several methods to explore lower dimensional representations of these data that might reveal informative "features." These included logistic PCA, non-negative matrix factorization (NMF), and hierarchical cluster analysis. Logistic PCA generalizes Pearson's original formulation of PCA to find a projection of the natural parameters of the saturated model that minimizes the Bernoulli deviance [@logisticPCA]. 
+Our second goal was to determine which leader and follower benefits and costs were most commonly mentioned in the ethnographic record, computing proportions and 95% CIs as above and to estimate how costs and benefits varied by group structure types.
+
+Our third goal was to assess the extent to which each of the leadership trait and cost/benefit variables varied by four theoretically important factors for which we had data for all rows: subsistence strategy, continental region, group context, and leader sex.
+
+Our fourth goal was to extract higher-order dimensions of leader qualities and functions from our researcher coded variables. We used several methods to explore lower dimensional representations of these data that might reveal informative "features." These included logistic PCA, non-negative matrix factorization (NMF), and hierarchical cluster analysis. Logistic PCA generalizes Pearson's original formulation of PCA to find a projection of the natural parameters of the saturated model that minimizes the Bernoulli deviance [@logisticPCA]. 
 
 NMF [@lee1999] finds a low rank approximation of the original matrix, $X \approx WH$, where $X$ is an $n \times p$ matrix, and $W$ and $H$ are $n \times k$ and $k \times p$ matrices, respectively; all elements of $X$, $W$ and $H$ are $\geq 0$; and, typically, $k << min(n,p)$. NMF estimates $W$ and $H$ by minimizing a measure of distance between $X$ and $WH$ [we used the default "brunet" algorithm, which uses the Kullback-Leibler divergence; @gaujoux2010].
 
 Agglomerative hierarchical cluster analysis starts with all elements in their own cluster, and then uses a distance metric to combine the two closest clusters into a single cluster; the next two closest clusters are then combined, and so forth, until all elements belong to a single cluster. We computed distance between our binary vectors using $1-cor(x, y)$, and agglomerated using the Ward algorithm. We assessed the robustness of the clusters using the *pvclust* package [@suzuki_pvclust2006], which computes an unbiased probability that a cluster appears in bootstrapped samples. We used 10,000 bootstrapped samples.
 
-With an interpretable method of dimensionality reduction, we aimed to predict variation in our "feature" dimensions from population-level variation, such as subsistence type, region, and group structure.
+Our fifth goal was to assess variation in our "feature" dimensions by subsistence strategy, continental region, group context, and leader sex.
 
 <!-- To reduce the dimensionality of the `r length(quality_vars)` leader quality variables and the `r length(function_vars)` leader function variables, all of which take binary values (0, 1), we used logistic PCA from the logisticPCA package. This algorithm projects the natural parameters of the saturated model onto the lower $k-$dimension space that minimizes the Bernoulli deviance [@logisticPCA]. Prior to analysis we removed all rows that had no evidence for any variable, which resulted in `r nrow(df_qual)` text records for the leader quality variables and `r nrow(df_func)` text records for the leader function variables. We used cross-validation to optimize rank, $k$, and a tuning parameter, $m$ (the value to approximate the saturated model), per recommendation of the package authors. -->
 
 <!-- To identify natural groupings of variables among the research coded leader quality and leader function measures, we conducted two cluster analyses using the pvclust package [@suzuki_pvclust:_2015]. These analyses allow us to interpret *post-hoc* (1) the degree to which coded variables relate to established theoretical models, (2) identify potential phenotypic profiles of leaders, and (3) offer empirical and theoretical future directions related to suites of qualities or functions likely to covary. -->
 
-Our third goal was to determine which leader and follower benefits and costs were most commonly mentioned in the ethnographic record, computing proportions and 95% CIs as above and to estimate how costs and benefits varied by group structure types and other population-level measures.
-
-To supplement results from the aforementioned methods, we also performed textual analyses and explored variation in measures of biases stemming from the ethnographic record that may have impacted results.
+To supplement results from the aforementioned methods, we also performed textual analyses and explored variation measures of biases stemming from the ethnographic record that may have impacted results.
 
 <!-- Our fourth goal was to explore associations between the principle components of leader qualities and functions, and culture-level variables such as mode of subsistence, social complexity, population density, and group size, and effects of group type, such as political groups versus kin groups. We used linear mixed effects models from the lme4 package [@bates2015], with PC1 and PC2 as outcome variables, culture-level variables as predictors, and documents nested within cultures as grouping variables for random intercepts. -->
 
-The analyses computing levels of evidence for each variable used the entire set of text records. Analyses investigating lower dimensional representations used a slightly smaller set that omitted records with no evidence for any variable (i.e., all zeros). All analyses were conducted with `r R.version.string`.
+The analyses computing levels of evidence for each variable used the entire set of text records. Analyses investigating lower dimensional representations used a smaller set that omitted rows with no evidence for any variable (i.e., all zeros), and variables with very little evidence (almost all zeros). All analyses were conducted with `r R.version.string`.
 
 # Results
 
@@ -303,7 +325,7 @@ mm_coauthorSUM <- summary(mm_coauthor)
 mm_coauthorP <- mm_coauthorSUM$coefficients['female_coauthorTRUE', 'Pr(>|z|)']
 ```
 
-We explored whether three features of our corpus of ethnographic texts -- date of publication, female gender of any author, and total pages of ethnography from each culture -- were associated with discovery of evidence for the `r length(all_study_vars)` variables in our study that coded for functions and qualities, benefits, and costs (see Tables \@ref(tab:qualfuncvars) and \@ref(tab:costbenefitvars)). Dates of publication ranged from `r min(documents$d_publication_date)` to `r max(documents$d_publication_date)`, with a median year of `r median(documents$d_publication_date)` (see Supplementary Figure \@ref(fig:doc-years)). There were `r tab_author_gender['male']` male authors, `r tab_author_gender['female']` females authors, and `r tab_author_gender['unkown']` authors whose gender we could not determine (some authors were co-authors). Of the `r nrow(documents)` source documents, `r sum(documents$female_coauthor)` (`r signif(100*sum(documents$female_coauthor)/nrow(documents), 2)`%) had a female author or co-author. Total pages of ethnography on each culture in the PSF ranged from `r min(leader_cult[['ehraf_pages']])` to `r as.integer(max(leader_cult[['ehraf_pages']]))`, with a median of `r median(leader_cult[['ehraf_pages']])`.
+We explored whether three features of our corpus of ethnographic texts -- date of publication, female gender of any author or co-author, and total pages of ethnography from each culture -- were associated with discovery of evidence for the `r length(all_study_vars)` variables in our study that coded for functions and qualities, benefits, and costs (see Tables \@ref(tab:qualfuncvars) and \@ref(tab:costbenefitvars)). Dates of publication ranged from `r min(documents$d_publication_date)` to `r max(documents$d_publication_date)`, with a median year of `r median(documents$d_publication_date)` (see Supplementary Figure \@ref(fig:doc-years)). There were `r tab_author_gender['male']` male authors, `r tab_author_gender['female']` females authors, and `r tab_author_gender['unkown']` authors whose gender we could not determine (some authors were co-authors). Of the `r nrow(documents)` source documents, `r sum(documents$female_coauthor)` (`r signif(100*sum(documents$female_coauthor)/nrow(documents), 2)`%) had a female author or co-author. Total pages of ethnography on each culture in the PSF ranged from `r min(leader_cult[['ehraf_pages']])` to `r as.integer(max(leader_cult[['ehraf_pages']]))`, with a median of `r median(leader_cult[['ehraf_pages']])`.
 
 The number of text records on leadership retrieved for a particular culture was weakly correlated with the total number of pages of ethnography in the eHRAF (r = `r signif(cor_pages_tr$estimate, 2)`, p = `r signif(cor_pages_tr$p.value, 2)`). A loess regression suggested that the number of text records initially increased with the total number of pages of ethnography, plateauing at about 35 records around 4500 pages (see Supplementary Figure \@ref(fig:eHRAFpages)).
 
@@ -313,7 +335,7 @@ We then tested if text records with a female author or co-author were more likel
 
 ## Evidence for leader functions and qualities
 
-For each of the `r length(c(quality_vars, function_vars, leader_cost_vars, leader_benefit_vars, follower_benefit_vars, follower_cost_vars))` coded variables (see Tables \@ref(tab:qualfuncvars) and \@ref(tab:costbenefitvars)), we computed the proportion of text records (95% CI) that provided support using logistic mixed effects models that controlled for one possible source of bias -- publication date -- as a fixed effect, and included authors nested within cultures as random intercepts. We then computed the proportion of cultures with at least one text record providing support for that variable (calculating 95% CI using a cluster bootstrap). See Figure \@ref(fig:varsupport). For a table of all coefficients and 95% CIs, see Table S\@ref(tab:glmmcoefs).
+For each of the `r length(c(quality_vars, function_vars, leader_cost_vars, leader_benefit_vars, follower_benefit_vars, follower_cost_vars))` coded variables (see Tables \@ref(tab:qualfuncvars) and \@ref(tab:costbenefitvars)), we computed the proportion of text records (95% CI) that provided support using intercept-only logistic mixed effects models that included authors nested within cultures as random intercepts. We then computed the proportion of cultures with at least one text record providing support for that variable (calculating 95% CI using a cluster bootstrap). See Figure \@ref(fig:varsupport). For a table of all coefficients and 95% CIs, see Table S\@ref(tab:glmmcoefs).
 
 ```{r varsupport, fig.width=15, fig.height=15, fig.cap="Evidence for each coded variable of leader functions (top) and qualities (bottom). Red: percent of text records with evidence of support (95% CI computed with a binomial mixed effects models with random intercept for author nested within culture). Purple: percent of cultures with evidence of support (95% CI computed with a cluster bootstrap)."}
 ggsave(file="Figures/variablesupport.pdf", plot_func_qual)
@@ -353,7 +375,7 @@ We then explored relationships between total leader benefits and costs, summed a
 
 <!-- NEED TO DO -- ADD TABLE? -->
 
-```{r leadertotalbenefits, fig.width=10, fig.cap="Estimated marginal means of A. leader total benefits, and B. total costs, as a function of group structure, based on a logistic mixed effects regression model with random intercepts for ethnographer nested within culture. Values are on the response scale."}
+```{r leadertotalbenefits, fig.width=10, fig.cap="Estimated marginal means of a logistic mixed effects regression model of leader total benefits as a function of A. subsistence strategy, B. group structure, C. continental region, and D. leader sex. Model included random intercepts for ethnographer nested within culture. Values are on the response scale."}
 # p1 <- 
 #   hagenutils::ggemmeans(emmeans(m_ldrtotben, type = 'response', specs = 'group.structure2')) +
 #   scale_x_continuous(limits = c(0, 0.1)) +
@@ -371,7 +393,7 @@ theplots <- all_emms(m_ldrtotben, c('subsistence', 'group.structure2', 'region',
 
 ```
 
-```{r leadertotalcosts}
+```{r leadertotalcosts, fig.cap="Estimated marginal means of a logistic mixed effects regression model of leader total costs as a function of A. subsistence strategy, and B. group structure. Model included random intercepts for ethnographer nested within culture. Values are on the response scale."}
 theplots <- all_emms(m_ldrtotcost, c('subsistence', 'group.structure2'), 0.06, 'Predictors of leader costs')
 
 theplots[[1]] / theplots[[2]] + plot_annotation(title = 'Predictors of leader costs', tag_levels = 'A')
@@ -396,7 +418,7 @@ We then investigated if the proportion of text records with evidence for *High s
 
 <!-- NEED TO DO TABLE -->
 
-```{r groupstatus, fig.width=10, fig.cap="Estimated marginal means of a mixed effects logistic regression model of evidence for high status (0/1) as a function of group type, subsistence strategy, continental region, and leader sex, with random effects for ethnographer nested within culture. Values are on the response scale (probability)."}
+```{r groupstatus, fig.width=10, fig.cap="Estimated marginal means of a mixed effects logistic regression model of evidence for high status (0/1) as a function of A. subsistence strategy, B. group structure, C. continental region, and D. leader sex. Model included random intercepts for ethnographer nested within culture. Values are on the response scale (probability)."}
 # ((plot_emm_status_group2 / plot_emm_status_sex2) | (plot_emm_status_subsistence2 / plot_emm_status_region2)) + plot_annotation(title = "Predictors of high status", tag_levels = 'A')
 
 theplots <- all_emms(m_status_group2, c('subsistence', 'group.structure2', 'region', 'demo_sex'), 0.8, 'Predictors of leader status')
@@ -426,35 +448,7 @@ The leader functions cluster analysis (Figure \@ref(fig:cluster)B) also identifi
 
 We identify these named subclusters as "features" of leader qualities and functions in the ethnographic record. In naming these features, we gave extra weight to variables that were strongly supported in the sample (Figure \@ref(fig:varsupport)), and therefore not all variables within these clusters were clearly related to the themes of each feature.
 
-We then fit separate logistic mixed effects models of each feature as a function of subsistence strategy and region, with random effects for author nested within culture. After adjusting the subsistence coefficient p-values for an FDR of 0.05, we computed and plotted the estimated marginal means of the significant models. Two of these models (*Mediate* and *Prosocial competencies*) produced significant effects. See Figure \@ref(fig:features).
-
-<!-- NEED TO DO -- ADD TABLE? -->
-
-```{r features, fig.width=11, fig.cap="Esimtated marginal means [@lenth2020] of logistic mixed effects regression models of Feature variables by subsistence strategy and region. Only models whose subsistence coefficient had a corrected p-value < 0.05. The coefficient for region was also significant in the model of the 'Prosocial cometencies' feature. Plotted on the response (probablity) scale. See text for details."}
-
-feature_scale <- scale_x_continuous(limits = c(0, 0.20))
-
-p_subsis_mediate <- ggemmeans(subsis_models_sig$emmeans_subsis[[1]]) +
-  feature_scale +
-  labs(title = 'Mediate', x = '', y = '')
-
-p_subsis_bigman <- ggemmeans(subsis_models_sig$emmeans_subsis[[2]]) +
-  feature_scale +
-  labs(title = 'Prosocial competencies', x = '', y = '')
-
-p_region_mediate <- ggemmeans(subsis_models_sig$emmeans_region[[1]]) +
-  feature_scale +
-  labs(title = 'Mediate', x = '', y = '')
-
-p_region_bigman <- ggemmeans(subsis_models_sig$emmeans_region[[2]]) +
-  feature_scale +
-  labs(title = 'Prosocial competencies', x = '', y = '')
-
-(p_subsis_mediate + p_region_mediate) / (p_subsis_bigman + p_region_bigman)
-
-```
-
-
+We then fit separate logistic mixed effects models of each feature as a function of subsistence strategy, continental region, group context, and leader sex, with random effects for author nested within culture, comparing these to intercept-only models, and selecting all models whose AIC values were at least two points less than the intercept-only models. See Figures S\@ref(fig:heatmapfeaturesubsis), S\@ref(fig:heatmapfeatureregion), S\@ref(fig:heatmapfeaturesex), and S\@ref(fig:heatmapfeaturegroups).
 
 <!-- ## Exploring population-level variation -->
 
@@ -696,81 +690,63 @@ Figure \@ref(fig:highstatusplot) depicts the `r length(highstatus_plot$data$Word
 plot(p_heatmap_subsis)
 ```
 
-```{r heatmapregion, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each outcome variable by each subsistence strategy. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
+```{r heatmapregion, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each outcome variable by each continental region. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
 
 plot(p_heatmap_region)
 ```
 
 
-```{r heatmapsex, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each outcome variable by each subsistence strategy. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
+```{r heatmapsex, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each outcome variable by leader sex. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
 
 plot(p_heatmap_sex)
 ```
 
-```{r heatmapgroups, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each outcome variable by each subsistence strategy. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
+```{r heatmapgroups, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each outcome variable by each group context. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
 
 plot(p_heatmap_groups)
 ```
 
-```{r variablevars}
-
-multi_aic %>% 
+```{r multiout}
+multi_out <-
+  multi_allvars %>% 
   select(
     var,
     Variable, 
-    Sum, 
-    uniAIC, 
+    Evidence, 
+    interceptAIC, 
     multiAIC, 
     AIC_diff,
     pvalue_subsis,
     pvalue_region,
-    pvalue_female,
+    pvalue_sex,
     pvalue_groups
     ) %>% 
   mutate(
     var = map_chr(var, ~ str_split(., '_')[[1]][[1]])
   ) %>% 
-  arrange(Variable) %>% 
+  arrange(Variable)
+
+```
+
+
+```{r variablevars}
+multi_out %>% 
+  dplyr::filter(AIC_diff < -2) %>% 
   kable(
-  caption = 'Retained logistic mixed effects models of each variable as functions of subsistence strategy, continental region, leader sex, and group structures. Models were retained due to improvement in AIC values relative to an intercept-only model. Sum: the number of rows with evidence for the variable. uniAIC: AIC of intercept-only model. multiAIC: AIC of multivariate model. AIC_diff: difference in AIC values. P-values are the unadjusted p-values of each explanatory variable in the model.',
+  caption = 'Retained logistic mixed effects models of each variable as functions of subsistence strategy, continental region, leader sex, and group structures. Models were retained if their AIC values decreased by two or more relative to an intercept-only model. Evidence: the number of rows with evidence for the variable. interceptAIC: AIC of intercept-only model. multiAIC: AIC of multivariate model. AIC_diff: difference in AIC values. P-values are the unadjusted p-values of each predictor variable in the model.',
   digits = 2
   )
 ```
 
 ```{r universalvars}
-multi_allvars %>%
+multi_out %>%
   dplyr::filter(AIC_diff >= -2) %>% 
-  select(
-    var,
-    Variable, 
-    Sum, 
-    uniAIC, 
-    multiAIC, 
-    AIC_diff,
-    pvalue_subsis,
-    pvalue_region,
-    pvalue_female,
-    pvalue_groups
-    ) %>% 
-  mutate(
-    var = map_chr(var, ~ str_split(., '_')[[1]][[1]])
-  ) %>% 
-  arrange(Variable) %>% 
   kable(
-  caption = 'Logistic mixed effects models that did not show improvement in AIC values relative to an intercept-only model. These study variables either did not vary much by subsistence strategy, continental region, leader sex, or group structures, or had little evidence. Sum: the number of rows with evidence for the variable. uniAIC: AIC of intercept-only model. multiAIC: AIC of multivariate model. AIC_diff: difference in AIC values. P-values are the unadjusted p-values of each explanatory variable in the model.',
+  caption = 'Logistic mixed effects models that did not show improvement in AIC values relative to an intercept-only model. These study variables either did not vary much by subsistence strategy, continental region, leader sex, or group structures, or had little evidence. Evidence: the number of rows with evidence for the variable. interceptAIC: AIC of intercept-only model. multiAIC: AIC of multivariate model. AIC_diff: difference in AIC values. P-values are the unadjusted p-values of each predictor variable in the model.',
   digits = 2
   )
   
 ```
-
-
-<!-- ## Effects of subsistence strategy and region on function and quality variables -->
-
-```{r varsubsisregion, fig.cap="Estimated marginal means of logistic mixed effects models of each leader function and quality variable as a function of subsistence strategy and region, with random effects for author nested within culture. These are the only models with significant coefficients for either subsistence strategy or region, after correcting p-values for an FDR of 0.05."}
-
-# plot_morality_region / plot_prosocial_region
-```
-
 
 ## Dimension reduction
 
@@ -797,12 +773,64 @@ plot_lpca_qual
 
 ## Feature models
 
-We constructed `r length(features)` "feature" variables from the higher-level clusters (Figure \@ref(fig:cluster)): `r paste(features, collapse = ', ')`. The Mediate, Prosociality, and Organize features were modestly positively correlated with each other, but not with Prestige or Social/material success. Big man was correlated with Cultural conformity. See Figure \@ref(fig:featurecor).
+We constructed `r length(features)` "feature" variables from the higher-level clusters (Figure \@ref(fig:cluster)): `r paste(features, collapse = ', ')`. The Mediate, Prosociality, and Organize features were modestly positively correlated with each other, but not with Prestige or Social/material success. Prosocial competencies was correlated with Cultural conformity. See Figure \@ref(fig:featurecor).
 
 
 ```{r featurecor, fig.cap="Feature variable correlation matrix. Values are correlation coefficients."}
 plot_feature_cor
 ```
+
+```{r heatmapfeaturesubsis, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each feature variable by subsistence strategy. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
+plot(p_heatmap_feature_subsis)
+```
+
+```{r heatmapfeatureregion, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each feature variable by continental region. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
+plot(p_heatmap_feature_region)
+```
+
+```{r heatmapfeaturesex, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each feature variable by leader sex. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
+plot(p_heatmap_feature_sex)
+```
+
+```{r heatmapfeaturegroups, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each feature variable by group context. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
+plot(p_heatmap_feature_groups)
+```
+
+```{r featurecoefs}
+
+feature_models %>%
+  unnest(Tidy) %>% 
+  select(
+    Variable,
+    interceptAIC, 
+    multiAIC, 
+    AIC_diff,
+    effect,
+    group,
+    term,
+    estimate,
+    std.error,
+    conf.low,
+    conf.high,
+    statistic,
+    p.value
+  ) %>%
+  group_by(Variable) %>% 
+  mutate(
+    interceptAIC = c(interceptAIC[1], rep(NA, n() - 1)),
+    multiAIC = c(multiAIC[1], rep(NA, n() - 1)),
+    AIC_diff = c(AIC_diff[1], rep(NA, n() - 1)),
+  ) %>% 
+  ungroup %>% 
+  arrange(Variable) %>% 
+  gt %>% 
+  fmt_missing(columns = everything(), missing_text = '') %>% 
+  fmt_number(vars(estimate, std.error, statistic, conf.low, conf.high)) %>% 
+  fmt_scientific(vars(p.value), decimals = 1) %>% 
+  tab_options(table.font.size=10, data_row.padding = 0)
+
+```
+
 
 ## Ethnographer and Culture random effects
 
