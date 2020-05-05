@@ -199,6 +199,20 @@
       "Repository": "CRAN",
       "Hash": "0c54cf3a08cc0e550fbd64ad33166143"
     },
+    "bbmle": {
+      "Package": "bbmle",
+      "Version": "1.0.23.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "89eef0faafa404fe20f23290c322bbeb"
+    },
+    "bdsmatrix": {
+      "Package": "bdsmatrix",
+      "Version": "1.3-4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "1012f2033c32d595e1a16bee3bb0b3e5"
+    },
     "bibtex": {
       "Package": "bibtex",
       "Version": "0.4.2.2",

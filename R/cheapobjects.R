@@ -369,7 +369,7 @@ all_emms <- function(m, specs, upperlimit, title){
 
 df_compare <-
   multi_allvars %>% 
-  select(var, Variable, Evidence, Unimodel, Multimodel, AIC_diff, contains('pvalue')) %>% 
+  select(var, Variable, Evidence, Unimodel, Multimodel, Drop1, AIC_diff, contains('pvalue')) %>% 
   rowwise() %>% 
   mutate(
     AIC_table = list(bbmle::AICtab(Multimodel, Unimodel, weights = T)),
@@ -382,7 +382,7 @@ df_compare <-
   )
 
 # Adjust p-values across all variables simultaneously (rather than per variable)
-x <- as.matrix(df_compare[,8:11])
+x <- as.matrix(df_compare[9:12])
 x2 <- p.adjust(x, method = 'BH')
 x3 <- matrix(x, 109, 4)
 
@@ -401,7 +401,7 @@ df_compare2 <-
   df_compare %>% 
   select(-Variable) %>% 
   left_join(df_cult_support, by = c('var' = 'vars')) %>%
-  select(var, Variable, Evidence, Estimate, Multimodel, AIC_diff, Intercept_weight, Multi_weight, contains('pvalue_'))
+  select(var, Variable, Evidence, Estimate, Multimodel, Drop1, AIC_diff, Intercept_weight, Multi_weight, contains('pvalue_'))
 
 df_compare3 <-
   df_compare2 %>% 
@@ -415,6 +415,25 @@ heatmap_top_context <- var_heatmap(df_compare3, spec = 'group.structure2')
 #' any one variable with low p-values. Need to run drop1 to figure
 #' out which variables are making a difference, and then maybe figure
 #' out how to communicate those results.
+
+df_drop1 <-
+  df_compare2 %>% 
+  filter(AIC_diff < -2) %>%
+  mutate(
+    Drop1 = map(Drop1, ~ as_tibble(., rownames = 'Term'))
+  ) %>% 
+  unnest(Drop1) %>% 
+  group_by(Variable) %>% 
+  mutate(
+    aicdiff = AIC - AIC[1]
+  ) %>% 
+  select(Variable, Term, aicdiff) %>% 
+  spread(key = Term, value = aicdiff) %>% 
+  select(-`<none>`)
+
+matdrop1 <- as.matrix(df_drop1[-1])
+rownames(matdrop1) <- df_drop1$Variable
+heatmap_drop1 <- ggheatmap(matdrop1, hclust_method = 'ward.D', scale = 'row')
 
 # Treemaps -----------------------------------------------------------------
 
