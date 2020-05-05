@@ -105,7 +105,7 @@ plot_group_subsis <-
   ggplot(df_groups) +
   geom_mosaic(aes(x = product(group, subsistence), fill = group)) +
   scale_fill_viridis(discrete = T) +
-  labs(x="", y="", fill = "Group type") +
+  labs(x="", y="", fill = "Group context") +
   guides(fill = guide_legend(reverse = T)) +
   theme_minimal(15) 
 plot_group_subsis
@@ -429,11 +429,81 @@ df_drop1 <-
   ) %>% 
   select(Variable, Term, aicdiff) %>% 
   spread(key = Term, value = aicdiff) %>% 
-  select(-`<none>`)
+  select(
+    -`<none>`, 
+    `Group context` = group.structure2, 
+    `Leader sex` = demo_sex, 
+    Region = region, 
+    Subsistence = subsistence
+    )
 
 matdrop1 <- as.matrix(df_drop1[-1])
 rownames(matdrop1) <- df_drop1$Variable
-heatmap_drop1 <- ggheatmap(matdrop1, hclust_method = 'ward.D', scale = 'row')
+heatmap_drop1 <- 
+  ggheatmap(
+    matdrop1, 
+    hclust_method = 'ward.D', 
+    scale = 'row',
+    show_dendrogram = c(F, F),
+    labCol = c('Leader sex', 'Group context', 'Region', 'Subsistence'),
+    column_text_angle = 0,
+    cexCol = 1.3,
+    cexRow = 1.2
+    )
+# heatmap_drop1
+
+hagenheat <- function(d, hc_method = 'ward.D', dist = 'euclidean', scale. = 'row'){
+  # Assumes that first column is row labels
+  # Remaining columns are numeric
+  
+  if (scale. == 'row'){
+    d[-1] <- as_tibble(t(scale(t(d[-1]))))
+  } else if (scale. == 'col'){
+    d[-1] <- as_tibble(scale(d[-1])) 
+  }
+
+  hclustrows <- hclust(dist(d[-1], method = dist), method = hc_method)
+  hclustcols <- hclust(dist(t(d[-1]), method = dist), method = hc_method)
+  
+  d[1] <- factor(d[[1]], levels = d[hclustrows$order,][[1]])
+  
+  d %>%
+    gather(key = key, value = value, -1) %>% 
+    mutate(
+      key = factor(key, levels = colnames(d[-1])[hclustcols$order]),
+    ) %>% 
+    ggplot(aes_string('key', colnames(.)[1], fill = 'value')) + geom_raster() +
+    scale_fill_viridis() +
+    labs(x = "", y = "")
+  
+}
+
+heatmap_drop1 <- hagenheat(df_drop1) + theme_minimal(15)
+
+# Pick dimensions with large delta AIC
+
+df_drop1_thresh <-
+  bind_cols(
+    Variable = df_drop1$Variable,
+    df_drop1[-1] > 3.5
+  )
+
+thevars <- df_drop1_thresh$Variable[df_drop1_thresh$`Leader sex`]
+multi_aic_groups <- multi_aic[multi_aic$Variable %in% thevars,]
+p_heatmap_sex <- var_heatmap(multi_aic_groups, 'demo_sex')
+
+thevars <- df_drop1_thresh$Variable[df_drop1_thresh$`Subsistence`]
+multi_aic_groups <- multi_aic[multi_aic$Variable %in% thevars,]
+p_heatmap_subsis <- var_heatmap(multi_aic_groups, 'subsistence')
+
+thevars <- df_drop1_thresh$Variable[df_drop1_thresh$`Group context`]
+multi_aic_groups <- multi_aic[multi_aic$Variable %in% thevars,]
+p_heatmap_groups <- var_heatmap(multi_aic_groups, 'group.structure2')
+
+thevars <- df_drop1_thresh$Variable[df_drop1_thresh$`Region`]
+multi_aic_groups <- multi_aic[multi_aic$Variable %in% thevars,]
+p_heatmap_region <- var_heatmap(multi_aic_groups, 'region')
+
 
 # Treemaps -----------------------------------------------------------------
 

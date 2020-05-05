@@ -43,10 +43,10 @@ loadd(m_pvclust_func)
 loadd(m_pvclust_qual)
 loadd(multi_aic)
 loadd(multi_allvars)
-loadd(p_heatmap_groups)
-loadd(p_heatmap_region)
-loadd(p_heatmap_sex)
-loadd(p_heatmap_subsis)
+# loadd(p_heatmap_groups)
+# loadd(p_heatmap_region)
+# loadd(p_heatmap_sex)
+# loadd(p_heatmap_subsis)
 loadd(p_heatmap_feature_subsis)
 loadd(p_heatmap_feature_region)
 loadd(p_heatmap_feature_sex)
@@ -308,7 +308,7 @@ Subsistence strategy was confounded with continental region. African text record
 
 Subsistence strategy and group structure were also confounded. Hunter-gatherer text records often referred to residential leadership (`r hg_residential_pct`% of the total sample of hunter-gatherer text records) and kin leadership (`r hg_kin_pct`%), but rarely referred to supracommunity leadership (`r hg_supra_pct`%). Agricultural text records, on the other hand, rarely referring to residential leadership (`r agri_residential_pct`%) but often referring to supracommunity leadership (`r agri_supra_pct`%). Across all subsistence types, the most frequent group type was political groups at the community level, with the exception of agriculturalists in which supracommunity political groups are the most frequent group type. Leadership beyond the community level is relatively rare outside of agricultural populations and is especially rare among hunter-gatherers. See Figure \@ref(fig:grouptype).
 
-```{r grouptype, fig.width=20, fig.height=10, fig.cap="The distribution of text records by subsistence and group type. Areas of the bars are proportional to the number of text records in that category."}
+```{r grouptype, fig.width=20, fig.height=10, fig.cap="The distribution of text records by subsistence and group context. Areas of the bars are proportional to the number of text records in that category."}
 ggsave(file="Figures/group_subsis.pdf", plot_group_subsis, width=16, height=6)
 plot_group_subsis #+ plot_group_sex
 ```
@@ -360,52 +360,6 @@ ggsave(file="Figures/variablecostsbenefits.pdf", plot_costs_benefits)
 plot_costs_benefits
 ```
 
-## Universality in leadership dimensions, and variation by group structure, subsistence strategy, continental region, and leader sex
-
-To investigate variation in our four dimensions of leadership -- functions, qualities, costs, and benefits -- we fit a multiple logistic mixed effects regression model of each variable as a function of four factors: group structure, subsistence strategy, continental region, and leader sex, with random intercepts for author nested within culture. We then compared the AIC value of each model to a model with only the fixed and random intercepts. Models of leadship dimensions whose AIC values that showed less than a two-point reduction relative to the intercept-only model were deemed to not vary by these factors, whereas those whose AIC values were less two or more were deemed to vary.
-
-```{r universals}
-
-commondim_n <- sum(df_compare2$Estimate > 0.6)
-universals_n <- sum(df_compare2$AIC_diff >= -2 & df_compare2$Estimate > 0.6)
-vary_n <- sum(df_compare2$AIC_diff < -2 & df_compare2$Estimate > 0.6)
-
-```
-
-Among the `r commondim_n` leader dimensions that were found in at least 60% of cultures, there were `r universals_n` that did not show evidence of varying by the four factors, and `r vary_n` that did. Because evidence for these dimensions was common across cultures, the `r universals_n` unvarying dimension are condidates for universal dimensions of leadership. See Table \@ref(tab:leaderuniversals).
-
-```{r leaderuniversals}
-
-df_compare2 %>% 
-  filter(AIC_diff >= -2 & Estimate > 0.6) %>% 
-  mutate(
-    Type = map_chr(var, ~ str_split(., '_')[[1]][[1]]),
-    Type = str_replace(Type, '\\.', ' '),
-    Type = str_to_title(Type),
-    `Percent of cultures` = 100*Estimate
-  ) %>% 
-  select(Type, Variable, `Percent of cultures`) %>% 
-  arrange(-`Percent of cultures`) %>% 
-  kable(digits = 1, caption = "Candidate universal dimensions of leadership. These dimensions were common in the ethnographic record (appearing in at least 60% of cultures), and did not appear to vary by subsistence strategy, continental region, leader sex, or group context.")
-
-```
-
-Inspection of the `r vary_n` dimensions that varied showed that they varied primarily by group context, and not by subsistence strategy, continental region, or leader sex. See Figure \@ref(fig:heatmaptopcontext). The one exception was our most common variable, *High status*, which varied by multiple factors, and which we examine in detail below.
-
-```{r heatmaptopcontext, fig.cap="Leadership dimensions that were common in the ethnographic record, but varied by group context. Colors represent the relative estimated marginal means of specific group context. Means were standardized by rows, and therefore can only be compared within rows."}
-heatmap_top_context
-```
-
-We then created heatmaps that displayed the relative estimated marginal means for each level of these categorical explanatory variables for each outcome variable. See Figures S\@ref(fig:heatmapsubsis), S\@ref(fig:heatmapregion), S\@ref(fig:heatmapsex), and S\@ref(fig:heatmapgroups), and Tables S\@ref(tab:variablevars) and S\@ref(tab:universalvars).
-
-For subsistence strategy, hunter-gatherers had relatively more evidence for *Polygyny*, *Leader-Mating benefits*, *No coercive authority*, *Political appointments* and *Military command* than other subsistence strategies. Pastoralists had more evidence for *Ritual functions*, *Supernatural*, *Aggressiveness* and *High quality spouse*. Hunter-gatherers and pastoralists both had more evidence for *High status*, *Providing counsel/direction*, and *Providing subsistence*. The remaining subsistence strategies generally had relatively less evidence for all variables, except that the mixed strategy had relatively more evidence for *Organize cooperation*, *Distribute resources*, and *Prosocial investment*. See Figure S\@ref(fig:heatmapsubsis).
-
-For continental region, there was little strong patterning, except that Africa generally had relatively less evidence for any retained variable except *Provide counsel/direction*, and South America had relatively more evidence for several variables, including *Age*, *Follower-Social services benefits*, and *High status*. See Figure S\@ref(fig:heatmapregion).
-
-There was strong patterning of relative evidence for almost all variables by leader sex. Female leaders had relatively more evidence for *High quality spouse*, *Leader - Mating benefits*, *Polygyny*, *High status*, and *Age*. Male leaders had relatively more evidence for *Follower - Social  services benefits*, *Political appointments*, *Prosocial investment*, and *Leader-Social services costs*. Records pertaining to both sexes had relatively more evidence for *Organize cooperation*, *Providing subsistence*, *Ritual functions*, *Bravery*, *Experience/accomplished*, and few that overlapped with males, such as *Military command* and *Distributing resources*. See Figure S\@ref(fig:heatmapsex).
-
-There was also strong patterning of relative evidence for almost all variables by group structure. There was relatively more evidence for military traits in military groups, relatively more evidence for ritual and supernatural traits in religious groups, relatively more evidence for organizing cooperation and providing subsistence in economic groups, and so forth. Kin groups had relatively more evidence for *Provide counsel/direction*, *Prosocial investment*, *Age*, and *High status*. Community and residential groups had relatively low evidence for most variables, except that there was relatively more evidence for *High quality spouses* among residential group leaders. See Figure S\@ref(fig:heatmapgroups).
-
 ## Total leader benefits and costs
 
 We then explored relationships between total leader benefits and costs, summed across all leader benefit and cost variables, respectively, by the predictor variables used above (subsistence strategy, continental region, leader sex, and group structure). There was less evidence for leader costs, however, which limited our ability to fit exploratory regression models. Therefore, in modeling total leader costs, we used subsistence and group structure as predictors. In general, leaders at the highest supracommunity political level had the most evidence for receiving benefits and the least evidence for suffering costs and leaders of military groups has the highest total costs. See Figure \@ref(fig:leadertotalbenefits).
@@ -437,8 +391,53 @@ theplots[[1]] / theplots[[2]] + plot_annotation(title = 'Predictors of leader co
 
 ```
 
+## Universality in leadership dimensions, and variation by group structure, subsistence strategy, continental region, and leader sex
 
-## When do leaders also have high status? {highstatus}
+To investigate variation in our `r length(all_study_vars)` dimensions of leadership, we fit a multiple logistic mixed effects regression model of each dimension as a function of four factors: group structure, subsistence strategy, continental region, and leader sex, with random intercepts for author nested within culture. We then compared the AIC value of each model to a model with only the fixed and random intercepts. Models of leadship dimensions whose AIC values that showed less than a two-point reduction relative to the intercept-only model were deemed to not vary by these factors, whereas those whose AIC values were less two or more were deemed to vary.
+
+```{r universals}
+
+commondim_n <- sum(df_compare2$Estimate > 0.6)
+universals_n <- sum(df_compare2$AIC_diff >= -2 & df_compare2$Estimate > 0.6)
+vary_n <- sum(df_compare2$AIC_diff < -2)
+
+```
+
+We first examined the `r commondim_n` leader dimensions for which evidence was found in at least 60% of cultures. There were `r universals_n` that did not show evidence of varying by the four factors. Because evidence for these dimensions was common across cultures, the `r universals_n` unvarying dimension are condidates for universal dimensions of leadership. See Table \@ref(tab:leaderuniversals).
+
+```{r leaderuniversals}
+
+df_compare2 %>% 
+  filter(AIC_diff >= -2 & Estimate > 0.6) %>% 
+  mutate(
+    Type = map_chr(var, ~ str_split(., '_')[[1]][[1]]),
+    Type = str_replace(Type, '\\.', ' '),
+    Type = str_to_title(Type),
+    `Percent of cultures` = 100*Estimate
+  ) %>% 
+  select(Type, Variable, `Percent of cultures`) %>% 
+  arrange(-`Percent of cultures`) %>% 
+  kable(digits = 1, caption = "Candidate universal dimensions of leadership. These dimensions were common in the ethnographic record (appearing in at least 60% of cultures), and did not appear to vary by subsistence strategy, continental region, leader sex, or group context.")
+
+```
+
+We then examined the `r vary_n` models (out of `r nrow(multi_allvars)` total) whose AIC values indicated improved fits over the intercept-only models, i.e., those leadership dimensions that exhibited important variation by one or more of our four factors (see Tables S\@ref(tab:variablevars) and S\@ref(tab:universalvars)). To determine which of the four factors contributed to improved fit, we dropped each factor in turn and computed the change in AIC. For most of these `r vary_n` varying dimensions of leadership, one factor had a bigger effect on fit than the others. Variation in group context, in particular, was associated with variation in about half of the dimensions. See Figure \@ref(fig:heatmapdrop1).
+
+```{r heatmapdrop1, fig.width=8, fig.cap="Leadership dimensions that varied by subsistence strategy, continental region, leader sex, and/or group context. Colors represent the relative change in AIC value after dropping that factor from a multiple logistic mixed effects regression model. Yellow: factor improved fit relative to other factors. Black: factor did not improve fit relative to other factors. Delta AIC values were standardized by rows, and therefore can only be compared within rows."}
+heatmap_drop1
+```
+
+For each of our four factors, we then investigated which levels of the factor was associated with higher or lower levels of evidence. For instance, for subsistence strategy, there were three leadership dimensions in which it played an important role: No coercive authority, Provide subsistence, and Distribute resources. See Figure \@ref(fig:heatmapdrop1). We plotted a heatmap that displayed the relative marginal means for each subsistence strategy for each of the three leadership dimensions (see Figure S\@ref(fig:heatmapsubsis)). Hunter-gatherers had particularly high levels of evidence for No coercive authority, relative to the other subsistence strategies (and averaging over the levels of the other three factors), and Pastorlists had relatively low evidence for Distribute resources. For Region, see Figure, S\@ref(fig:heatmapregion); for Leader sex, see Figure S\@ref(fig:heatmapsex); and for Group context, see Figure S\@ref(fig:heatmapgroups).
+
+<!-- For subsistence strategy, hunter-gatherers had relatively more evidence for *Polygyny*, *Leader-Mating benefits*, *No coercive authority*, *Political appointments* and *Military command* than other subsistence strategies. Pastoralists had more evidence for *Ritual functions*, *Supernatural*, *Aggressiveness* and *High quality spouse*. Hunter-gatherers and pastoralists both had more evidence for *High status*, *Providing counsel/direction*, and *Providing subsistence*. The remaining subsistence strategies generally had relatively less evidence for all variables, except that the mixed strategy had relatively more evidence for *Organize cooperation*, *Distribute resources*, and *Prosocial investment*. See Figure S\@ref(fig:heatmapsubsis). -->
+
+<!-- For continental region, there was little strong patterning, except that Africa generally had relatively less evidence for any retained variable except *Provide counsel/direction*, and South America had relatively more evidence for several variables, including *Age*, *Follower-Social services benefits*, and *High status*. See Figure S\@ref(fig:heatmapregion). -->
+
+<!-- There was strong patterning of relative evidence for almost all variables by leader sex. Female leaders had relatively more evidence for *High quality spouse*, *Leader - Mating benefits*, *Polygyny*, *High status*, and *Age*. Male leaders had relatively more evidence for *Follower - Social  services benefits*, *Political appointments*, *Prosocial investment*, and *Leader-Social services costs*. Records pertaining to both sexes had relatively more evidence for *Organize cooperation*, *Providing subsistence*, *Ritual functions*, *Bravery*, *Experience/accomplished*, and few that overlapped with males, such as *Military command* and *Distributing resources*. See Figure S\@ref(fig:heatmapsex). -->
+
+<!-- There was also strong patterning of relative evidence for almost all variables by group structure. There was relatively more evidence for military traits in military groups, relatively more evidence for ritual and supernatural traits in religious groups, relatively more evidence for organizing cooperation and providing subsistence in economic groups, and so forth. Kin groups had relatively more evidence for *Provide counsel/direction*, *Prosocial investment*, *Age*, and *High status*. Community and residential groups had relatively low evidence for most variables, except that there was relatively more evidence for *High quality spouses* among residential group leaders. See Figure S\@ref(fig:heatmapgroups). -->
+
+## When do leaders also have high status?
 
 ```{r highstatuscalc}
 statusFracTxt <- qualities_support_txt$Estimate[qualities_support_txt$vars == 'qualities_HighStatus']
@@ -523,7 +522,19 @@ We then fit separate logistic mixed effects models of each feature as a function
 
 # Discussion
 
-This exploratory study extracted quantitative measures of the qualities, functions, benefits, and costs of leadership from the ethnographic record. The variables on leader qualities and functions were *not* determined prior to the study but were instead identified and coded during multiple passes through `r nrow(text_records)` texts on leadership obtained from the eHRAF (see Methods section). These data therefore represent the broadest and most comprehensive view of the qualities of leaders (i.e., the types of people that occupy leadership roles), the functions of leaders (i.e., what leaders do), and the costs and benefits of leadership for both leaders and followers across a diverse and culturally representative sample of the ethnographic record. Results revealed universal dimensions of human leadership as well as important variation by group context, subsistence type, and sex of the leader.
+This exploratory study systematically evaluated evidence for `r length(all_study_vars)` dimensions of leadership in a stratified random sample of the ethnographic record of `r nrow(leader_cult)` largely non-industrial (non-WEIRD) cultures that included hunter-gatherers, pastorlists, horticulturalists, and agriculturalists. The quality and function dimensions were *not* determined prior to the study but were instead identified and coded during multiple passes through `r nrow(text_records)` texts on leadership obtained from the eHRAF (see Methods section). Results revealed universal dimensions of human leadership as well as important variation by group context, subsistence type, continental region, and sex of the leader.
+
+Most discussions of leadership in the ethnographic record pertained to male leaders of community-level political groups, with leadership in residential subgroups and kin groups relatively more important in hunter-gatherer and pastoralist societies, and supracommunity political groups more important in horticultural and agricultural societies. Leadership in all social contexts, including economic, military, and religious, was present across all subsistence strategies, however. See Figure \@ref(fig:grouptype). The relative unimportance of supracommunity leadership in hunter-gatherers and pastorlists, and the relative importance of leadership in residential subgroups, highlights a major difference with WEIRD societies that more closely resemble the agricultural societies in our sample that show the opposite pattern.
+
+
+
+
+
+One possible interpretation of the negative relationships between political leadership at the community leadership or above and leadership in kin groups or residential groups is that as political structures become more institutionalized and economic systems transcend the household, leadership within households and residential groups diminishes. It is interesting, however, that even among the agricultural populations that are characterized by leadership systems beyond the community level, leadership within residential and family group persists. For example, among rural Korean populations a chairwomen of local organizations maintain important leadership positions within the groups and represent the group to governmental forces. @aa01-062 [p. 173] describes that in these local 'clubs', 
+
+>"the procedure of discussion and decision-making is not based on an idea of democracy but rather on that of unanimity. In this context, the ‘leader’ does not have to be a person of marked influence in the decision-making process. She is not a figurehead but rather a middleman in the meeting, functioning, in effect, as a go-between for the group. There is no despotic idea in the context of a total consensus in this essentially egalitarian society. The chairwoman stands as a middleman between the government and the village. Although the government may call her a ‘leader’ in the village, she properly does not occupy this role."
+
+
 
 ## Subsistence strategy and group context effects on human leadership
 
@@ -541,8 +552,6 @@ Leadership in residential subgroups (e.g., social groups, performance groups) wa
 
 Hunter-gatherers and pastoralists, populations more likely to experience high residential mobility [@wild_making_2019; @rigby_persistent_1985; @kelly_foraging_2013], exhibited greater relative frequencies of leadership within residential groups and kin groups. Pastoralists, however, rely in part on a highly defensible resource base (i.e., livestock) and exhibit leadership beyond the community more so than hunter-gatherers and on par with horticulturalists. Pastoral and horticultural populations often experience elevated rates of inter-group conflict relative to mobile hunter-gatherers and these results are consistent with a relationship between increased inter-group conflict and more elaborated political leadership systems [@ember_warfare_1992]. For example, among the Somali, a politically complex and socially stratified agro-pastoralists group distributed across the Horn of Africa, @mo04-021 [p. 58] notes that, "the Sultan does not lead the army of the tribe in war. He names a chief of the armed forces."
 
-Figure \@ref(fig:grouptype) is consistent with a negative relationships between political leadership at the community leadership or above and leadership in kin groups or residential groups. One possible interpretation is that as political structures become more institutionalized and economic systems transcend the household, leadership within households and residential groups diminishes. It is interesting, however, that even among the agricultural populations that are characterized by leadership systems beyond the community level, leadership within residential and family group persists. For example, among rural Korean populations a chairwomen of local organizations maintain important leadership positions within the groups and represent the group to governmental forces. @aa01-062 [p. 173] describes that in these local 'clubs', 
->"the procedure of discussion and decision-making is not based on an idea of democracy but rather on that of unanimity. In this context, the ‘leader’ does not have to be a person of marked influence in the decision-making process. She is not a figurehead but rather a middleman in the meeting, functioning, in effect, as a go-between for the group. There is no despotic idea in the context of a total consensus in this essentially egalitarian society. The chairwoman stands as a middleman between the government and the village. Although the government may call her a ‘leader’ in the village, she properly does not occupy this role."
 
 ## Leader functions and qualities
 
@@ -721,11 +730,6 @@ Figure \@ref(fig:highstatusplot) depicts the `r length(highstatus_plot$data$Word
 
 
 ## Relative effects of subsistence strategy, region, leader sex, and group structure on all variables
-
-```{r heatmapdrop1, fig.cap="Heatmap of delta AIC when each predictor variable was dropped from the model. Larger values (yellow) indicate that a predictor (columns) accounted for variation in a leadership dimension (rows). Values were scaled by rows, and so can only be compared within rows."}
-heatmap_drop1
-```
-
 
 ```{r heatmapsubsis, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each outcome variable by each subsistence strategy. Estimated marginal means were standardized by rows, and therefore can only be compared within rows, i.e., the colors represent the relative amount of evidence across levels of the categorical predictor within the same outcome variable."}
 
