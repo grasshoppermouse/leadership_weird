@@ -365,6 +365,46 @@ all_emms <- function(m, specs, upperlimit, title){
 }
 
 
+# Elastic net plot function
+
+elastic_plot <- 
+  function(ob, title){
+    
+    if (!is.null(ob$vartypes)){
+      p <- 
+        ggplot(
+          ob$df_coef, 
+          aes(Coefficient, Variable, shape = lambda, colour = `Variable type`)
+        )
+    } else {
+      p <- 
+        ggplot(
+          ob$df_coef, 
+          aes(Coefficient, Variable, colour = lambda)
+        )
+    }
+    
+    p <-
+      p +
+      geom_point(size = 3) +
+      geom_vline(xintercept = 0, linetype = 'dotted') +
+      theme_bw() +
+      labs(
+        x = 'Coefficient', 
+        y = '', 
+        title = title, 
+        subtitle = 
+          paste(
+            "alpha = ",
+            ob$alpha, 
+            '; lambda (min) = ', 
+            signif(ob$cv.model$lambda.min, 2), 
+            '; lambda (1 SE) = ', 
+            signif(ob$cv.model$lambda.1se, 2)
+          )
+      )
+  }
+
 # Comparing universal vs variable vars ------------------------------------
 
 df_compare <-
