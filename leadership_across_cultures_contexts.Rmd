@@ -450,7 +450,7 @@ statusPercCult <- signif(100*statusFracCult, 3)
 
 *High status* was the most frequently identified leader quality in the sample, with `r statusPercTxt`% of text records and `r statusPercCult`% of cultures containing evidence that leaders had high social status. To explore factors that distinguished these records from those with no evidence for high status, we first created a document-term matrix (DTM) of all "informative" words in our corpus of texts and the frequency with which they occurred in each text record (see supplementary information for details). We then fit an elasticnet logistic regression model (with lasso penalty) of *High status* (0/1) as a function of the frequencies of all `r ncol(leader_dtm)-1` words. Words that were strong positive predictors epitomized the semantic content of the text records which provided evidence of high status as a quality of leaders. These included *`r rev(highstatus_plot$data$Word)[1]`* and *`r rev(highstatus_plot$data$Word)[2]`*, which were the strongest predictive terms; *`r rev(highstatus_plot$data$Word)[3]`* and *`r rev(highstatus_plot$data$Word)[4]`* were also relatively strong predictors; and *`r rev(highstatus_plot$data$Word)[5]`* and *`r rev(highstatus_plot$data$Word)[6]`*, which were also positive predictors. Notable terms which offered predictive value but with near-zero coefficients included, *influence*, *authority*, *headman*, and *chief*. See Figure S\@ref(fig:highstatusplot).
 
-We then investigated if the proportion of text records with evidence for *High status* differed among the different levels of group structure, subsistence strategies, continental regions, and leader sex (again using a logistic mixed effects model with these variables as fixed effects and authors nested within cultures as random intercepts). There were modest differences. Hunter-gatherers and pastoralists were more likely to provide evidence for high status leaders, as was South America and East Asia. Female leaders were also more likely to be identified as high status. Somewhat counter-intuitively, the proportion of text records indicating high status leaders was lowest at the highest level of political organization, perhaps because it would have been superfluous to note that kings and chiefs were high status. See Figure \@ref(fig:groupstatus). For the table of coefficients, see Supplementary Table X.
+We then investigated if the proportion of text records with evidence for *High status* differed among the different levels of group structure, subsistence strategies, continental regions, and leader sex (again using a logistic mixed effects model with these variables as fixed effects and authors nested within cultures as random intercepts). There were modest differences. Hunter-gatherers and pastoralists were more likely to provide evidence for high status leaders, as were South America and East Eurasia. Female leaders were also more likely to be identified as high status. Somewhat counter-intuitively, the proportion of text records indicating high status leaders was lowest at the highest level of political organization, perhaps because it would have been superfluous to note that kings and chiefs were high status. See Figure \@ref(fig:groupstatus). For the table of coefficients, see Supplementary Table X.
 
 <!-- NEED TO DO TABLE -->
 
@@ -731,25 +731,25 @@ Figure \@ref(fig:highstatusplot) depicts the `r length(highstatus_plot$data$Word
 
 ## Relative effects of subsistence strategy, region, leader sex, and group structure on all variables
 
-```{r heatmapsubsis, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each outcome variable by each subsistence strategy. Estimated marginal means were standardized by rows, and therefore can only be compared within rows, i.e., the colors represent the relative amount of evidence across levels of the categorical predictor within the same outcome variable."}
+```{r heatmapsubsis, fig.width=10, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each outcome variable by each subsistence strategy. Estimated marginal means were standardized by rows, and therefore can only be compared within rows, i.e., the colors represent the relative amount of evidence across levels of the categorical predictor within the same outcome variable."}
 
-plot(p_heatmap_subsis)
+p_heatmap_subsis + theme_minimal(15)
 ```
 
-```{r heatmapregion, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each outcome variable by each continental region. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
+```{r heatmapregion, fig.width=10, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each outcome variable by each continental region. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
 
-plot(p_heatmap_region)
+p_heatmap_region + theme_minimal(15)
 ```
 
 
-```{r heatmapsex, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each outcome variable by leader sex. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
+```{r heatmapsex, fig.width=10, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each outcome variable by leader sex. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
 
-plot(p_heatmap_sex)
+p_heatmap_sex + theme_minimal(15)
 ```
 
-```{r heatmapgroups, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each outcome variable by each group context. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
+```{r heatmapgroups, fig.width=10, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each outcome variable by each group context. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
 
-plot(p_heatmap_groups)
+p_heatmap_groups + theme_minimal(15)
 ```
 
 ```{r multiout}

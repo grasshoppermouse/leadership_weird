@@ -245,6 +245,32 @@ textrecord_support_multi <- function(thedata, thevars){
   )
 }
 
+hagenheat <- function(d, hc_method = 'ward.D', dist = 'euclidean', scale. = 'row'){
+  # Assumes that first column is row labels, and that
+  # remaining columns are numeric
+  
+  if (scale. == 'row'){
+    d[-1] <- as_tibble(t(scale(t(d[-1]))))
+  } else if (scale. == 'col'){
+    d[-1] <- as_tibble(scale(d[-1])) 
+  }
+  
+  hclustrows <- hclust(dist(d[-1], method = dist), method = hc_method)
+  hclustcols <- hclust(dist(t(d[-1]), method = dist), method = hc_method)
+  
+  d[1] <- factor(d[[1]], levels = d[hclustrows$order,][[1]])
+  
+  d %>%
+    gather(key = key, value = value, -1) %>% 
+    mutate(
+      key = factor(key, levels = colnames(d[-1])[hclustcols$order]),
+    ) %>% 
+    ggplot(aes_string('key', colnames(.)[1], fill = 'value')) + geom_raster() +
+    scale_fill_viridis() +
+    scale_x_discrete(labels = scales::label_wrap(10)) +
+    labs(x = "", y = "")
+}
+
 var_heatmap <- function(df_models, spec){
   d <- 
     df_models %>%
@@ -257,11 +283,11 @@ var_heatmap <- function(df_models, spec){
     select(Variable, prob, all_of(spec)) %>% 
     spread(key=spec, value=prob) # worried about using char vec here, but it seems to work
   
-  mat <- as.matrix(d[-1])
-  rownames(mat) <- d$Variable
+  # mat <- as.matrix(d[-1])
+  # rownames(mat) <- d$Variable
   # heatmap(mat, hclustfun = function(x) hclust(x, method = 'ward.D'), scale = 'row')
-  ggheatmap(mat, hclustmethod = 'ward.D', scale = 'row')
-  
+  # ggheatmap(mat, hclustmethod = 'ward.D', scale = 'row')
+  hagenheat(d)
 }
 
 

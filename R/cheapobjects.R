@@ -364,6 +364,20 @@ all_emms <- function(m, specs, upperlimit, title){
   return(theplots)
 }
 
+# Elasticnet
+
+nonhighstatus_vars <- all_study_vars[all_study_vars != 'qualities_HighStatus']
+
+y <- all_data$qualities_HighStatus
+x <- as.matrix(all_data[nonhighstatus_vars])
+
+m_elastic_status <- cv.glmnet(x, y, family = 'binomial', alpha = 1)
+plot(m_elastic_status)
+
+coefs <- coef(m_elastic_status, s = m_elastic_status$lambda.min)[,1]
+names(coefs) <- var_names[rownames(coef)]
+
+ggdotchart(coefs[coefs != 0])
 
 # Comparing universal vs variable vars ------------------------------------
 
@@ -451,32 +465,6 @@ heatmap_drop1 <-
     cexRow = 1.2
     )
 # heatmap_drop1
-
-hagenheat <- function(d, hc_method = 'ward.D', dist = 'euclidean', scale. = 'row'){
-  # Assumes that first column is row labels
-  # Remaining columns are numeric
-  
-  if (scale. == 'row'){
-    d[-1] <- as_tibble(t(scale(t(d[-1]))))
-  } else if (scale. == 'col'){
-    d[-1] <- as_tibble(scale(d[-1])) 
-  }
-
-  hclustrows <- hclust(dist(d[-1], method = dist), method = hc_method)
-  hclustcols <- hclust(dist(t(d[-1]), method = dist), method = hc_method)
-  
-  d[1] <- factor(d[[1]], levels = d[hclustrows$order,][[1]])
-  
-  d %>%
-    gather(key = key, value = value, -1) %>% 
-    mutate(
-      key = factor(key, levels = colnames(d[-1])[hclustcols$order]),
-    ) %>% 
-    ggplot(aes_string('key', colnames(.)[1], fill = 'value')) + geom_raster() +
-    scale_fill_viridis() +
-    labs(x = "", y = "")
-  
-}
 
 heatmap_drop1 <- hagenheat(df_drop1) + theme_minimal(15)
 
