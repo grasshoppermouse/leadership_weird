@@ -366,58 +366,25 @@ all_emms <- function(m, specs, upperlimit, title){
 
 # Elasticnet
 
-nonhighstatus_vars <- all_study_vars[all_study_vars != 'qualities_HighStatus']
 
-y <- all_data$qualities_HighStatus
-x <- as.matrix(all_data[nonhighstatus_vars])
-
-m_elastic_status <- cv.glmnet(x, y, family = 'binomial', alpha = 1)
-plot(m_elastic_status)
-
-coefs <- coef(m_elastic_status, s = m_elastic_status$lambda.min)[,1]
-names(coefs) <- var_names[rownames(coef)]
-
-ggdotchart(coefs[coefs != 0])
-
-# Elastic net plot function
-
-elastic_plot <- 
-  function(ob, title){
-    
-    if (!is.null(ob$vartypes)){
-      p <- 
-        ggplot(
-          ob$df_coef, 
-          aes(Coefficient, Variable, shape = lambda, colour = `Variable type`)
-        )
-    } else {
-      p <- 
-        ggplot(
-          ob$df_coef, 
-          aes(Coefficient, Variable, colour = lambda)
-        )
-    }
-    
-    p <-
-      p +
-      geom_point(size = 3) +
-      geom_vline(xintercept = 0, linetype = 'dotted') +
-      theme_bw() +
-      labs(
-        x = 'Coefficient', 
-        y = '', 
-        title = title, 
-        subtitle = 
-          paste(
-            "alpha = ",
-            ob$alpha, 
-            '; lambda (min) = ', 
-            signif(ob$cv.model$lambda.min, 2), 
-            '; lambda (1 SE) = ', 
-            signif(ob$cv.model$lambda.1se, 2)
-          )
-      )
-  }
+# func_qual_vars <- c(function_vars, quality_vars)
+# nonhighstatus_vars <- func_qual_vars[func_qual_vars != 'qualities_HighStatus']
+# 
+# y <- all_data$qualities_HighStatus
+# x <- as.matrix(all_data[nonhighstatus_vars])
+# 
+# m_elastic_status <- cv.glmnet(x, y, family = 'binomial', alpha = 1)
+# plot(m_elastic_status)
+# coefs <- coef(m_elastic_status, s = m_elastic_status$lambda.1se)[-1,1]
+# names(coefs) <- var_names[names(coefs)]
+# 
+# plot_elastic_status <- 
+#   ggdotchart(exp(coefs[coefs != 0])) +
+#   geom_vline(xintercept = 1, linetype = 'dotted') +
+#   hagenutils::scale_color_binary() +
+#   guides(colour=F, shape=F) +
+#   scale_x_log10()
+# plot_elastic_status
 
 # Comparing universal vs variable vars ------------------------------------
 

@@ -22,6 +22,7 @@ library(gt)
 loadd(all_data)
 loadd(all_data2)
 loadd(all_study_vars)
+loadd(coercive_plot)
 loadd(df_func)
 loadd(df_qual)
 loadd(features)
@@ -52,6 +53,8 @@ loadd(p_heatmap_feature_region)
 loadd(p_heatmap_feature_sex)
 loadd(p_heatmap_feature_groups)
 loadd(plot_costs_benefits)
+loadd(plot_elastic_status)
+loadd(plot_elastic_coercive)
 loadd(plot_func_qual)
 loadd(plot_pubdate)
 loadd(qualities_support_cult)
@@ -355,40 +358,9 @@ The frequency of leader and follower costs and benefits were estimated similarly
 
 Followers on the other hand most commonly benefited from leadership systems through receiving material resources (documented in about 50% of cultures) but otherwise most frequently through social services provided (documented in about 35% of cultures). Mating and fitness benefits were relatively rare for followers. Followers were most frequently described as incurring costs in the form of material resources lost (documented in about 40% of cultures) and in providing social services (documented in about 25% of cultures). See Figure \@ref(fig:varsupportcb).
 
-```{r varsupportcb, echo=FALSE, warning=FALSE, message=F, fig.width=15, fig.height=11, fig.cap="Support for each coded variable for the costs and benefits of leadership and followership. Blue circles: percent of text records with evidence of support (95% CI computed with a binomial mixed effects models with random intercept for author nested within culture). Red triangles: percent of cultures with evidence of support (95% CI computed with a cluster bootstrap)."}
+```{r varsupportcb, echo=FALSE, warning=FALSE, message=F, fig.width=15, fig.height=11, fig.cap="Support for each coded variable for the costs and benefits of leadership and followership. Blue: percent of text records with evidence of support (95% CI computed with a binomial mixed effects models with random intercept for author nested within culture). Red: percent of cultures with evidence of support (95% CI computed with a cluster bootstrap)."}
 ggsave(file="Figures/variablecostsbenefits.pdf", plot_costs_benefits)
 plot_costs_benefits
-```
-
-## Total leader benefits and costs
-
-We then explored relationships between total leader benefits and costs, summed across all leader benefit and cost variables, respectively, by the predictor variables used above (subsistence strategy, continental region, leader sex, and group structure). There was less evidence for leader costs, however, which limited our ability to fit exploratory regression models. Therefore, in modeling total leader costs, we used subsistence and group structure as predictors. In general, leaders at the highest supracommunity political level had the most evidence for receiving benefits and the least evidence for suffering costs and leaders of military groups has the highest total costs. See Figure \@ref(fig:leadertotalbenefits).
-
-<!-- NEED TO DO -- ADD TABLE? -->
-
-```{r leadertotalbenefits, fig.width=10, fig.cap="Estimated marginal means of a logistic mixed effects regression model of leader total benefits as a function of A. subsistence strategy, B. group structure, C. continental region, and D. leader sex. Model included random intercepts for ethnographer nested within culture. Values are on the response scale."}
-# p1 <- 
-#   hagenutils::ggemmeans(emmeans(m_ldrtotben, type = 'response', specs = 'group.structure2')) +
-#   scale_x_continuous(limits = c(0, 0.1)) +
-#   labs(title = "Total leader benefits", x = "", y = "")
-# 
-# p2 <- hagenutils::ggemmeans(emmeans(m_ldrtotcost, type = 'response', specs = 'group.structure2')) +
-#   scale_x_continuous(limits = c(0, 0.1)) +
-#   labs(title = "Total leader costs", x = "\nProbability", y = "")
-# 
-# p1 + p2 + plot_layout(ncol = 1) + plot_annotation(tag_levels = 'A')
-
-theplots <- all_emms(m_ldrtotben, c('subsistence', 'group.structure2', 'region', 'demo_sex'), 0.1, 'Predictors of leader benefits')
-
-((theplots[[1]] / theplots[[2]]) | (theplots[[3]] / theplots[[4]])) + plot_annotation(title = 'Predictors of leader benefits', tag_levels = 'A')
-
-```
-
-```{r leadertotalcosts, fig.cap="Estimated marginal means of a logistic mixed effects regression model of leader total costs as a function of A. subsistence strategy, and B. group structure. Model included random intercepts for ethnographer nested within culture. Values are on the response scale."}
-theplots <- all_emms(m_ldrtotcost, c('subsistence', 'group.structure2'), 0.06, 'Predictors of leader costs')
-
-theplots[[1]] / theplots[[2]] + plot_annotation(title = 'Predictors of leader costs', tag_levels = 'A')
-
 ```
 
 ## Universality in leadership dimensions, and variation by group structure, subsistence strategy, continental region, and leader sex
@@ -437,7 +409,7 @@ For each of our four factors, we then investigated which levels of the factor wa
 
 <!-- There was also strong patterning of relative evidence for almost all variables by group structure. There was relatively more evidence for military traits in military groups, relatively more evidence for ritual and supernatural traits in religious groups, relatively more evidence for organizing cooperation and providing subsistence in economic groups, and so forth. Kin groups had relatively more evidence for *Provide counsel/direction*, *Prosocial investment*, *Age*, and *High status*. Community and residential groups had relatively low evidence for most variables, except that there was relatively more evidence for *High quality spouses* among residential group leaders. See Figure S\@ref(fig:heatmapgroups). -->
 
-## When do leaders also have high status?
+## When do leaders have high status?
 
 ```{r highstatuscalc}
 statusFracTxt <- qualities_support_txt$Estimate[qualities_support_txt$vars == 'qualities_HighStatus']
@@ -450,6 +422,14 @@ statusPercCult <- signif(100*statusFracCult, 3)
 
 *High status* was the most frequently identified leader quality in the sample, with `r statusPercTxt`% of text records and `r statusPercCult`% of cultures containing evidence that leaders had high social status. To explore factors that distinguished these records from those with no evidence for high status, we first created a document-term matrix (DTM) of all "informative" words in our corpus of texts and the frequency with which they occurred in each text record (see supplementary information for details). We then fit an elasticnet logistic regression model (with lasso penalty) of *High status* (0/1) as a function of the frequencies of all `r ncol(leader_dtm)-1` words. Words that were strong positive predictors epitomized the semantic content of the text records which provided evidence of high status as a quality of leaders. These included *`r rev(highstatus_plot$data$Word)[1]`* and *`r rev(highstatus_plot$data$Word)[2]`*, which were the strongest predictive terms; *`r rev(highstatus_plot$data$Word)[3]`* and *`r rev(highstatus_plot$data$Word)[4]`* were also relatively strong predictors; and *`r rev(highstatus_plot$data$Word)[5]`* and *`r rev(highstatus_plot$data$Word)[6]`*, which were also positive predictors. Notable terms which offered predictive value but with near-zero coefficients included, *influence*, *authority*, *headman*, and *chief*. See Figure S\@ref(fig:highstatusplot).
 
+To determine which leader qualities and functions were associated with evidence for high status, we fit a logistic elasticnet model of *High status* as a function of all quality and function variables, with the lasso penalty ($\alpha = 1$). The non-zero coefficients indicated that *Punishment* was a negative predictor, all other functions, including *Organize cooperation*, *Ritual functions*, and *Provide counsel/direction* were non-predictors, and *Wealthy*, *Strategic nepotism*, *Age*, *Experienced/accomplished*, and several others, were positive predictors. See Figure \@ref(fig:elastichighstatus).
+
+```{r elastichighstatus, fig.width=10, fig.cap="Coefficients of logistic elasticnet regression models [@friedman_regularization_2010] of evidence for *High Status*. A: Coefficients indicate the words whose frequencies in each text record best predicted evidence for *High status* in each text record. B: Non-zero coefficients of all quality and function variables that best predicted evidence for *High status*. Both models used the lasso penality ($\\alpha=1$), with $\\lambda_{1se}$ chosen by cross-validation (1 SE from \\lambda_{min}). Red values are positive predictors; purple values are negative predictors. Coefficents = 0 not displayed. X-axes are odds ratios on a log 10 scale."}
+
+highstatus_plot <- highstatus_plot + scale_x_log10()
+highstatus_plot + plot_elastic_status + plot_annotation(title= "Predictors of High status", tag_levels = 'A', caption = 'Odds ratio', theme=theme(plot.caption=element_text(hjust=0.5, size=12, margin=margin(t=0))))
+```
+
 We then investigated if the proportion of text records with evidence for *High status* differed among the different levels of group structure, subsistence strategies, continental regions, and leader sex (again using a logistic mixed effects model with these variables as fixed effects and authors nested within cultures as random intercepts). There were modest differences. Hunter-gatherers and pastoralists were more likely to provide evidence for high status leaders, as were South America and East Eurasia. Female leaders were also more likely to be identified as high status. Somewhat counter-intuitively, the proportion of text records indicating high status leaders was lowest at the highest level of political organization, perhaps because it would have been superfluous to note that kings and chiefs were high status. See Figure \@ref(fig:groupstatus). For the table of coefficients, see Supplementary Table X.
 
 <!-- NEED TO DO TABLE -->
@@ -461,6 +441,17 @@ theplots <- all_emms(m_status_group2, c('subsistence', 'group.structure2', 'regi
 
 ((theplots[[1]] / theplots[[2]]) | (theplots[[3]] / theplots[[4]])) + plot_annotation(title = 'Predictors of leader status', tag_levels = 'A')
 ```
+
+## When do leaders have coercive authority?
+
+
+```{r elasticcoercive, fig.width=10, fig.cap="Coefficients of logistic elasticnet regression models [@friedman_regularization_2010] of evidence for *Coercive authority*. A: Coefficients indicate the words whose frequencies in each text record best predicted evidence for *Coercive authority* in each text record ($\\alpha = 0.5$). B: Non-zero coefficients of all quality and function variables that best predicted evidence for *Coercive authority* ($\\alpha=1$). Both models chose $\\lambda_{1se}$ by cross-validation (1 SE from \\lambda_{min}). Red values are positive predictors; purple values are negative predictors. Coefficents = 0 not displayed. X-axes are odds ratios on a log 10 scale."}
+
+coercive_plot_plot <- coercive_plot + scale_x_log10()
+coercive_plot_plot + plot_elastic_coercive + plot_annotation(title= "Predictors of Coercive authority", tag_levels = 'A', caption = 'Odds ratio', theme=theme(plot.caption=element_text(hjust=0.5, size=12, margin=margin(t=0))))
+```
+
+
 
 ## Dimension reduction
 
@@ -523,6 +514,12 @@ We then fit separate logistic mixed effects models of each feature as a function
 # Discussion
 
 This exploratory study systematically evaluated evidence for `r length(all_study_vars)` dimensions of leadership in a stratified random sample of the ethnographic record of `r nrow(leader_cult)` largely non-industrial (non-WEIRD) cultures that included hunter-gatherers, pastorlists, horticulturalists, and agriculturalists. The quality and function dimensions were *not* determined prior to the study but were instead identified and coded during multiple passes through `r nrow(text_records)` texts on leadership obtained from the eHRAF (see Methods section). Results revealed universal dimensions of human leadership as well as important variation by group context, subsistence type, continental region, and sex of the leader.
+
+We found strong evidence that several dimensions of leadership were universal across cultures, and across group contexts within cultures. We found evidence that leaders function to resolve conflict, organization cooperation, and provide counsel and direction in over 70% of cultures, and are seen as high status, knowledgeable and intelligence, and experienced and accomplished in about 80% or more of cultures. See Figure \@ref(fig:varsupport). Leaders benefitted materially, reproductively, and socially in 50% or more of cultures. See Figure \@ref(varsupportcb). Some common leader dimensions also did not vary by continental region, subsistence strategy, group context, or leader sex. These included qualities, such as being knowledgeable and intelligence, wealthly, strategically nepotistic, and generous, and functions, such as resolving conflict and representing the group. These dimensions are therefore candidates for universal dimensions of human leadership. By "universal", we do not mean that all leaders have all these traits. Instead, we mean that these traits are found in some leaders across all cultures and contexts.
+
+Many leadership dimensions did vary across cultures and contexts, however, including functions such as organizing cooperation, providing counsel and direction and prosocial investment, and qualities such as high status and aggressiveness. See Figure \@ref(fig:heatmapdrop1)
+
+
 
 Most discussions of leadership in the ethnographic record pertained to male leaders of community-level political groups, with leadership in residential subgroups and kin groups relatively more important in hunter-gatherer and pastoralist societies, and supracommunity political groups more important in horticultural and agricultural societies. Leadership in all social contexts, including economic, military, and religious, was present across all subsistence strategies, however. See Figure \@ref(fig:grouptype). The relative unimportance of supracommunity leadership in hunter-gatherers and pastorlists, and the relative importance of leadership in residential subgroups, highlights a major difference with WEIRD societies that more closely resemble the agricultural societies in our sample that show the opposite pattern.
 
@@ -723,7 +720,7 @@ These data present an opportunity to explore the relationship between high statu
 We used lasso regression as a variable selection technique, which is especially useful when the number of predictors is much greater than the number of cases (i.e., $p > > n$). Lasso regression has a penalty or shrinkage term, $\lambda$: larger values of $\lambda$ retain more variables in the model, at the risk of over-fitting, whereas smaller values of $\lambda$ decrease the number of predictors retained in the model, at the risk of under-fitting. The optimal value of $\lambda$ can be estimated with cross-validation [@tibshirani_regression_1996; @zou_regularization_2005]. We used the glmnet package [@friedman_regularization_2010] to fit a lasso regression model to determine which words best predicted evidence for high status as a leader quality. We used tenfold cross-validation to choose the $\lambda$ parameter that minimized deviance. We then plotted all the non-zero coefficients (Figure \@ref(fig:highstatusplot)). 
 
 ```{r highstatusplot, echo=F, message=F, fig.width=8, fig.height=6, fig.align='center', fig.cap="Lasso logistic regression coefficients, which indicate the words whose frequencies in each text record best predicted evidence for the *high status* leader quality in each text record. Coefficients estimated with glmnet package using cross-validation to determine the optimal value of lambda [@friedman_regularization_2010]. Red values are positive predictors; purple values are negative predictors. X-axis is on a log 10 scale."}
-highstatus_plot + scale_x_log10()
+# highstatus_plot + scale_x_log10()
 ```
 
 Figure \@ref(fig:highstatusplot) depicts the `r length(highstatus_plot$data$Word)` words with non-zero (mostly positive) coefficients. The words most predictive of evidence for high status leaders are *`r rev(highstatus_plot$data$Word)[1:4]`*, and *`r rev(highstatus_plot$data$Word)[5]`*.
@@ -792,6 +789,37 @@ multi_out %>%
   digits = 2
   )
   
+```
+
+## Total leader benefits and costs
+
+We then explored relationships between total leader benefits and costs, summed across all leader benefit and cost variables, respectively, by the predictor variables used above (subsistence strategy, continental region, leader sex, and group structure). There was less evidence for leader costs, however, which limited our ability to fit exploratory regression models. Therefore, in modeling total leader costs, we used subsistence and group structure as predictors. In general, leaders at the highest supracommunity political level had the most evidence for receiving benefits and the least evidence for suffering costs and leaders of military groups has the highest total costs. See Figure \@ref(fig:leadertotalbenefits).
+
+<!-- NEED TO DO -- ADD TABLE? -->
+
+```{r leadertotalbenefits, fig.width=10, fig.cap="Estimated marginal means of a logistic mixed effects regression model of leader total benefits as a function of A. subsistence strategy, B. group structure, C. continental region, and D. leader sex. Model included random intercepts for ethnographer nested within culture. Values are on the response scale."}
+# p1 <- 
+#   hagenutils::ggemmeans(emmeans(m_ldrtotben, type = 'response', specs = 'group.structure2')) +
+#   scale_x_continuous(limits = c(0, 0.1)) +
+#   labs(title = "Total leader benefits", x = "", y = "")
+# 
+# p2 <- hagenutils::ggemmeans(emmeans(m_ldrtotcost, type = 'response', specs = 'group.structure2')) +
+#   scale_x_continuous(limits = c(0, 0.1)) +
+#   labs(title = "Total leader costs", x = "\nProbability", y = "")
+# 
+# p1 + p2 + plot_layout(ncol = 1) + plot_annotation(tag_levels = 'A')
+
+theplots <- all_emms(m_ldrtotben, c('subsistence', 'group.structure2', 'region', 'demo_sex'), 0.1, 'Predictors of leader benefits')
+
+((theplots[[1]] / theplots[[2]]) | (theplots[[3]] / theplots[[4]])) + plot_annotation(title = 'Predictors of leader benefits', tag_levels = 'A')
+
+```
+
+```{r leadertotalcosts, fig.cap="Estimated marginal means of a logistic mixed effects regression model of leader total costs as a function of A. subsistence strategy, and B. group structure. Model included random intercepts for ethnographer nested within culture. Values are on the response scale."}
+theplots <- all_emms(m_ldrtotcost, c('subsistence', 'group.structure2'), 0.06, 'Predictors of leader costs')
+
+theplots[[1]] / theplots[[2]] + plot_annotation(title = 'Predictors of leader costs', tag_levels = 'A')
+
 ```
 
 ## Dimension reduction

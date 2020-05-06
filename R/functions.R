@@ -291,6 +291,27 @@ var_heatmap <- function(df_models, spec){
 }
 
 
+# Elasticnet models of one dimension by other dimensions ------------------
+
+elastic_dimensions <- function(d, outcomevar, predictorvars, alpha = 1, lambda = 'lambda.min'){
+  predvars <- variable_names(d, predictorvars)
+  predvars <- predvars[predvars != outcomevar]
+  
+  y = d[[outcomevar]]
+  x = as.matrix(d[predvars])
+  
+  m <- cv.glmnet(x, y, family = 'binomial', alpha = alpha)
+  plot(m)
+  coefs <- coef(m, s = m[[lambda]])[-1,1]
+
+  names(coefs) <- var_names[names(coefs)] # var_names from leadershipdata
+  ggdotchart(exp(coefs[coefs != 0])) +
+    geom_vline(xintercept = 1, linetype = 'dotted') +
+    hagenutils::scale_color_binary() +
+    guides(colour=F, shape=F) +
+    scale_x_log10()
+}
+
 # Create feature variables ------------------------------------------------
 
 create_feature_vars <- function(d, m_pvclust_func, m_pvclust_qual){
@@ -396,6 +417,7 @@ model_words <- function(all_data, leader_dtm, var, lam = 'lambda.min', exponenti
       Coefficient = coefs,
       Sign = ifelse(coefs > xintrcpt, 'Increase', 'Decrease')
     )
+  print(summary(df))
   plot <- 
     ggplot(df, aes(Coefficient, Word, colour = Sign, shape=Sign)) + 
     geom_point(size=3) + 

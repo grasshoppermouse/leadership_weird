@@ -3,6 +3,8 @@ source("R/utilities.R")
 source("R/functions.R")
 source("R/plan.R")
 
+set.seed(456789876)
+
 make(
   plan,
   verbose = 2,
