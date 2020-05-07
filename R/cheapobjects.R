@@ -460,17 +460,17 @@ df_drop1 <-
 
 matdrop1 <- as.matrix(df_drop1[-1])
 rownames(matdrop1) <- df_drop1$Variable
-heatmap_drop1 <- 
-  ggheatmap(
-    matdrop1, 
-    hclust_method = 'ward.D', 
-    scale = 'row',
-    show_dendrogram = c(F, F),
-    labCol = c('Leader sex', 'Group context', 'Region', 'Subsistence'),
-    column_text_angle = 0,
-    cexCol = 1.3,
-    cexRow = 1.2
-    )
+# heatmap_drop1 <- 
+#   ggheatmap(
+#     matdrop1, 
+#     hclust_method = 'ward.D', 
+#     scale = 'row',
+#     show_dendrogram = c(F, F),
+#     labCol = c('Leader sex', 'Group context', 'Region', 'Subsistence'),
+#     column_text_angle = 0,
+#     cexCol = 1.3,
+#     cexRow = 1.2
+#     )
 # heatmap_drop1
 
 heatmap_drop1 <- hagenheat(df_drop1) + theme_minimal(15)

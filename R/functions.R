@@ -258,7 +258,7 @@ hagenheat <- function(d, hc_method = 'ward.D', dist = 'euclidean', scale. = 'row
   hclustrows <- hclust(dist(d[-1], method = dist), method = hc_method)
   hclustcols <- hclust(dist(t(d[-1]), method = dist), method = hc_method)
   
-  d[1] <- factor(d[[1]], levels = d[hclustrows$order,][[1]])
+  d[1] <- factor(d[[1]], levels = d[[1]][hclustrows$order])
   
   d %>%
     gather(key = key, value = value, -1) %>% 
@@ -279,8 +279,8 @@ var_heatmap <- function(df_models, spec){
       emmeans = map(Multimodel, ~emmeans(., spec = spec, type = "response")),
       emm_summary = map(emmeans, summary)
     ) %>% 
-    unnest(emm_summary) %>% 
-    select(Variable, prob, all_of(spec)) %>% 
+    unnest(emm_summary) %>%
+    select(Variable, prob, all_of(spec)) %>%
     spread(key=spec, value=prob) # worried about using char vec here, but it seems to work
   
   # mat <- as.matrix(d[-1])
@@ -293,21 +293,22 @@ var_heatmap <- function(df_models, spec){
 
 # Elasticnet models of one dimension by other dimensions ------------------
 
-elastic_dimensions <- function(d, outcomevar, predictorvars, alpha = 1, lambda = 'lambda.min'){
+elastic_dimensions <- function(d, outcomevar, predictorvars, alpha = 1, lambda = 'lambda.min', threshold = 0){
   predvars <- variable_names(d, predictorvars)
   predvars <- predvars[predvars != outcomevar]
   
-  y = d[[outcomevar]]
-  x = as.matrix(d[predvars])
+  y <- d[[outcomevar]]
+  x <- d[predvars]
+  x <- x[colSums(x)>threshold]
+  x <- as.matrix(x)
   
-  m <- cv.glmnet(x, y, family = 'binomial', alpha = alpha)
+  m <- glmnet::cv.glmnet(x, y, family = 'binomial', alpha = alpha)
   plot(m)
-  coefs <- coef(m, s = m[[lambda]])[-1,1]
-
+  coefs <- coef(m, s = m[[lambda]])[-1,1] # delete intercept
   names(coefs) <- var_names[names(coefs)] # var_names from leadershipdata
-  ggdotchart(exp(coefs[coefs != 0])) +
+  ggdotchart(exp(coefs[coefs != 0]), threshold = 1) +
     geom_vline(xintercept = 1, linetype = 'dotted') +
-    hagenutils::scale_color_binary() +
+    # hagenutils::scale_color_binary() +
     guides(colour=F, shape=F) +
     scale_x_log10()
 }
