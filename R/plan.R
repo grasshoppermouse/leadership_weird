@@ -114,6 +114,12 @@ plan <- drake_plan(
   feature_data = create_feature_vars(all_data, m_pvclust_func, m_pvclust_qual),
   features = feature_data$feature_vars,
   all_data2 = feature_data$data,
+  all_data3 = 
+    map_dfc(features, function(x) as.numeric(all_data2[[x]][,1]>0)) %>% 
+    bind_cols(d_culture = all_data2$d_culture, author_ID = all_data2$author_ID),
+  features_support_txt = textrecord_support(readd(all_data3), readd(features), formula_string),
+  features_support_cult = culture_support(all_data3, features, n=1000),
+  plot_features_support = features_support_plot(features_support_txt, features_support_cult),
   feature_models = textrecord_support_multi(readd(all_data2), readd(features)),
   feature_models_aic = feature_models %>% tidylog::filter(AIC_diff < -2),
   p_heatmap_feature_subsis = var_heatmap(feature_models_aic, 'subsistence'),

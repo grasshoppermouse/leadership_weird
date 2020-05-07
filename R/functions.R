@@ -76,7 +76,12 @@ merge_dfs <- function(
 
 textrecord_support <- function(thedata, type, formula_string){
   
-  thevars <- variable_names(thedata, type)
+  if (length(type == 1)){
+    thevars <- variable_names(thedata, type)
+  } else {
+    thevars = type
+  }
+  
   formulae <- glue_data(list(outcome = thevars), formula_string)
   
   models <-
@@ -108,18 +113,24 @@ textrecord_support <- function(thedata, type, formula_string){
 
 # Variable support by culture ---------------------------------------------
 
-culture_support <- function(df, type, n = 10){
-  thevars <- variable_names(df, type)
-  
+culture_support <- function(df, thetype, n = 10){
+
+  if (length(thetype) == 1){
+    thevars <- variable_names(df, thetype)
+  } else {
+    thevars <- thetype
+  }
+
   boots <- 
     df[c('d_culture', thevars)] %>% 
     nest(data = -d_culture) %>% 
     bootstraps(n)
-  
+
   thesum <- function(thesplit, thevars){
     df <- 
       as_tibble(thesplit) %>% 
       unnest(cols = everything())
+    # return(df)
     map_dbl(thevars, ~ mean(tapply(df[[.]], df[['d_culture']], max)))
   }
   
@@ -127,7 +138,7 @@ culture_support <- function(df, type, n = 10){
 
   tibble(
     Level = 'Cultures',
-    Type = str_to_title(type),
+    Type = str_to_title(thetype),
     vars = thevars,
     Variable = names(thevars),
     Estimate = map_dbl(thevars, ~ mean(tapply(df[[.]], df[['d_culture']], max))),
@@ -181,6 +192,22 @@ benefit_cost_support_plot <- function(...){
     labs(x = '', y = '') +
     theme_bw(20) +
     theme(strip.text.y = element_text(angle=0)) # , axis.text=element_text(size=rel(1.3))
+}
+
+features_support_plot <- function(...){
+  thedata <- 
+    bind_rows(...) %>% 
+    mutate(
+      Variable = fct_reorder(vars, Estimate)
+    )
+  ggplot(thedata, aes(Estimate, Variable, xmin = lowerCI, xmax = upperCI, colour = Level)) +
+    geom_errorbarh(height = 0, lwd = 2.5, alpha = 0.5) +
+    geom_point() +
+    scale_x_continuous(breaks=seq(0,1,.1), labels=scales::percent, limits=c(0,1)) +
+    hagenutils::scale_color_binary() +
+    labs(x = '', y = '') +
+    theme_bw(15) +
+    theme(strip.text.y = element_text(angle=0))
 }
 
 # Variable support by subsistence and region ------------------------------
