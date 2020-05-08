@@ -460,19 +460,6 @@ df_drop1 <-
 
 matdrop1 <- as.matrix(df_drop1[-1])
 rownames(matdrop1) <- df_drop1$Variable
-# heatmap_drop1 <- 
-#   ggheatmap(
-#     matdrop1, 
-#     hclust_method = 'ward.D', 
-#     scale = 'row',
-#     show_dendrogram = c(F, F),
-#     labCol = c('Leader sex', 'Group context', 'Region', 'Subsistence'),
-#     column_text_angle = 0,
-#     cexCol = 1.3,
-#     cexRow = 1.2
-#     )
-# heatmap_drop1
-
 heatmap_drop1 <- hagenheat(df_drop1) + theme_minimal(15)
 
 # Pick dimensions with large delta AIC
@@ -498,6 +485,57 @@ p_heatmap_groups <- var_heatmap(multi_aic_groups, 'group.structure2')
 thevars <- df_drop1_thresh$Variable[df_drop1_thresh$`Region`]
 multi_aic_groups <- multi_aic[multi_aic$Variable %in% thevars,]
 p_heatmap_region <- var_heatmap(multi_aic_groups, 'region')
+
+# Features drop1 ----------------------------------------------------------
+
+df_features_drop1 <-
+  feature_models_aic %>% 
+  mutate(
+    Drop1 = map(Drop1, ~ as_tibble(., rownames = 'Term'))
+  ) %>% 
+  unnest(Drop1) %>% 
+  group_by(Variable) %>% 
+  mutate(
+    aicdiff = AIC - AIC[1]
+  ) %>% 
+  select(Variable, Term, aicdiff) %>% 
+  spread(key = Term, value = aicdiff) %>% 
+  select(
+    -`<none>`, 
+    `Group context` = group.structure2, 
+    `Leader sex` = demo_sex, 
+    Region = region, 
+    Subsistence = subsistence
+  )
+
+# matfeaturedrop1 <- as.matrix(df_features_drop1[-1])
+# rownames(matfeaturedrop1) <- df_features_drop1$Variable
+
+heatmap_features_drop1 <- hagenheat(df_features_drop1) + theme_minimal(15)
+
+# Pick Features with large delta AIC
+
+df_feature_drop1_thresh <-
+  bind_cols(
+    Variable = df_features_drop1$Variable,
+    df_features_drop1[-1] > 4
+  )
+
+thevars <- df_feature_drop1_thresh$Variable[df_feature_drop1_thresh$`Leader sex`]
+feature_models_aic_groups <- feature_models_aic[feature_models_aic$Variable %in% thevars,]
+heatmap_feature_sex <- var_heatmap(feature_models_aic_groups, 'demo_sex')
+
+# thevars <- df_feature_drop1_thresh$Variable[df_feature_drop1_thresh$`Subsistence`]
+# feature_models_aic_groups <- feature_models_aic[feature_models_aic$Variable %in% thevars,]
+# heatmap_feature_subsis <- var_heatmap(feature_models_aic_groups, 'subsistence')
+
+thevars <- df_feature_drop1_thresh$Variable[df_feature_drop1_thresh$`Group context`]
+feature_models_aic_groups <- feature_models_aic[feature_models_aic$Variable %in% thevars,]
+heatmap_feature_groups <- var_heatmap(feature_models_aic_groups, 'group.structure2')
+
+thevars <- df_feature_drop1_thresh$Variable[df_feature_drop1_thresh$`Region`]
+feature_models_aic_groups <- feature_models_aic[feature_models_aic$Variable %in% thevars,]
+heatmap_feature_region <- var_heatmap(feature_models_aic_groups, 'region')
 
 
 # Treemaps -----------------------------------------------------------------

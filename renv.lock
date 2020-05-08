@@ -1,6 +1,6 @@
 {
   "R": {
-    "Version": "3.6.3",
+    "Version": "3.6.2",
     "Repositories": [
       {
         "Name": "CRAN",
@@ -420,8 +420,8 @@
       "Package": "dplyr",
       "Version": "0.8.99.9002",
       "Source": "GitHub",
-      "Remotes": "r-lib/rlang, r-lib/vctrs",
       "RemoteType": "github",
+      "Remotes": "r-lib/rlang, r-lib/vctrs",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "dplyr",
       "RemoteUsername": "tidyverse",
@@ -709,15 +709,15 @@
     },
     "hagenutils": {
       "Package": "hagenutils",
-      "Version": "0.0.1.9000",
+      "Version": "0.0.1.9002",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
-      "RemoteUsername": "grasshoppermouse",
       "RemoteRepo": "hagenutils",
+      "RemoteUsername": "grasshoppermouse",
       "RemoteRef": "master",
-      "RemoteSha": "5823fe9911b0464d36f83b67c0512508489a889d",
-      "Hash": "2103df04138d329eff77783ae59f00ba"
+      "RemoteSha": "46eb9aa96c2e12bd306abe62176bedcc8ca4f26d",
+      "Hash": "5031fa6e2b2fbe858c9dde0707d684b0"
     },
     "haven": {
       "Package": "haven",
@@ -985,10 +985,10 @@
     },
     "nlme": {
       "Package": "nlme",
-      "Version": "3.1-145",
+      "Version": "3.1-143",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "0ed9365684dc39cdd0bb5bd2f316dc67"
+      "Hash": "7518d3b54a24f9291735a25467997858"
     },
     "nloptr": {
       "Package": "nloptr",
@@ -1251,15 +1251,15 @@
     },
     "rlang": {
       "Package": "rlang",
-      "Version": "0.4.5.9000",
+      "Version": "0.4.6.9000",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
-      "RemoteRepo": "rlang",
       "RemoteUsername": "r-lib",
+      "RemoteRepo": "rlang",
       "RemoteRef": "master",
-      "RemoteSha": "a90b04b9d6a17f1aabadaed357784efc22116d2a",
-      "Hash": "2fbb2f0ebd2669870d84f4234ec6d481"
+      "RemoteSha": "4bea87590f216af0820d6c82b53309b2e2f5bfdf",
+      "Hash": "ad012bc0313a493d773e6518a5b78ca1"
     },
     "rmarkdown": {
       "Package": "rmarkdown",
@@ -1499,15 +1499,15 @@
     },
     "vctrs": {
       "Package": "vctrs",
-      "Version": "0.2.99.9011",
+      "Version": "0.3.0",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteUsername": "r-lib",
       "RemoteRepo": "vctrs",
       "RemoteRef": "master",
-      "RemoteSha": "4a43860747fe806e7f337e7bb3f326fe5de0f534",
-      "Hash": "d45f84e51ef055f40232aedb7017790e"
+      "RemoteSha": "5b71d88b365e7190ffc096e50f58c924464e019a",
+      "Hash": "9013903678bf69e1548eaad0722dbe02"
     },
     "viridis": {
       "Package": "viridis",

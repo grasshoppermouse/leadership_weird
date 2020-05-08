@@ -55,10 +55,6 @@ plan <- drake_plan(
   # Variable support by subsistence strategy, region, leader sex, group structure
   multi_allvars = textrecord_support_multi(readd(all_data), all_study_vars),
   multi_aic = multi_allvars %>% dplyr::filter(AIC_diff < -2),
-  # p_heatmap_subsis = var_heatmap(multi_aic, 'subsistence'),
-  # p_heatmap_region = var_heatmap(multi_aic, 'region'),
-  # p_heatmap_sex    = var_heatmap(multi_aic, 'demo_sex'),
-  # p_heatmap_groups = var_heatmap(multi_aic, 'group.structure2'),
 
   # Prepare data for dimension reduction
   # Only use coded columns
