@@ -529,7 +529,7 @@ We then fit separate logistic mixed effects models of each of the `r nrow(featur
 
 # Discussion
 
-This exploratory study systematically evaluated evidence for `r length(all_study_vars)` dimensions of leadership in a stratified random sample of the ethnographic record of `r nrow(leader_cult)` largely non-industrial (non-WEIRD) cultures that included hunter-gatherers, pastoralists, horticulturalists, and agriculturalists. The quality and function dimensions were *not* determined prior to the study but were instead identified and coded during multiple passes through `r nrow(text_records)` texts on leadership obtained from the eHRAF (see Methods section). Results revealed universal dimensions of human leadership as well as important variation by group context, subsistence type, continental region, and sex of the leader.
+This exploratory study systematically evaluated evidence for `r length(all_study_vars)` dimensions of leadership in a stratified random sample of the ethnographic record of `r nrow(leader_cult)` largely nonindustrial (non-WEIRD) cultures that included hunter-gatherers, pastoralists, horticulturalists, and agriculturalists. The quality and function dimensions were *not* determined prior to the study but were instead identified and coded during multiple passes through `r nrow(text_records)` texts on leadership obtained from the eHRAF (see Methods section). Results revealed universal dimensions of human leadership as well as important variation by group context, subsistence type, continental region, and sex of the leader.
 
 ## Universal dimensions of leadership
 
@@ -558,7 +558,7 @@ matingbenefit <- signif(100*leader_benefits_cult$Estimate[leader_benefits_cult$V
 
 Most potentially universal dimensions discovered here appear in a model developed by @hagen_leadership_2019, in which knowledgable and intelligent individuals provide computational (cognitive) services to group members in exchange for a variety of fitness benefits, and these services often involve conflict resolution and other social functions [see also @garfield_evolutionary_2019]. But the computational services model emphasizes mating benefits, which appear in `r matingbenefit`% of cultures, which was below our arbitrary 60% threshold for "universality". See Figure \@ref(fig:varsupportcb).
 
-Pawnee chiefs illustrate leadership involving several of the universal dimesions, including intelligence, conflict resolution, and generosity [@murrayXX]:
+Pawnee chiefs illustrate leadership involving several of the universal dimesions, including intelligence, conflict resolution, and generosity [@nq18-015]:
 
 >...a chief was a regulator, not an absolute ruler or tyrant. Although chiefs had considerable authority, their decisions were generally based on a consensus of opinion rather than arbitrary whim. The chief, like his celestial forebear, was supposed to be a guardian of the people, always mindful of their wishes and needs. And even though the office was hereditary in certain families, the man chosen to fill it had to demonstrate humility, generosity, and sagacity, because a jealous or aggressive temperament was considered unbefitting a chief.
 <!-- nq18-015 -->
