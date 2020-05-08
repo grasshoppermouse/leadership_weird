@@ -526,7 +526,7 @@ We then fit separate logistic mixed effects models of each feature as a function
 
 # Discussion
 
-This exploratory study systematically evaluated evidence for `r length(all_study_vars)` dimensions of leadership in a stratified random sample of the ethnographic record of `r nrow(leader_cult)` largely non-industrial (non-WEIRD) cultures that included hunter-gatherers, pastoralists, horticulturalists, and agriculturalists. The quality and function dimensions were *not* determined prior to the study but were instead identified and coded during multiple passes through `r nrow(text_records)` texts on leadership obtained from the eHRAF (see Methods section). Results revealed universal dimensions of human leadership as well as important variation by group context, subsistence type, continental region, and sex of the leader.
+This exploratory study systematically evaluated evidence for `r length(all_study_vars)` dimensions of leadership in a stratified random sample of the ethnographic record of `r nrow(leader_cult)` largely nonindustrial (non-WEIRD) cultures that included hunter-gatherers, pastoralists, horticulturalists, and agriculturalists. The quality and function dimensions were *not* determined prior to the study but were instead identified and coded during multiple passes through `r nrow(text_records)` texts on leadership obtained from the eHRAF (see Methods section). Results revealed universal dimensions of human leadership as well as important variation by group context, subsistence type, continental region, and sex of the leader.
 
 ## Universal dimensions of leadership
 
