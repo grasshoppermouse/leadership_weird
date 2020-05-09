@@ -1,6 +1,6 @@
 {
   "R": {
-    "Version": "3.6.2",
+    "Version": "3.6.3",
     "Repositories": [
       {
         "Name": "CRAN",
@@ -420,8 +420,8 @@
       "Package": "dplyr",
       "Version": "0.8.99.9002",
       "Source": "GitHub",
-      "RemoteType": "github",
       "Remotes": "r-lib/rlang, r-lib/vctrs",
+      "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "dplyr",
       "RemoteUsername": "tidyverse",
@@ -606,15 +606,15 @@
     },
     "ggmosaic": {
       "Package": "ggmosaic",
-      "Version": "0.2.2",
+      "Version": "0.3.0",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "ggmosaic",
-      "RemoteUsername": "rmcd1024",
-      "RemoteRef": "ggplot_3.3.0-scales/fix",
-      "RemoteSha": "9bb56aa4fd4851d159caff83253b5ce40c55eeac",
-      "Hash": "2f645d207a1d1c33ae4069fe09680a18"
+      "RemoteUsername": "haleyjeppson",
+      "RemoteRef": "master",
+      "RemoteSha": "9dd8eb6e486446b726a1a377c52da2eec3518f31",
+      "Hash": "8a9da7a79c47e12209bf66ed932ca6e0"
     },
     "ggplot2": {
       "Package": "ggplot2",
