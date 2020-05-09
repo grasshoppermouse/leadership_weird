@@ -369,7 +369,7 @@ create_feature_vars <- function(d, m_pvclust_func, m_pvclust_qual){
   
   func_branches <- list(
     'Prosociality' = func_dendro[[1]],
-    'Mediate' = func_dendro[[2]][[1]],
+    'Strategize' = func_dendro[[2]][[1]],
     'Organize' = func_dendro[[2]][[2]]
   )
   
