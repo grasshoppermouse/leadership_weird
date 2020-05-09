@@ -68,6 +68,9 @@ textstats <- text_records %>%
   dplyr::summarise(min = min(count), max = max(count), mean = mean(count), median = median(count), sd = sd(count)) %>% 
   round(1)
 
+
+# Subsistence by group mosaic plot ----------------------------------------
+
 df_groups <- 
   all_data %>% 
   dplyr::select(
@@ -107,8 +110,7 @@ plot_group_subsis <-
   scale_fill_viridis(discrete = T) +
   labs(x="", y="", fill = "Group context") +
   guides(fill = guide_legend(reverse = T)) +
-  theme_minimal(15) 
-plot_group_subsis
+  theme_minimal(20) 
 
 # Female leaders by ethnographer gender -----------------------------------
 
@@ -723,9 +725,10 @@ plot_lpca_qual <-
 
 
 plot_lpca_qual_tmp <-
-  ggplot(df_qual2, aes(PC1, PC2, colour = pub_dateZ > 0)) + 
+  ggplot(df_qual2, aes(PC1, PC2, colour = factor(`Knowledge/Experience`))) + 
   geom_point() +
   stat_ellipse() +
+  facet_wrap(~`Coercive authority`)
   theme_bw(15)
 
 

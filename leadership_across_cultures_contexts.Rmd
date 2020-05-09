@@ -28,6 +28,7 @@ loadd(df_qual)
 loadd(features)
 loadd(feature_models)
 loadd(feature_models_aic)
+loadd(features_support_cult)
 loadd(follower_benefits_txt)
 loadd(follower_costs_txt)
 loadd(follower_benefits_cult)
@@ -315,7 +316,7 @@ Subsistence strategy and group structure were also confounded. Hunter-gatherer t
 
 ```{r grouptype, fig.width=20, fig.height=10, fig.cap="The distribution of text records by subsistence and group context. Areas of the bars are proportional to the number of text records in that category."}
 ggsave(file="Figures/group_subsis.pdf", plot_group_subsis, width=16, height=6)
-plot_group_subsis #+ plot_group_sex
+plot_group_subsis
 ```
 
 ## Leader sex
@@ -471,7 +472,7 @@ Our qualities and functions data comprised sparse $`r nrow(all_data)` \times `r 
 
 Here we report the cluster analysis of variables that used the correlation distance metric ($1 - cor$), and the Ward agglomeration algorithm (for results from other methods, see the supplementary information). Figure \@ref(fig:cluster)A displays a dendrogram from the cluster analysis of the `r length(quality_vars)` leader quality variables and Figure \@ref(fig:cluster)B displays a dendrogram from the cluster analysis of the `r length(function_vars)` leader function variables. Each cluster analysis includes two estimates of significance for how strongly each cluster within the dendrogram is supported by the data. We rely on the AU (Approximately Unbiased) *p* values, which are computed by multiscale bootstrap resampling and represented as percentages (e.g., clusters with AU values $>95$ are strongly supported, and the top-level clusters are automatically highlighted by rectangles).
 
-```{r cluster, fig.cap="Cluster analysis of leader quality variables (A) and leader function variables (B). Distances were $1 - cor$. Ward agglomeration method. AU p-values (red) computed with 10,000 bootstrap samples using the pvclust package [@pvclust2015]."}
+```{r cluster, fig.cap="Cluster analysis of (A) leader quality variables and (B) leader function variables. Distances were $1-cor$. Ward agglomeration method. AU p-values (red) computed with 10,000 bootstrap samples using the pvclust package [@pvclust2015]."}
 # plot(m_pvclust_qual)
 # pvrect(m_pvclust_qual, alpha = 0.9)
 knitr::include_graphics("Figures/m_pvclust.both.png")
@@ -563,10 +564,12 @@ The universal dimensions also partially correspond to the service-for-prestige m
 
 ```{r matingbenefit}
 matingbenefit <- signif(100*leader_benefits_cult$Estimate[leader_benefits_cult$Variable=='Mating benefit'], 3)
+
+reprosuccess <- signif(100*features_support_cult$Estimate[features_support_cult$Variable == 'Social_material_success'], 3)
 ```
 
 
-Most potentially universal dimensions discovered here appear in a model developed by @hagen_leadership_2019, in which knowledgeable and intelligent individuals provide computational (cognitive) services to group members in exchange for a variety of fitness benefits, and these services often involve conflict resolution and other social functions [see also @garfield_evolutionary_2019]. But the computational services model emphasizes mating benefits, which appear in `r matingbenefit`% of cultures, below our arbitrary 60% threshold for "universality". See Figure \@ref(fig:varsupportcb).
+Most potentially universal dimensions discovered here appear in a model developed by @hagen_leadership_2019, in which knowledgeable and intelligent individuals provide computational (cognitive) services to group members in exchange for a variety of fitness benefits, and these services often involve conflict resolution and other social functions [see also @garfield_evolutionary_2019]. The computational services model emphasizes mating benefits, however, which appear in `r matingbenefit`% of cultures, below our arbitrary 60% threshold for "universality" (see Figure \@ref(fig:varsupportcb)). But there was evidence for the "Social material success" feature, which included Polygyny, High quality spouse, and Many children, in more cultures (`r reprosuccess`%) than any other feature (see Figure \@ref(fig:featuressupportplot)). Interestingly, the computational model highlights women's family leadership role, and the estimated marginal mean for Social material success was higher for females leaders than male leaders (see Figure \@ref(fig:heatmap_feature_sex)), with the caveat that there were few text records on female leaders in our sample.
 
 Pawnee chiefs illustrate leadership involving several of the universal dimensions, including intelligence, conflict resolution, and generosity [@nq18-015]:
 
@@ -719,8 +722,24 @@ doc_fielddates_plot
 
 ## Continental region is confounded with subsistence strategy
 
-```{r regionsubsistence, fig.width=11, fig.cap="Proportion of text records for different regions and subsistence types. Size of rectangles is proportional to the number of text records."}
-ggplot(all_data) + geom_mosaic(aes(x = product(subsistence, region), fill = subsistence)) + scale_fill_viridis(discrete = T) + theme_minimal(15)
+```{r regionsubsistence, fig.width=12, fig.cap="Proportion of text records for different regions and subsistence types. Size of rectangles is proportional to the number of text records."}
+
+lbls <- c(
+  'Africa', 
+  'Circum-\nMediterranean', 
+  'East\nEurasia', 
+  'Insular\nPacific',
+  'North\nAmerica',
+  'South\nAmerica'
+  )
+
+ggplot(all_data) + 
+  geom_mosaic(aes(x = product(subsistence, region), fill = subsistence)) +
+  scale_fill_viridis(discrete = T) + 
+  scale_x_productlist(labels = lbls) +
+  guides(fill = guide_legend(reverse = T)) +
+  labs(x = '', y = '') +
+  theme_minimal(15)
 ```
 
 ## Bias
