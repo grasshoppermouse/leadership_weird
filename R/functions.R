@@ -210,6 +210,41 @@ features_support_plot <- function(...){
     theme(strip.text.y = element_text(angle=0))
 }
 
+
+# Benefit cost ratio ------------------------------------------------------
+
+bc_dict <- c(
+  Mating = 'Mating',
+  Territory = 'Territory',
+  Fitness = 'Inclusive fitness',
+  ResourceOther = 'Material resources',
+  SocialServices = 'Social services',
+  SocialStatusReputation = 'Social status',
+  ResourceFood = 'Food',
+  Other = 'Misc. non-material resources',
+  RiskHarmConflict = 'Protection/harm'
+)
+
+benefit_cost_ratio <- function(d){
+  m <-
+    glmer(
+      Evidence ~
+        Benefit_cost * Variable +
+        (1|d_culture/author_ID),
+      family = binomial,
+      data = d,
+      nAGQ = 0
+    )
+  
+  em_cb <- summary(emmeans(m, pairwise ~ Benefit_cost, type = 'response'))
+  em_cb_var <- confint(emmeans(m, pairwise ~ Benefit_cost | Variable, type = 'response'))
+  
+  list(
+    benefit_cost_OR = em_cb$contrasts$odds.ratio,
+    benefit_cost_var_OR = em_cb_var$contrasts
+  )
+}
+
 # Variable support by subsistence and region ------------------------------
 
 textrecord_support_multi <- function(thedata, thevars){

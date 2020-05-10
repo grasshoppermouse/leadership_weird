@@ -52,6 +52,33 @@ plan <- drake_plan(
       follower_costs_cult
     ),
   
+  # Benefit cost ratio ------------------------------------------------------
+  
+  df_costs_benefits =
+    all_data %>% 
+    select(d_culture, author_ID, contains('benefits'), contains('costs')) %>% 
+    gather(key = Variable, value = Evidence, -d_culture, -author_ID) %>% 
+    separate(Variable, into = c('Type', 'Variable'), sep = '\\.') %>% 
+    separate(Variable, into = c('Benefit_cost', 'Variable'), sep = '_') %>% 
+    mutate(
+      Variable = bc_dict[Variable]
+    ),
+  
+  # Leaders only
+  df_leader_costs_benefits =
+    df_costs_benefits %>% 
+    filter(Type == 'leader') %>% 
+    select(-Type),
+  
+  # Followers only
+  df_follower_costs_benefits =
+    df_costs_benefits %>% 
+    filter(Type == 'follower') %>% 
+    select(-Type),
+  
+  leader_bc_ratio = benefit_cost_ratio(readd(df_leader_costs_benefits)),
+  follower_bc_ratio = benefit_cost_ratio(readd(df_follower_costs_benefits)),
+  
   # Variable support by subsistence strategy, region, leader sex, group structure
   multi_allvars = textrecord_support_multi(readd(all_data), all_study_vars),
   multi_aic = multi_allvars %>% dplyr::filter(AIC_diff < -2),

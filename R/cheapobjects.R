@@ -157,7 +157,8 @@ mm_coauthor <- glmer(
 )
 mm_coauthorOR <- exp(fixef(mm_coauthor))[[2]]
 
-# Total benefits
+
+# Total benefits ----------------------------------------------------------
 
 leader_text4 <-
   all_data %>% 
@@ -220,6 +221,30 @@ m_followcost <-
     data = leader_text4,
     nAGQ = 0
   )
+
+# Benefit / cost ratio -------------------------------
+
+lvls <- leader_bc_ratio$benefit_cost_var_OR$Variable[order(leader_bc_ratio$benefit_cost_var_OR$odds.ratio)]
+
+bc_OR <- 
+  bind_rows(
+  Leader = leader_bc_ratio$benefit_cost_var_OR, 
+  Follower = follower_bc_ratio$benefit_cost_var_OR,
+  .id = 'Type'
+  ) %>% 
+  mutate(
+    Variable = factor(Variable, levels = lvls)
+  )
+
+plot_bc_OR <-
+  ggplot(bc_OR, aes(odds.ratio, Variable, xmin = asymp.LCL, xmax = asymp.UCL, colour=Type)) + 
+  geom_errorbarh(height = 0, lwd = 2.5, alpha = 0.7, position = position_dodge(0.7)) + 
+  geom_point(position = position_dodge(0.7)) + 
+  hagenutils::scale_colour_binary() +
+  scale_x_log10() +
+  guides(colour = guide_legend(reverse=T)) +
+  labs(title = 'Relative evidence of benefits vs. costs', x = '\nOdds ratio', y = '') +
+  theme_minimal(15)
 
 # Document years plots ----------------------------------------------------
 
@@ -730,5 +755,3 @@ plot_lpca_qual_tmp <-
   stat_ellipse() +
   facet_wrap(~`Coercive authority`)
   theme_bw(15)
-
-
