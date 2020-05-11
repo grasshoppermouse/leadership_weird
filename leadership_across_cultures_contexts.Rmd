@@ -388,9 +388,10 @@ plot_costs_benefits
 
 Leadership can evolve when the benefits exceed the costs, and the same for followership. Our data did not allow us to compare benefits and costs. Instead, we compared levels of evidence for benefits vs. costs for each leader benefit/cost dimension and each follower benefit/cost dimension. Specifically, we fit a mixed effects logistic regression model of evidence (0/1) as a function of each dimension (e.g., Mating, Food), a term indicating if the evidence was for a benefit or cost, and their interaction, with random intercepts for author nested within culture. We fit separate models for leaders and followers. These two models allowed us to estimate the relative evidence for, e.g., leader mating benefits vs. leader mating costs, and follower mating benefits vs. follower mating costs, etc. For leaders, the odds ratio that a text record would provide evidence for a benefit vs. a cost (averaging across all benefit/cost dimensions), was $OR=`r signif(leader_bc_ratio$benefit_cost_OR, 2)`$, and for followers, was $OR=`r signif(follower_bc_ratio$benefit_cost_OR, 2)`$. Hence for both leaders and followers, there was more evidence of benefits than costs.
 
-Within benefit/cost dimensions, there was relatively more evidence for mating and territory benefits than costs for both leaders and followers, and equal levels of evidence for protection from vs. risk of harm. For leaders compared to followers, there were noticably higher odds ratios for inclusive fitness benefits, material resources, and social services. See Figure \@ref(fig:benefitcostratio).
+Within benefit/cost dimensions, there was relatively more evidence for mating and territory benefits than costs for both leaders and followers, and equal levels of evidence for protection from harm vs. risk of harm. For leaders compared to followers, there were noticably higher odds ratios for inclusive fitness benefits, material resources, and social services. See Figure \@ref(fig:benefitcostratio).
 
 ```{r benefitcostratio, fig.width=10, fig.cap="The odds ratios of finding evidence of a benefit vs. a cost in a text record for leaders and followers, by each dimension of benefits and costs. Odds ratios estimated using a mixed effects logistic regression model of evidence for (0/1) as a function of each dimension (e.g., Mating, Food), a term indicating if the evidence was for a benefit or cost, and their interaction, with random intercepts for author nested within culture. Separate models were fit for leaders and followers. X-axis is on a log scale."}
+ggsave(file='Figures/plot_bc_OR.pdf', plot_bc_OR, width = 9, height = 5)
 plot_bc_OR
 ```
 
@@ -430,7 +431,11 @@ df_compare2 %>%
 We then examined the `r vary_n` (out of `r nrow(multi_allvars)` total) leadership dimensions that exhibited important variation by one or more of our four factors, i.e., whose AIC values indicated improved fits over the intercept-only models (see Tables S\@ref(tab:variablevars) and S\@ref(tab:universalvars)). To determine which of the four factors contributed to improved fit, we dropped each factor in turn and computed the change in AIC. For most of these `r vary_n` varying dimensions of leadership, one factor had a noticeably bigger effect on fit than the others. Variation in group context, in particular, was associated with variation in almost half of the dimensions. See Figure \@ref(fig:heatmapdrop1)A.
 
 ```{r heatmapdrop1, fig.width=12, fig.cap="Leadership dimensions and features that varied by group context, subsistence strategy, continental region, and/or leader sex. A. Leadership dimensions. B. Leadership features. Colors represent the relative change in AIC value after dropping that factor from a multiple logistic mixed effects regression model. Yellow: including factor improved fit relative to other factors. Black: including factor did not improve fit relative to other factors. Delta AIC values were standardized by rows, and therefore can only be compared within rows."}
-heatmap_drop1 + guides(fill='none') + heatmap_features_drop1 + plot_annotation(tag_levels = 'A')
+
+p <- heatmap_drop1 + guides(fill='none') + heatmap_features_drop1 + plot_annotation(tag_levels = 'A')
+ggsave(filename = 'Figures/heatmap_drop1.pdf', p, width = 14, height = 5)
+
+p
 ```
 
 For each of our four factors, we then investigated which levels of the factor was associated with higher or lower levels of evidence for the leadership dimension. For instance, for subsistence strategy, there were three leadership dimensions in which it played an important role: *No coercive authority*, *Provide subsistence*, and *Distribute resources* (See Figure \@ref(fig:heatmapdrop1)). Hunter-gatherers had particularly high levels of evidence for *No coercive authority*, relative to the other subsistence strategies (and averaging over the levels of the other three factors), and Pastoralists had relatively low evidence for *Distribute resources* (see Figure S\@ref(fig:heatmapsubsis)). For Group context, see Figure S\@ref(fig:heatmapgroups); for Region, see Figure, S\@ref(fig:heatmapregion); and for Leader sex, see Figure S\@ref(fig:heatmapsex).
@@ -463,15 +468,18 @@ To determine which leader qualities and functions were associated with evidence 
 ```{r highstatusplot, fig.width=10, fig.cap="Coefficients of logistic elasticnet regression models [@friedman_regularization_2010] of evidence for *High Status*. A: Coefficients indicate the words whose frequencies in each text record best predicted evidence for *High status* in each text record. B: Non-zero coefficients of all quality and function variables that best predicted evidence for *High status*. Both models used the lasso penality ($\\alpha=1$), with $\\lambda_{1se}$ chosen by cross-validation (1 SE from $\\lambda_{min}$). Red values are positive predictors; purple values are negative predictors. Variables with coefficents = 0 not displayed. X-axes are odds ratios on a log 10 scale."}
 
 highstatus_plot <- highstatus_plot + scale_x_log10()
-highstatus_plot + plot_elastic_status + 
+p <- 
+  highstatus_plot + plot_elastic_status + 
   plot_annotation(
     title = 'Predictors of High status',
     tag_levels = 'A', 
     caption = 'Odds ratio', 
     theme=theme(plot.caption=element_text(hjust=0.5, size=12, margin=margin(t=0)))
-    )
+  )
 
+ggsave('Figures/highstatus_plot.pdf', p, width=10, height = 7)
 
+p
 ```
 
 We then investigated if the proportion of text records with evidence for *High status* differed among the different levels of group context, subsistence strategies, continental regions, and leader sex (again using a logistic mixed effects model with these variables as fixed effects and authors nested within cultures as random intercepts). There were modest differences. Hunter-gatherers and pastoralists were more likely to provide evidence for high status leaders, as were South America and East Eurasia. Female leaders were also more likely to be identified as high status. Somewhat counter-intuitively, the proportion of text records indicating high status leaders was lowest at the highest level of political organization, perhaps because it would have been superfluous to note that kings and chiefs were high status. See Figure \@ref(fig:groupstatus). For the table of coefficients, see Supplementary Table X.
@@ -490,14 +498,16 @@ Words that were strong predictors of leaders with coercive authority included, *
 ```{r elasticcoercive, fig.width=10, fig.cap="Coefficients of logistic elasticnet regression models [@friedman_regularization_2010] of evidence for *Coercive authority*. A: Coefficients indicate the words whose frequencies in each text record best predicted evidence for *Coercive authority* in each text record. B: Non-zero coefficients of all quality and function variables that best predicted evidence for *Coercive authority*. Both models used the lasso penalty ($\\alpha=1$) and chose $\\lambda_{1se}$ by cross-validation (1 SE from $\\lambda_{min}$). Red values are positive predictors; purple values are negative predictors. Variables with coefficents = 0 not displayed. X-axes are odds ratios on a log 10 scale."}
 
 coercive_plot <- coercive_plot + scale_x_log10()
-coercive_plot + plot_elastic_coercive +
+p <-
+  coercive_plot + plot_elastic_coercive +
   plot_annotation(
     title = 'Predictors of Coercive authority',
     tag_levels = 'A', 
     caption = 'Odds ratio', 
     theme=theme(plot.caption=element_text(hjust=0.5, size=12, margin=margin(t=0)))
     )
-
+ggsave('Figures/coercive_plot.pdf', p, width = 8, height = 4)
+p
 ```
 
 
@@ -524,6 +534,8 @@ The leader functions cluster analysis (Figure \@ref(fig:cluster)B) also identifi
 We identify these seven named subclusters as "features" of leader qualities and functions in the ethnographic record. In naming these features, we gave extra weight to variables that were strongly supported in the sample (Figure \@ref(fig:varsupport)), and therefore not all variables within these clusters were clearly related to the themes of each feature. Because features were aggregated variables, they are more common at both the text record and culture level (see Figure \@ref(fig:featuressupportplot)).
 
 ```{r featuressupportplot, fig.width=10, fig.cap="Support of each feature variable at the levels of text records and cultures. Feature support at the text record was defined as the adjusted proportion of text records with evidence for at least one underlying variable in the feature. Feature support at the culture level was defined as the proportion of cultures with evidence for the feature in at least text record in the culture."}
+
+ggsave('Figures/plot_features_support.pdf', plot_features_support, width = 10, height = 5)
 plot_features_support
 ```
 

@@ -203,7 +203,7 @@ features_support_plot <- function(...){
   ggplot(thedata, aes(Estimate, Variable, xmin = lowerCI, xmax = upperCI, colour = Level)) +
     geom_errorbarh(height = 0, lwd = 2.5, alpha = 0.5) +
     geom_point() +
-    scale_x_continuous(breaks=seq(0,1,.1), labels=scales::percent, limits=c(0,1)) +
+    scale_x_continuous(breaks=seq(0,1, 0.2), labels=scales::percent, limits=c(0,1)) +
     hagenutils::scale_color_binary() +
     labs(x = '', y = '') +
     theme_bw(15) +
