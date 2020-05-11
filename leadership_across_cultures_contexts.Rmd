@@ -768,6 +768,8 @@ Contemporary theoretical models of the evolution of leadership often emphasize l
 
 ## Ethnographic sample
 
+The 60-culture Probability Sample Files of the HRAF developed by @naroll_proposed_1967 is based on culturally and geographically diverse populations which are well covered in the ethnographic record. The distribution of cultures, however, is not equal across categories of subsistence strategies; agriculturalists and horticulturalists are relatively overpresented compared to hunter-gatherers and pastoralists. The ethnographic sample of text developed in the *leadershipdata* package is also not equally balanced across all subsistence stragey categories. See Figure S\@ref(fig:subsisttree).
+
 ```{r subsisttree, fig.cap="The area of the entire rectangle represents the total number of text records in the study data (N = 2012). The nested rectangles represent (from smallest to largest) the proportion of text records in each document, culture, and subsistence strategy."}
 
 plot_cult_docs_subsis
@@ -791,6 +793,8 @@ doc_fielddates_plot
 ```
 
 ## Continental region is confounded with subsistence strategy
+
+The distribution of cultures by subsistence stragegy across conteinetla region is also variable. In this sample, most African cultures are agriculturalists and most North American cultures are hunter-gatherers, for example. See Figure S\@ref(fig:regionsubsistence). 
 
 ```{r regionsubsistence, fig.width=12, fig.cap="Proportion of text records for different regions and subsistence types. Size of rectangles is proportional to the number of text records."}
 
