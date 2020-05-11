@@ -201,7 +201,7 @@ features_support_plot <- function(...){
       Variable = fct_reorder(vars, Estimate)
     )
   ggplot(thedata, aes(Estimate, Variable, xmin = lowerCI, xmax = upperCI, colour = Level)) +
-    geom_errorbarh(height = 0, lwd = 2.5, alpha = 0.5) +
+    geom_errorbarh(height = 0, lwd = 2.5, alpha = 0.7) +
     geom_point() +
     scale_x_continuous(breaks=seq(0,1, 0.2), labels=scales::percent, limits=c(0,1)) +
     hagenutils::scale_color_binary() +

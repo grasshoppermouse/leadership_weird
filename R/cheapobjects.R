@@ -240,6 +240,7 @@ plot_bc_OR <-
   ggplot(bc_OR, aes(odds.ratio, Variable, xmin = asymp.LCL, xmax = asymp.UCL, colour=Type)) + 
   geom_errorbarh(height = 0, lwd = 2.5, alpha = 0.7, position = position_dodge(0.7)) + 
   geom_point(position = position_dodge(0.7)) + 
+  geom_vline(xintercept = 1, linetype = 'dotted') +
   hagenutils::scale_colour_binary() +
   scale_x_log10() +
   guides(colour = guide_legend(reverse=T)) +
