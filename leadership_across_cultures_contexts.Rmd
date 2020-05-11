@@ -919,7 +919,7 @@ multi_out %>%
 
 ## Total leader benefits and costs
 
-We then explored relationships between total leader benefits and costs, summed across all leader benefit and cost variables, respectively, by the predictor variables used above (subsistence strategy, continental region, leader sex, and group structure). There was less evidence for leader costs, however, which limited our ability to fit exploratory regression models. Therefore, in modeling total leader costs, we used subsistence and group structure as predictors. In general, leaders at the highest supracommunity political level had the most evidence for receiving benefits and the least evidence for suffering costs and leaders of military groups has the highest total costs. See Figure \@ref(fig:leadertotalbenefits).
+To supplimnet analyses of costs and benefits we explored relationships between total leader benefits and costs, summed across all leader benefit and cost variables, respectively, by the predictor variables used above (subsistence strategy, continental region, leader sex, and group structure). There was less evidence for leader costs, however, which limited our ability to fit exploratory regression models. Therefore, in modeling total leader costs, we used subsistence and group structure as predictors. In general, leaders at the highest supracommunity political level had the most evidence for receiving benefits and the least evidence for suffering costs and leaders of military groups has the highest total costs. See Figure \@ref(fig:leadertotalbenefits).
 
 <!-- NEED TO DO -- ADD TABLE? -->
 
