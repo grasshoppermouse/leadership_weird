@@ -368,7 +368,6 @@ elastic_dimensions <- function(d, outcomevar, predictorvars, alpha = 1, lambda =
   names(coefs) <- var_names[names(coefs)] # var_names from leadershipdata
   ggdotchart(exp(coefs[coefs != 0]), threshold = 1) +
     geom_vline(xintercept = 1, linetype = 'dotted') +
-    # hagenutils::scale_color_binary() +
     guides(colour=F, shape=F) +
     scale_x_log10()
 }
@@ -434,12 +433,12 @@ create_feature_vars <- function(d, m_pvclust_func, m_pvclust_qual){
 
 # Text analysis -----------------------------------------------------------
 
-model_words <- function(all_data, leader_dtm, var, lam = 'lambda.min', exponentiate = T, title){
+model_words <- function(d, dtm, var, lam = 'lambda.min', exponentiate = T, title=''){
   
-  df <- left_join(all_data[c('cs_textrec_ID', var)], leader_dtm)
+  df <- left_join(d[c('cs_textrec_ID', var)], dtm, by = 'cs_textrec_ID')
   y <- df[[2]]
   x <- as.matrix(df[-c(1:2)])
-  
+
   m_cv <- cv.glmnet(x, y, family = 'binomial', alpha = 1, standardize = F)
   plot(m_cv)
   
@@ -478,7 +477,7 @@ model_words <- function(all_data, leader_dtm, var, lam = 'lambda.min', exponenti
       Coefficient = coefs,
       Sign = ifelse(coefs > xintrcpt, 'Increase', 'Decrease')
     )
-  print(summary(df))
+
   plot <- 
     ggplot(df, aes(Coefficient, Word, colour = Sign, shape=Sign)) + 
     geom_point(size=3) + 
