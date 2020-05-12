@@ -195,21 +195,19 @@ benefit_cost_support_plot <- function(...){
 }
 
 features_support_plot <- function(...){
-  thedata <- 
-    bind_rows(...) %>% 
+  bind_rows(...) %>% 
     mutate(
+      vars = str_replace_all(vars, '_', ' '),
       Variable = fct_reorder(vars, Estimate)
-    )
-  ggplot(thedata, aes(Estimate, Variable, xmin = lowerCI, xmax = upperCI, colour = Level)) +
+    ) %>% 
+    ggplot(aes(Estimate, Variable, xmin = lowerCI, xmax = upperCI, colour = Level)) +
     geom_errorbarh(height = 0, lwd = 2.5, alpha = 0.7) +
     geom_point() +
-    scale_x_continuous(breaks=seq(0,1, 0.2), labels=scales::percent, limits=c(0,1)) +
+    scale_x_continuous(breaks=seq(0, 1, 0.2), labels=scales::percent, limits=c(0, 1)) +
     hagenutils::scale_color_binary() +
     labs(x = '', y = '') +
-    theme_bw(15) +
-    theme(strip.text.y = element_text(angle=0))
+    theme_bw(15)
 }
-
 
 # Benefit cost ratio ------------------------------------------------------
 
