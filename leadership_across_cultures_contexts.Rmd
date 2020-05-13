@@ -323,7 +323,7 @@ plot_group_subsis
 
 ## Leader sex
 
-The vast majority of text records pertained to male leadership (`r male_leader_pct`%) and very few pertained to female leadership (`r female_leader_pct`%), with the remaining records not sex-specific. There were female leaders in almost all types of groups, however, except military and religious. Female leaders did tend to lead at the kin group and other residential subgroups, though: `r female_residential_pct`% of female leaders led at the residential subgroup level, for instance, compared to `r male_residential_pct`% of male leaders.
+The vast majority of text records pertained to male leadership (`r male_leader_pct`%) and very few pertained to female leadership (`r female_leader_pct`%), with the remaining records not sex-specific. There were female leaders in almost all types of groups, however, except military and religious. Female leaders did tend to lead at the kin group and other residential subgroups, though: `r female_residential_pct`% of female leaders led at the residential subgroup level, for instance, compared to `r male_residential_pct`% of male leaders. The majority of text records which exclusivley describing female leaders were from horticulturlaists (`r female_hort_pct`%). See Table S\@ref(tab:sexsubtable).
 
 <!-- SHOULD WE PUT THE ENTIRE TABLE IN SI? -->
 
@@ -914,6 +914,11 @@ p_heatmap_region + theme_minimal(15)
 ```
 
 Leadership dimensions for which leader sex significantly improved fit. Note that very few text records (N=`r sum(all_data$demo_sex=='both')`) explicitly mentioned both male and female leaders. Hence, although not depicted here, the confidence intervals for the estimated marginal means for this level are wide.
+
+```{r sexsubtable}
+kable(sub_sex_tbl, 
+      caption = 'Distributuon of text records by leader sex and subsistence strategy.')
+```
 
 ```{r heatmapsex, fig.width=10, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each outcome variable by leader sex. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
 

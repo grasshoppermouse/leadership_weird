@@ -175,7 +175,7 @@ We appreciate this point, however as mentioned above, we did not incorporate pro
 
 **Can you report text records pertaining to male vs. female leadership by subsistence type (lines 966-982)?**
 
-NEED TO DO.
+We now report that the majority of female leader-exclusive text records were from horticulturalists (76%) and provide a table of text records by leader sex and subsistence in the SI. 
 
 **While your analysis strategy was not designed to test particular predictions, I'd be very interested to see you report how the authority variable covaries with different leader functions in different subsistence types, which has relevance to institutionalization of leadership and evolution of social inequality.**
 
