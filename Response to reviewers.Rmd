@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 **Statistical reporting and further analysis: The GLMM should be reported in full somewhere.**
 
-The GlMM is actually 109 GLMMs (one for each coded variable). We now include a table of all GLMM coefficients in the SI.
+The GLMM is actually 109 GLMMs (one for each coded variable). We now include a table of all GLMM coefficients in the SI.
 
 **This could go in the supplemental materials. However, can we learn more from it? Do the random effects matter for the ethnographers?* **
 
@@ -31,7 +31,7 @@ We determined the gender of almost all authors of all documents included in our 
 
 **Could further analyses be done to obtain more information on the nature of the variation within the data?**
 
-In the original version of the ms we did not describe our numerous efforts at dimension reduction, including various flavors of logistic PCA, non-negative matrix factorization (NMF), and various flavors of cluster analysis, and we regressed the resulting components against our various culture-level variables. These initial efforts did not yield much convincing "stucture" in our data or results beyond what we reported. We now briefly describe these efforts so as to better contexualize the results that we do report, and we report logisticPCA and NMF results in the SI.
+In the original version of the ms we did not describe our numerous efforts at dimension reduction, including various flavors of logistic PCA, non-negative matrix factorization (NMF), and various flavors of cluster analysis, and we regressed the resulting components against our various culture-level variables. These initial efforts did not yield much convincing "structure" in our data or results beyond what we reported. We now briefly describe these efforts so as to better contextualize the results that we do report, and we report logisticPCA and NMF results in the SI.
 
 We now report on the dimensionality reduction that did produce stable and interpretable clusters and incorporate these "features" of leadership into our analyses and conclusions. See below. 
 
@@ -49,7 +49,7 @@ We incorporate total number of pages of ethnography for each culture. Results no
 
 **This seems very important since we want to make sure that the variation observed isn’t due to some populations getting more or less total study effort or writing effort.**
 
-We investigated three possible sources of bias: total number of pages of ethnography, year of publication of each document, and the presence or absence of a female author/co-author for each document. We found evidence for bias in reporting of evidence for 9 of 109 variables based on year of publication only. There was no convincing evidence of bias in any variable based on the total number of pages of ethnography or ethographer gender. Results now reported.
+We investigated three possible sources of bias: total number of pages of ethnography, year of publication of each document, and the presence or absence of a female author/co-author for each document. We found evidence for bias in reporting of evidence for 9 of 109 variables based on year of publication only. There was no convincing evidence of bias in any variable based on the total number of pages of ethnography or ethnographer gender. Results now reported.
 
 **4.	Did you control for observation year? This might be too highly correlated with ethnographer identity, but worth checking**
 
@@ -71,11 +71,11 @@ We have expanded our supplemental materials considerably.
 
 We agree we need to better situate our study within the theme of the special issue. We interpret "Beyond WEIRD" in the following way: The original WEIRD paper was a needed wake-up call for psychology. However, we now worry that many psychologists are operationalizing WEIRD as a dichotomy: WEIRD vs. non-WEIRD. This is obviously a mistake, as there is enormous variation among the non-WEIRD. Our data set focuses primarily on traditional societies, and thus speaks to variation among the non-WEIRD, a point we now emphasize. At the same time, as Edward Said famously argued, anthropologists tend to make the opposite mistake: exoticizing the "Other" relative to the "West". 
 
-We have revised our introduction section, the discussion, and our conclsuion along these lines. We hope we have struck the right balance in identifying important common themes and patterns across most of the populations in our data, while doing justice to their differences.
+We have revised our introduction section, the discussion, and our conclusion along these lines. We hope we have struck the right balance in identifying important common themes and patterns across most of the populations in our data, while doing justice to their differences.
 
 **Status vs. Leadership: R2 asks about status vs. leadership. Given recent debates about a “leadership psychology” as distinct and separable from status psychologies (like prestige and dominance, van Vugt), it might be worth expanding a bit on what these data say about the connection between status and leadership.** 
 
-This is a good idea. We now include a short section on our "status" variable, and what distinguishes leadership records with evidence for social status from those without such evidence. We found a small set of words, such "respect", "prestige", and "honor", that were significant predictors of "high status" leaders. We found a weak effect of group structure on evidence for high status, and moderate effects of subistence strategy and continental region. We now report these results. And following this approach (an in response to other comments by reviewers) we report similar analyses for coercive authority and shamanism. 
+This is a good idea. We now include a short section on our "status" variable, and what distinguishes leadership records with evidence for social status from those without such evidence. We found a small set of words, such "respect", "prestige", and "honor", that were significant predictors of "high status" leaders. We found a weak effect of group structure on evidence for high status, and moderate effects of subsistence strategy and continental region. We now report these results. And following this approach (an in response to other comments by reviewers) we report similar analyses for coercive authority and shamanism. 
 
 **Expanding the dataset: the natural next step with this project is to use this small sample of hand coded categories to create an automated approach for all of the eHRAF, perhaps based on key words. The idea is to develop a set of keywords or other patterns that reliably predict when a paragraph should be coded in a particular way. The method can be developed and benchmarked using the dataset you’ve created and then simply applied in automated fashion to the entire eHRAF corpus. We offer this as a suggestion, but realize that it’s a lot to ask in this context.** 
 
@@ -91,17 +91,17 @@ We greatly appreciate the detailed comments and very useful suggestions.
 
 **The paper was framed partially as providing an analysis of differences between traditional societies and WEIRD societies but, unless I missed it, there was not much analysis along these lines. Neither the background section nor the Discussion section focuses much on contrasting WEIRD and traditional societies. The paper appears to miss out on a useful opportunity to provide some commentary on this issue. Also, I realize the paper is decidedly exploratory/descriptive, but did the authors have any hypotheses about differences between WEIRD and traditional societies?** 
 
-We have now greatly revised our mansucript and more clearly explain that our exploratory analyses aim to uncover varition (or lack of variation), within "non-WEIRD" populations. We do briefly review relevant perspectives on leadership in WEIRD contexts (primarily in the introduction and to a lesser degree in our interpretations of results), but we do not aim to compare WEIRD and non-WEIRD leadership dynamics. 
+We have now greatly revised our manuscript and more clearly explain that our exploratory analyses aim to uncover variation (or lack of variation), within "non-WEIRD" populations. We do briefly review relevant perspectives on leadership in WEIRD contexts (primarily in the introduction and to a lesser degree in our interpretations of results), but we do not aim to compare WEIRD and non-WEIRD leadership dynamics. 
 
 We did not have any predictions and now more clearly state this. 
 
 **The paper suggests that one of the most important qualities and benefits of being a leader involves being of "high status." That's a little dissatisfying. What's the difference between being high status and being a leader? I realize the authors provided brief operational definitions of the two constructions, but might they simply be two ways of describing the same thing (having a high degree of influence)? Perhaps the authors could do just a bit more to differentiate them.** 
 
-We have substantially revised the mansucript and analyses regarding this point. We now include specific sections in the results, discussion, and SI which are focused on the relaitonship between leadership and high social statuts and we believe our empirical results here fit in well with much of the current evolutionary leadership literature. 
+We have substantially revised the manuscript and analyses regarding this point. We now include specific sections in the results, discussion, and SI which are focused on the relationship between leadership and high social status and we believe our empirical results here fit in well with much of the current evolutionary leadership literature. 
 
 **Some of the benefits of leadership also appear as costs. Greater reflection and explanation on this aspect of the data seems warranted. I understand that leaders can enjoy certain benefits (access to resources) but then if they lose their status as leader they might lose those benefits (if someone falls from grace, they no longer get a larger piece of the pie). Do the findings reflect anything more complex than that? Their discussion of benefits of costs was brief and a little disappointing. The paper might benefit from enhancing that discussion.** 
 
-We have also substatially revised our analyses of the costs and benefits of leadership, including in the results and in our interprettaions. We compare the reletiave evidence for leader and follower benegits vs. costs in the mansucript and provide exploratory models on the total leader benefits and costs in the SI. 
+We have also substantially revised our analyses of the costs and benefits of leadership, including in the results and in our interpretations. We compare the relative evidence for leader and follower benefits vs. costs in the manuscript and provide exploratory models on the total leader benefits and costs in the SI. 
 
 **Some readers might appreciate a bit more detail about how the HRAF database was created, including how the ethnographic records were identified and selected and whom and when they are from.** 
 
@@ -119,7 +119,7 @@ We now discuss these limitations and points more clearly in the limitations sect
 
 **What does it mean for someone to be a leader at the "supracommunity" level? I'm not familiar with the term, so had difficulty contextualizing the relevant findings. And how exactly do the authors define "community" versus "supracommunity"?**
 
-In the methods section we now include a description of all levels of our *group structure* coding to clearly explain this coding scheme. We coded supracommunity leaders in cases when the "group" involves leadership beyond the community level and across multiple residential communities, such as regional political leaders, chiefs in complex chiefdoms, kings, and state-level leaders. This termonology was vaugely inspiried by Murdock and Provost's (1971) Political Integration Scale which codes the political integration at the society-level as either automonous local communities, or having one, two, or three levels of juridictional hiuerarchy "above the community"; i.e., if political authority is exclusive to a local village headman, the group would be coded as "autonomous" but if the village and headman are under authority of a chief from a seperate community, the group would be coded as "one level above community", and so forth. 
+In the methods section we now include a description of all levels of our *group structure* coding to clearly explain this coding scheme. We coded supracommunity leaders in cases when the "group" involves leadership beyond the community level and across multiple residential communities, such as regional political leaders, chiefs in complex chiefdoms, kings, and state-level leaders. This terminology was vaguely inspired by Murdock and Provost's (1971) Political Integration Scale which codes the political integration at the society-level as either autonomous local communities, or having one, two, or three levels of jurisdictional hierarchy "above the community"; i.e., if political authority is exclusive to a local village headman, the group would be coded as "autonomous" but if the village and headman are under authority of a chief from a separate community, the group would be coded as "one level above community", and so forth. 
 
 ## Reviewer 2 comments
 
@@ -144,29 +144,29 @@ We now include additional discussion of managerial frameworks of leader behavior
 
 **For the discussion section: how does your own descriptive modeling of leadership in traditional societies agree or not with Wofford or other models from large-scale societies?**
 
-We now include a paragraph in our conlcuding statement interpreting our overall findings in reference to Wofford's and GLOBE study results, i.e., attempting (albeit briefly) to tie in our (non-WEIRD) results to relevant findings from WEIRD settings. 
+We now include a paragraph in our concluding statement interpreting our overall findings in reference to Wofford's and GLOBE study results, i.e., attempting (albeit briefly) to tie in our (non-WEIRD) results to relevant findings from WEIRD settings. 
 
 **There is little mention of gender in the Qualities of leadership section, even though this might be first attribute an alien might recognize as covarying with community-level leadership in human societies. Even in the more egalitarian societies, men often wield more overt political influence during camp or band-wide political discussions. Without getting into arguments about patriarchy and its origins, it might at least be useful to cite your own work on Chabu and work on the Tsimane (von Rueden et al. 2018) that finds similar traits predict leadership for men and women, implying its not gender per se that gives men a leadership advantage in politics.**
 
-We now discuss sex-differences in community and political leadership, and refernce in greater deatils (albeit breif) the universal male bias in community leadership in the introuction and cite these works. We also include specific sections on female leadership and sex differences in the results and discussion.
+We now discuss sex-differences in community and political leadership, and reference in greater details (albeit brief) the universal male bias in community leadership in the introduction and cite these works. We also include specific sections on female leadership and sex differences in the results and discussion.
 
 **How often are shamans also the most influential political figure (given your suggestion in line 317)? My sense from various ethnographies is that this was not the majority of cases (though often the case), whether in more egalitarian societies or chiefdoms. I could be wrong.** 
 
-We did not mean to imply shamans are often the *most* influential political leaders in this passage, only that managerial eliets (e.g., Stanish) are often associated with a special social status rooted in ideology. However, to this point we have now include a dedicated section in the results section to shaman leaders and directly address the reviewer's inquries. As we discuss, we see shamanism as a potentially important and overlooked leadership strategy. 
+We did not mean to imply shamans are often the *most* influential political leaders in this passage, only that managerial elites (e.g., Stanish) are often associated with a special social status rooted in ideology. However, to this point we have now include a dedicated section in the results section to shaman leaders and directly address the reviewer's inquires. As we discuss, we see shamanism as a potentially important and overlooked leadership strategy. 
 
 **Even though this paper is more exploratory, in the last section before the methods, can you venture any predictions about leader function-leader quality covariation? Or about how reported costs and benefits of leadership and followership may vary depending on subsistence type?**
 
-We explicity avoided making any predictions. We understand that our review of existing evidence and theory could be used to generate a number of predictions. But ultimatley, our empirical goals are simply to explore the data structure rather than test predictions. We now more make this point more clearly. 
+We explicitly avoided making any predictions. We understand that our review of existing evidence and theory could be used to generate a number of predictions. But ultimately, our empirical goals are simply to explore the data structure rather than test predictions. We now more make this point more clearly. 
 
 **Many of the variables coded as qualities of leaders may also fall under leader costs and benefits, e.g. polygyny, physical health, wealthy. Were variables like these analyzed in both cases?**
 
-The reviewer brings up an important point, i.e., the conceptual and operational overlap in many study variables, and specifically between various qualities and benifits. This is partly a consequence of our methodology, given the coding of qualities was purely driven by the ethngoraphic record whereas our coding of costs and benefits was sketched out a priori, based on evolutionary theory. 
+The reviewer brings up an important point, i.e., the conceptual and operational overlap in many study variables, and specifically between various qualities and benefits. This is partly a consequence of our methodology, given the coding of qualities was purely driven by the ethnographic record whereas our coding of costs and benefits was sketched out a priori, based on evolutionary theory. 
 
 Concerning the quality of *polygynous* and the benefit of *mating*, note that the *mating* benefits includes polygyny, but also includes other mating benefits, such as having a higher quality spouse (but only one). Indeed every text recorded coded as providing evidence for the quality of *polygynous* also provides evidence for the leader *mating* benefit, however the inverse is not the case. Therefore these variables are in fact distinct. 
 
 Another aspect of potential overlap in the data is the quality *wealthy* and the benefit *material resources*. Here, note the operationalization of the quality *wealthy* suggests a relative comparison to followers, or a qualifying statement (we have slightly adjusted the phrasing in our table of operationalization). The benefit measures however is focused on the transactional nature of resource transfer or 'payment'. 
 
-We now discuss these disctintions in more detail in the methods and limitations sections.
+We now discuss these distinctions in more detail in the methods and limitations sections.
 <!-- NEED TO DO ABOVE? -->
 
 **Can you control for phylogeny (e.g. linguistic affinity). See Minocher et al. 2019 in Evolution and Human Behavior. It may be that covariation you detect between qualities and leader functions is driven by shared cultural history more than direct causal relationship between qualities and leader functions.**
@@ -183,7 +183,7 @@ We now include a section in the results focused on better understanding variatio
 
 **Give more explanation of prestige theory and computational services theory (lines 1279-1280), including what different predictions they make.**
 
-We now briefly (but in greater detail then our initial subisson) discuss the prestige and compuational services theories and interpret our empirical results in reference to these two theories. See the discussion section on "Beyong dual models."
+We now briefly (but in greater detail then our initial submission) discuss the prestige and computational services theories and interpret our empirical results in reference to these two theories. See the discussion section on "Beyond dual models."
 
 **Followers in many cases may be making best of limited options, particularly in societies with steeper hierarchy. So I'm not sure benefits of followership must outweigh the costs (1414-1415) in same way as for leadership.**
 
