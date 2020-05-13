@@ -357,6 +357,8 @@ The most common functions of leaders, documented in over 70% of cultures, were r
 
 The most common qualities of leaders were having high social status (documented in over 90% of cultures), being experienced or accomplished, and being described as knowledgeable or intelligent (documented in approximately 80% of cultures). Also, in about 60% of cultures sampled leaders were wealthy, nepotistic, possessed supernatural qualities, were generous, or maintained coercive authority over followers. Notable infrequent qualities of leaders included physical formidability, having many social contacts, and being feared (documented in about 35% of cultures) and charisma and fairness (documented in about 20% of cultures).
 
+Most of the standard deviations of the random author and culture intercepts for each model were between 0 and 1 (on the scale of the linear predictor). See Figures \@ref(fig:FunctionRE) and \@ref(fig:QualityRE). In a few cases, one or the other was exactly 0, which can occur in models like ours that have many random effect levels (e.g., `r length(unique(all_data$author_ID))` authors) and a relatively small data set [@bates2015].
+
 ## Benefits and costs of leadership and followership
 
 ```{r cultbc}
@@ -667,7 +669,7 @@ fairness_pct <- signif(qualities_support_cult$Estimate[qualities_support_cult$Va
 
 feared_pct <- signif(qualities_support_cult$Estimate[qualities_support_cult$Variable == "Feared"], 3)*100
 
-attractive_pct <- signif(qualities_support_cult$Estimate[qualities_support_cult$Variable == "Attractive"], 3)*100
+attractive_pct <- signif(qualities_support_cult$Estimate[qualities_support_cult$Variable == "Attractive"], 2)*100
 
 movement_hg_pct <- signif(100*sum(all_data$functions_NewSettlement[all_data$subsistence=='hunter gatherers'])/sum(all_data$functions_NewSettlement), 3)
 
