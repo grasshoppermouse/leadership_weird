@@ -150,6 +150,13 @@
       "Repository": "CRAN",
       "Hash": "58f127ba1d26ddb0435f9959e814dbea"
     },
+    "UpSetR": {
+      "Package": "UpSetR",
+      "Version": "1.4.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "f6ef89503aaff474873f8bc1823894e1"
+    },
     "abind": {
       "Package": "abind",
       "Version": "1.4-5",

@@ -796,3 +796,49 @@ dtm_noshaman <-
   select(-shaman, -shamanism)
 
 plot_shamanism_text <- model_words(df_shaman, dtm_noshaman, 'shamanism', lam='lambda.1se')
+
+
+# Benefits vs functions ---------------------------------------------------
+
+# y <- leader_text4$leadertotalbenefits
+# x <- as.matrix(leader_text4[c(quality_vars, function_vars)])
+# 
+# m <- cv.glmnet(x, y, family = 'poisson')
+# plot(m)
+# coefs <- coef(m, s = 'lambda.1se')
+# ggdotchart(coefs[-1,1][coefs[-1,1] != 0])
+
+
+# The five-fold way -------------------------------------------------------
+
+# Leaders vs. Status vs. Provide benefits vs. Impose costs vs. Information vs. Physical
+
+df_fivefold <-
+  df_shaman %>% 
+  cbind(all_data2[features]) %>% #, by = c('cs_textrec_ID' = 'doc_ID')) %>% 
+  select(
+    shamanism,
+    qualities_HighStatus,
+    # Provide benefits
+    Prosociality,
+    # Impose costs
+    functions_Punishment,
+    qualities_Aggressive,
+    qualities_Feared,
+    qualities_Killer,
+    #Information
+    qualities_KnowlageableIntellect,
+    qualities_ExpAccomplished,
+    # Physical
+    qualities_PhysicallyStrong,
+    qualities_PhysicalHealth
+  ) %>% 
+  transmute(
+    # Shamanism = shamanism,
+    Status = qualities_HighStatus,
+    `Provide benefits` = Prosociality[,1]>0,
+    `Impose costs` = functions_Punishment | qualities_Aggressive | qualities_Feared | qualities_Killer,
+    Information = qualities_KnowlageableIntellect | qualities_ExpAccomplished,
+    Physical = qualities_PhysicallyStrong | qualities_PhysicalHealth
+   ) %>% 
+  mutate_all(as.numeric)

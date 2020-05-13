@@ -576,4 +576,17 @@ bias_plot <- function(d, theterm, fdr = 0.05){
     theme_minimal(15)
 }
 
+# Benefits vs functions ---------------------------------------------------
 
+# benefit_function <- function(d, outcome, predictors, alpha = 1){
+#   y <- d[[outcome]]
+#   x <- as.matrix(d[predictors])
+#   m <- cv.glmnet(x, y, family = 'binomial', data = d, alpha = alpha)
+# }
+# 
+# df_benefit_func <-
+#   tibble(
+#     Benefit = leader_benefit_vars,
+#     Model = map(Benefit, ~benefit_function(all_data, ., function_vars)),
+#     Coef = map(Model, ~coef(., s="lambda.min"))
+#   )
