@@ -323,7 +323,7 @@ plot_group_subsis
 
 ## Leader sex
 
-The vast majority of text records pertained to male leadership (`r male_leader_pct`%) and very few pertained to female leadership (`r female_leader_pct`%), with the remaining records not sex-specific. There were female leaders in almost all types of groups, however, except military and religious. Female leaders did tend to lead at the kin group and other residential subgroups, though: `r female_residential_pct`% of female leaders led at the residential subgroup level, for instance, compared to `r male_residential_pct`% of male leaders. The majority of text records which exclusivley describing female leaders were from horticulturlaists (`r female_hort_pct`%). See Table S\@ref(tab:sexsubtable).
+The vast majority of text records pertained to male leadership (`r male_leader_pct`%) and very few pertained to female leadership (`r female_leader_pct`%), with the remaining records not sex-specific. There were female leaders in almost all types of groups, however, except military and religious. Female leaders did tend to lead at the kin group and other residential subgroups, though: `r female_residential_pct`% of female leaders led at the residential subgroup level, for instance, compared to `r male_residential_pct`% of male leaders. The majority of text records which exclusivley described female leaders were from horticulturlaists (`r female_hort_pct`%). See Table S\@ref(tab:sexsubtable).
 
 <!-- SHOULD WE PUT THE ENTIRE TABLE IN SI? -->
 
