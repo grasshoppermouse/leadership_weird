@@ -29,12 +29,12 @@ all_coefs <-
 # Compute values -----------------------------------------------------------
 
 group_sex_tbl <- xtabs(~demo_sex+group.structure2, all_data)
-female_residential_pct <- signif(group_sex_tbl['female', 'residential subgroup']/sum(leader_text$demo_sex == 'female'), 3)*100
-male_residential_pct <- signif(group_sex_tbl['male', 'residential subgroup']/sum(leader_text$demo_sex == 'male'), 3)*100
+female_residential_pct <- signif(group_sex_tbl['female', 'residential subgroup']/sum(all_data$demo_sex == 'female'), 3)*100
+male_residential_pct <- signif(group_sex_tbl['male', 'residential subgroup']/sum(all_data$demo_sex == 'male'), 3)*100
 
 sub_sex_tbl <- xtabs(~demo_sex+subsistence, all_data)
-female_hort_pct <- signif(sub_sex_tbl['female', 'horticulturalists']/sum(leader_text$demo_sex == 'female'), 3)*100
-female_hg_pct <- signif(sub_sex_tbl['female', 'hunter gatherers']/sum(leader_text$demo_sex == 'female'), 3)*100
+female_hort_pct <- signif(sub_sex_tbl['female', 'horticulturalists']/sum(all_data$demo_sex == 'female'), 3)*100
+female_hg_pct <- signif(sub_sex_tbl['female', 'hunter gatherers']/sum(all_data$demo_sex == 'female'), 3)*100
 
 
 group_sub_tbl <- xtabs(~ subsistence + group.structure2, all_data)
