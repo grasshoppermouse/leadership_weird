@@ -815,7 +815,7 @@ plot_shamanism_text <- model_words(df_shaman, dtm_noshaman, 'shamanism', lam='la
 
 df_fivefold <-
   df_shaman %>% 
-  cbind(all_data2[features]) %>% #, by = c('cs_textrec_ID' = 'doc_ID')) %>% 
+  cbind(all_data2[features]) %>%
   select(
     shamanism,
     qualities_HighStatus,
@@ -834,11 +834,21 @@ df_fivefold <-
     qualities_PhysicalHealth
   ) %>% 
   transmute(
-    # Shamanism = shamanism,
-    Status = qualities_HighStatus,
+    `High status` = qualities_HighStatus,
     `Provide benefits` = Prosociality[,1]>0,
     `Impose costs` = functions_Punishment | qualities_Aggressive | qualities_Feared | qualities_Killer,
-    Information = qualities_KnowlageableIntellect | qualities_ExpAccomplished,
-    Physical = qualities_PhysicallyStrong | qualities_PhysicalHealth
+    Knowledge = qualities_KnowlageableIntellect | qualities_ExpAccomplished,
+    Physical = qualities_PhysicallyStrong | qualities_PhysicalHealth,
+    shamanism = shamanism
    ) %>% 
   mutate_all(as.numeric)
+
+shamanfn <- function(row){
+  data <- (row['shamanism'] == 1)
+}
+
+upset(
+  df_fivefold,
+  nsets = 5,
+  queries = list(list(query = elements, params = list('shamanism', 1), color = 'red', active=T))
+  )
