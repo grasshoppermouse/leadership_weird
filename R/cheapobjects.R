@@ -847,8 +847,67 @@ shamanfn <- function(row){
   data <- (row['shamanism'] == 1)
 }
 
-upset(
-  df_fivefold,
-  nsets = 5,
-  queries = list(list(query = elements, params = list('shamanism', 1), color = 'red', active=T))
+# upset(
+#   df_fivefold,
+#   nsets = 5,
+#   queries = list(list(query = elements, params = list('shamanism', 1), color = 'red', active=T))
+#   )
+
+# Take two
+
+qual_dendro <- as.dendrogram(m_pvclust_qual)
+benefit_ability_vars <- labels(qual_dendro[[1]][[2]])
+omit_benefit_vars <- c(
+  'Ambitious', 
+  'Physical health',  # Put in physical
+  'Physically formidable',   # Put in physical
+  'Decisiveness/decision-making', # Put in cognitive
+  # 'Charisma',
+  'Oratory skill', # Put in cognitive
+  'No coercive authority',
+  'Drug consumption',
+  'Culturally progressive'
   )
+benefit_ability_vars <- benefit_ability_vars[!benefit_ability_vars %in% omit_benefit_vars]
+benefit_ability_vars <- reverse_vars_dict[benefit_ability_vars]
+
+cost_ability_vars <- labels(qual_dendro[[2]][[2]][[1]])
+omit_cost_vars <- c(
+  'Bravery',
+  'Confidence',
+  'Coercive authority'
+)
+cost_ability_vars <- cost_ability_vars[!cost_ability_vars %in% omit_cost_vars]
+cost_ability_vars <- c(cost_ability_vars, 'Feared') # from other cluster
+cost_ability_vars <- reverse_vars_dict[cost_ability_vars]
+
+cognitive_vars <- labels(qual_dendro[[2]][[2]][[2]])
+omit_cognitive_vars <- c(
+  'Feared', # Put in costs
+  'Age'
+)
+cognitive_vars <- cognitive_vars[!cognitive_vars %in% omit_cognitive_vars]
+cognitive_vars <- c(cognitive_vars, 'Decisiveness/decision-making', 'Oratory skill')
+cognitive_vars <- reverse_vars_dict[cognitive_vars]
+
+physical_vars <- c('Physical health', 'Physically formidable')
+physical_vars <- reverse_vars_dict[physical_vars]
+
+social_vars <- c('High status', 'Social contacts')
+social_vars <- reverse_vars_dict[social_vars]
+
+df_fivefold2 <-
+  all_data %>% 
+  select(
+    qualities_HighStatus, 
+    one_of(c(physical_vars, benefit_ability_vars, cost_ability_vars, cognitive_vars))
+  ) %>% 
+  transmute(
+    `Social capital` = apply(all_data[social_vars], 1, any),
+    `Provide benefits` = apply(all_data[benefit_ability_vars], 1, any),
+    `Somatic capital` = apply(all_data[physical_vars], 1, any),
+    `Impose costs` = apply(all_data[cost_ability_vars], 1, any),
+    `Cognitive capital` = apply(all_data[cognitive_vars], 1, any)
+  ) %>% 
+  mutate_all(as.numeric) %>% 
+  as.data.frame
