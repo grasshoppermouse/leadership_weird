@@ -1,4 +1,6 @@
 
+
+
 function_vars = variable_names(all_data, type = 'functions')
 quality_vars = variable_names(all_data, type = 'qualities')
 leader_benefit_vars = variable_names(all_data, type = 'leader.benefits')
@@ -813,6 +815,8 @@ plot_shamanism_text <- model_words(df_shaman, dtm_noshaman, 'shamanism', lam='la
 
 # Leaders vs. Status vs. Provide benefits vs. Impose costs vs. Information vs. Physical
 
+
+
 df_fivefold <-
   df_shaman %>% 
   cbind(all_data2[features]) %>%
@@ -847,8 +851,8 @@ shamanfn <- function(row){
   data <- (row['shamanism'] == 1)
 }
 
-upset(
-  df_fivefold,
-  nsets = 5,
-  queries = list(list(query = elements, params = list('shamanism', 1), color = 'red', active=T))
-  )
+# upset(
+#   df_fivefold,
+#   nsets = 5,
+#   queries = list(list(query = elements, params = list('shamanism', 1), color = 'red', active=T))
+#   )
