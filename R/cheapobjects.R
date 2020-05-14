@@ -1,4 +1,6 @@
 
+
+
 function_vars = variable_names(all_data, type = 'functions')
 quality_vars = variable_names(all_data, type = 'qualities')
 leader_benefit_vars = variable_names(all_data, type = 'leader.benefits')
@@ -812,6 +814,8 @@ plot_shamanism_text <- model_words(df_shaman, dtm_noshaman, 'shamanism', lam='la
 # The five-fold way -------------------------------------------------------
 
 # Leaders vs. Status vs. Provide benefits vs. Impose costs vs. Information vs. Physical
+
+
 
 df_fivefold <-
   df_shaman %>% 
