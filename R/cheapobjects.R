@@ -838,24 +838,17 @@ df_fivefold <-
     qualities_PhysicalHealth
   ) %>% 
   transmute(
-    `High status` = qualities_HighStatus,
-    `Provide benefits` = Prosociality[,1]>0,
-    `Impose costs` = functions_Punishment | qualities_Aggressive | qualities_Feared | qualities_Killer,
+    `Highstatus` = qualities_HighStatus,
+    `Providebenefits` = Prosociality[,1]>0,
+    `Imposecosts` = functions_Punishment | qualities_Aggressive | qualities_Feared | qualities_Killer,
     Knowledge = qualities_KnowlageableIntellect | qualities_ExpAccomplished,
     Physical = qualities_PhysicallyStrong | qualities_PhysicalHealth,
     shamanism = shamanism
    ) %>% 
-  mutate_all(as.numeric)
-
-shamanfn <- function(row){
-  data <- (row['shamanism'] == 1)
-}
-
-# upset(
-#   df_fivefold,
-#   nsets = 5,
-#   queries = list(list(query = elements, params = list('shamanism', 1), color = 'red', active=T))
-#   )
+  mutate_all(as.numeric) %>% 
+  mutate(
+    shamanism  = ifelse(shamanism == 1, 'Shaman', 'Not shaman')
+  )
 
 # Take two
 
@@ -902,16 +895,22 @@ social_vars <- reverse_vars_dict[social_vars]
 
 df_fivefold2 <-
   all_data %>% 
+  left_join(df_shaman[c('cs_textrec_ID', 'shamanism')]) %>% 
   select(
+    shamanism,
     qualities_HighStatus, 
     one_of(c(physical_vars, benefit_ability_vars, cost_ability_vars, cognitive_vars))
   ) %>% 
   transmute(
-    `Social capital` = apply(all_data[social_vars], 1, any),
-    `Provide benefits` = apply(all_data[benefit_ability_vars], 1, any),
-    `Somatic capital` = apply(all_data[physical_vars], 1, any),
-    `Impose costs` = apply(all_data[cost_ability_vars], 1, any),
-    `Cognitive capital` = apply(all_data[cognitive_vars], 1, any)
+    `Social_capital` = apply(all_data[social_vars], 1, any),
+    `Provide_benefits` = apply(all_data[benefit_ability_vars], 1, any),
+    `Somatic_capital` = apply(all_data[physical_vars], 1, any),
+    `Impose_costs` = apply(all_data[cost_ability_vars], 1, any),
+    `Cognitive_capital` = apply(all_data[cognitive_vars], 1, any), 
+    shamanism = shamanism
   ) %>% 
-  mutate_all(as.numeric) %>% 
+  mutate_all(as.numeric) %>%
+  mutate(
+    shamanism  = ifelse(shamanism == 1, 'Shaman', 'Not shaman')
+  ) %>% 
   as.data.frame
