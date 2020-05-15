@@ -777,7 +777,7 @@ We also found that leader functions often involve prosocial investments in group
 
 ## Leadership and cognitive, social, and somatic capital
 
-In our view, the dominance-prestige and "dual-model" theories of leadership, while advancing the discipline, cannot easily account for shaman leaders nor "managers". These models, in short, have conflated the ability to provide "benefits" with knowledge and expertise, and the ability to impose "costs" with physical formidability. @van_vugt_dual_2019, for instance, state that the source of deference for prestige-style leadership is "Information asymmetry", and for dominance-style, "Power asymmetry" (their Table 1). Instead, as shaman leaders demonstrate, knowledge and expertise can both provide benefits and impose costs, and the same goes for physical formidability. The use of knowledge to impose costs is widely recognized by many social scientists. The role of gossip and other forms of indirect aggression in social dominance and achieving leadership roles, for instance, has been extensively investigated in WEIRD populations [e.g., @hawley_ontogenesis_1999; @hess_gossip_2017; @hess_sex_2006].
+In our view, the dominance-prestige and "dual-model" theories of leadership, while advancing the discipline, cannot easily account for shaman leaders nor "managers". These models, in short, have conflated the ability to provide "benefits" with knowledge and expertise, and the ability to impose "costs" with physical formidability. @van_vugt_dual_2019, for instance, state that the source of deference for prestige-style leadership is "Information asymmetry", and for dominance-style, "Power asymmetry" (their Table 1). Instead, as shaman leaders demonstrate, knowledge and expertise can both provide benefits and impose costs, and the same goes for physical formidability. The use of knowledge to impose costs is widely recognized by many social scientists. The role of gossip and other forms of indirect aggression in social dominance and achieving leadership roles, for instance, has been extensively investigated in WEIRD populations [e.g., @hawley_ontogenesis_1999; @hess_gossip_2017; @hess_sex_2006] and also among hunter-gatherers [@hess_interpersonal_2010].
 
 We therefore tenatively advance an alternative scheme, similar to @von_rueden_roots_2014[] [and inspired by @kaplan_embodied_2003; @kaplan_evolutionary_2009; @borgerhoff_mulder_intergenerational_2009], whereby individuals possess some combination of cognitive capital, social capital, and somatic capital that they use to provide benefits and impose costs. If their abilities to provide benefits or impose costs are exceptional relative to other group members, they gain status via biological market mechanisms [@hammerstein_biological_2016; @garfield_evolutionary_2019; @hagen_leadership_2019; @pietraszewski_evolution_2019]. Hence, we should be able to find examples of leaders with various combinations of these five elements.^[We omit material capital because this could be both a means to leadership as well as a benefit of leadership.]
 
@@ -789,7 +789,7 @@ shamanfn <- function(row){
   row['shamanism'] == 'Shaman'
 }
 
-upset(
+p <- upset(
   df_fivefold2,
   nintersects = 18,
   order.by = 'freq',
@@ -797,7 +797,10 @@ upset(
   text.scale = 2,
   queries = list(list(query = shamanfn, color = 'red', active=T))
 )
-
+pdf("Figures/upset.pdf", width = 12, height = 9)
+p
+dev.off()
+p
 ```
 
 As Figure \@ref(fig:fivefold) reveals, descriptions of leadership in the ethnographic record includes a heterogeneous mix of these traits. In particular, not all leaders have evidence for high *Social capital*, leaders with *Cognitive capital* provide benefits *and* impose costs, and *Somatic capital* is rarely mentioned, but when it is, it is associated with providing benefits as well as imposing costs. Shamans are associated with evidence for *Cognitive capital* and imposing costs.
