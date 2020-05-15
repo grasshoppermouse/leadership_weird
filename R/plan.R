@@ -169,6 +169,22 @@ plan <- drake_plan(
   mm_bias = bias_models(readd(all_data), all_study_vars),
   plot_pubdate = bias_plot(mm_bias, 'pub_dateZ', fdr = 0.05),
   
+  # Shamans
+  df_shaman =
+    all_data %>%
+    left_join(text_records[c('cs_textrec_ID', 'raw_text')]) %>% 
+    mutate(
+      shaman = str_detect(raw_text, 'shaman'),
+      shamanism = as.numeric(shaman | qualities_Supernatural == 1)
+    ),
+  nonsupervars = all_study_vars[all_study_vars != 'qualities_Supernatural'],
+  plot_elastic_shamanism = elastic_dimensions(df_shaman, 'shamanism', nonsupervars, lambda = 'lambda.1se'),
+  dtm_noshaman =
+    leader_dtm %>% 
+    select(-shaman, -shamanism),
+  plot_shamanism_text = model_words(df_shaman, dtm_noshaman, 'shamanism', lam='lambda.1se'),
+  
+  # The paper
   report = rmarkdown::render(
     knitr_in("leadership_across_cultures_contexts.Rmd"),
     output_file = file_out("leadership_across_cultures_contexts.html"),

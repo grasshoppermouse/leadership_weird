@@ -25,6 +25,7 @@ loadd(all_study_vars)
 loadd(coercive_plot)
 loadd(df_func)
 loadd(df_qual)
+loadd(df_shaman)
 loadd(features)
 loadd(feature_models)
 loadd(feature_models_aic)
@@ -57,11 +58,13 @@ loadd(p_heatmap_feature_region)
 loadd(p_heatmap_feature_sex)
 loadd(p_heatmap_feature_groups)
 loadd(plot_costs_benefits)
+loadd(plot_elastic_shamanism)
 loadd(plot_elastic_status)
 loadd(plot_elastic_coercive)
 loadd(plot_features_support)
 loadd(plot_func_qual)
 loadd(plot_pubdate)
+loadd(plot_shamanism_text)
 loadd(qualities_support_cult)
 loadd(qualities_support_txt)
 
@@ -587,7 +590,7 @@ Motivated by our feature analysis, and the apparent importance of shaman leaders
 
 To test this idea, we operationized the five elements using the leadership qualities cluster analysis (Figure \@ref(fig:cluster)A) as guidance (see Table \@ref(tab:leadermarket)). We then calculated the fraction of text records with evidence for one or more of the five elements. See Figure \@ref(fig:fivefold).
 
-```{r fivefold, fig.width=10, fig.cap="The intersections of evidence for our five basic elements of leadership among all text records (an 'upset' plot) [@gehlenborg2019]. Horizontal bars (left): The total number of text records in each element. Black dots: has evidence. Gray dots: does not have evidence. Vertical bars (top): The number of text records in that intersection (with lower limit set at 3). Red: The number of text records involving shamans or leaders with supernatural qualities. "}
+```{r fivefold, fig.width=10, fig.cap="The intersections of evidence for our five basic elements of leadership among all text records (an 'upset' plot) [@gehlenborg2019]. Horizontal bars (left): The total number of text records in each element. Black dots: has evidence. Gray dots: does not have evidence. Vertical bars (top): The number of text records in that intersection (with lower limit set at 3). Red: The number of text records involving shamans or leaders with supernatural qualities."}
 
 shamanfn <- function(row){
   row['shamanism'] == 'Shaman'

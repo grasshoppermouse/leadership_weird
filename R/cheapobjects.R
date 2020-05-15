@@ -764,42 +764,6 @@ plot_lpca_qual_tmp <-
   facet_wrap(~`Coercive authority`)
   theme_bw(15)
   
-
-# Shamanism ---------------------------------------------------------------
-
-df_shaman <-
-    all_data %>%
-    left_join(text_records[c('cs_textrec_ID', 'raw_text')]) %>% 
-    mutate(
-      shaman = str_detect(raw_text, 'shaman'),
-      shamanism = as.numeric(shaman | qualities_Supernatural == 1)
-    )
-
-nonsupervars <- all_study_vars[all_study_vars != 'qualities_Supernatural']
-# nonsupervars <- c(nonsupervars, 'subsistence', 'region')
-
-y <- df_shaman$shamanism
-x <- as.matrix(df_shaman[nonsupervars])
-# x <- model.matrix(~.-1, df_shaman[nonsupervars]) # To dummy code subsistence and region
-  
-m_shamanism <- cv.glmnet(x, y, family = 'binomial', alpha = 1)
-plot(m_shamanism)
-coefs <- coef(m_shamanism, s = m_shamanism$lambda.1se)[-1,1]
-names(coefs) <- var_names[names(coefs)]
-  
-plot_elastic_shamanism <-
-  ggdotchart(exp(coefs[coefs != 0])) +
-  geom_vline(xintercept = 1, linetype = 'dotted') +
-  guides(colour=F, shape=F) +
-  scale_x_log10()
-  
-dtm_noshaman <-
-  leader_dtm %>% 
-  select(-shaman, -shamanism)
-
-plot_shamanism_text <- model_words(df_shaman, dtm_noshaman, 'shamanism', lam='lambda.1se')
-
-
 # Benefits vs functions ---------------------------------------------------
 
 # y <- leader_text4$leadertotalbenefits
@@ -814,43 +778,6 @@ plot_shamanism_text <- model_words(df_shaman, dtm_noshaman, 'shamanism', lam='la
 # The five-fold way -------------------------------------------------------
 
 # Leaders vs. Status vs. Provide benefits vs. Impose costs vs. Information vs. Physical
-
-
-
-df_fivefold <-
-  df_shaman %>% 
-  cbind(all_data2[features]) %>%
-  select(
-    shamanism,
-    qualities_HighStatus,
-    # Provide benefits
-    Prosociality,
-    # Impose costs
-    functions_Punishment,
-    qualities_Aggressive,
-    qualities_Feared,
-    qualities_Killer,
-    #Information
-    qualities_KnowlageableIntellect,
-    qualities_ExpAccomplished,
-    # Physical
-    qualities_PhysicallyStrong,
-    qualities_PhysicalHealth
-  ) %>% 
-  transmute(
-    `Highstatus` = qualities_HighStatus,
-    `Providebenefits` = Prosociality[,1]>0,
-    `Imposecosts` = functions_Punishment | qualities_Aggressive | qualities_Feared | qualities_Killer,
-    Knowledge = qualities_KnowlageableIntellect | qualities_ExpAccomplished,
-    Physical = qualities_PhysicallyStrong | qualities_PhysicalHealth,
-    shamanism = shamanism
-   ) %>% 
-  mutate_all(as.numeric) %>% 
-  mutate(
-    shamanism  = ifelse(shamanism == 1, 'Shaman', 'Not shaman')
-  )
-
-# Take two
 
 qual_dendro <- as.dendrogram(m_pvclust_qual)
 benefit_ability_vars <- labels(qual_dendro[[1]][[2]])
@@ -911,7 +838,7 @@ df_fivefold2 <-
   ) %>% 
   mutate_all(as.numeric) %>%
   mutate(
-    shamanism  = ifelse(shamanism == 1, 'Shaman', 'Not shaman')
+    shamanism = ifelse(shamanism == 1, 'Shaman', 'Not shaman')
   ) %>% 
   as.data.frame
 
