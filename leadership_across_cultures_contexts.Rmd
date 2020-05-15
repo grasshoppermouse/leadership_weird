@@ -270,13 +270,15 @@ Our second goal was to determine which leader and follower benefits and costs we
 
 Our third goal was to assess the extent to which each of the researcher-coded dimensions of leadership varied by four theoretically important factors for which we had data for all rows: group context, subsistence strategy, continental region, and leader sex.
 
-Our fourth goal was to extract higher-order dimensions of leader qualities and functions from our researcher coded variables. We used several methods to explore lower dimensional representations of these data that might reveal informative "features." These included logistic PCA, non-negative matrix factorization (NMF), and hierarchical cluster analysis. Logistic PCA generalizes Pearson's original formulation of PCA to find a projection of the natural parameters of the saturated model that minimizes the Bernoulli deviance [@logisticPCA]. 
+Our fourth goal was to explore lower dimensional representations of these data that might reveal informative "features." These included logistic PCA, non-negative matrix factorization (NMF), and hierarchical cluster analysis. Logistic PCA generalizes Pearson's original formulation of PCA to find a projection of the natural parameters of the saturated model that minimizes the Bernoulli deviance [@logisticPCA]. 
 
 NMF [@lee1999] finds a low rank approximation of the original matrix, $X \approx WH$, where $X$ is an $n \times p$ matrix, and $W$ and $H$ are $n \times k$ and $k \times p$ matrices, respectively; all elements of $X$, $W$ and $H$ are $\geq 0$; and, typically, $k << min(n,p)$. NMF estimates $W$ and $H$ by minimizing a measure of distance between $X$ and $WH$ [we used the default "brunet" algorithm, which uses the Kullback-Leibler divergence; @gaujoux2010].
 
 Agglomerative hierarchical cluster analysis starts with all elements in their own cluster, and then uses a distance metric to combine the two closest clusters into a single cluster; the next two closest clusters are then combined, and so forth, until all elements belong to a single cluster. We computed distance between our binary vectors using $1-cor(x, y)$, and agglomerated using the Ward algorithm. We assessed the robustness of the clusters using the *pvclust* package [@suzuki_pvclust2006], which computes an unbiased probability that a cluster appears in bootstrapped samples. We used 10,000 bootstrapped samples.
 
-Our fifth goal was to assess variation in our "feature" dimensions by group context, subsistence strategy, continental region, and leader sex.
+Our fifth goal was to assess variation in our lower-dimensional "features" by group context, subsistence strategy, continental region, and leader sex.
+
+Our sixth goal was to evaluate the features in light of influential evolutionary theories of leadership. Drawing on the empirically derived features as a guide, we aimed to construct "elements" of leadership that corresponded to elements of influential theories.
 
 <!-- To reduce the dimensionality of the `r length(quality_vars)` leader quality variables and the `r length(function_vars)` leader function variables, all of which take binary values (0, 1), we used logistic PCA from the logisticPCA package. This algorithm projects the natural parameters of the saturated model onto the lower $k-$dimension space that minimizes the Bernoulli deviance [@logisticPCA]. Prior to analysis we removed all rows that had no evidence for any variable, which resulted in `r nrow(df_qual)` text records for the leader quality variables and `r nrow(df_func)` text records for the leader function variables. We used cross-validation to optimize rank, $k$, and a tuning parameter, $m$ (the value to approximate the saturated model), per recommendation of the package authors. -->
 
@@ -524,30 +526,6 @@ ggsave('Figures/coercive_plot.pdf', p, width = 8, height = 4)
 p
 ```
 
-## Shaman leaders
-
-```{r shamanstats}
-supernatural_n <- sum(leader_text2$qualities_Supernatural==1)
-shamanism_pct <- signif(100*sum(df_shaman$shamanism)/nrow(leader_text2), 3)
-```
-
-Shamans and other leaders with supernatural qualities were surprisingly common in the ethnographic record. Of our `r nrow(leader_text2)` text records, `r sum(df_shaman$shaman)` used the word "shaman", `r supernatural_n` provided evidence for supernatural leader qualities, and `r sum(df_shaman$shamanism)` provided evidence for one or both (`r shamanism_pct`% of all text records). We term the latter variable *Shamanism*. We fit a logistic elasticnet model of shamanism as a function of all leadership dimensions (minus *Supernatural*). This model revealed that shaman leaders combined dimensions of dominant leaders (*Feared*) with dimensions of prestigious leaders (*Medical functions*, which are a form of knowledge or expertise, and *Experienced/accomplished*). See Figure \@ref(fig:shamanism).
-
-```{r shamanism, fig.width=10, fig.cap="Coefficients of logistic elasticnet regression models of evidence for *Shamanism*. A: Coefficients indicate the words whose frequencies in each text record best predicted evidence for *Shamanism* in each text record. B: Non-zero coefficients of all quality and function variables that best predicted evidence for *Shamanism*. Both models used the lasso penalty ($\\alpha=1$) and chose $\\lambda_{1se}$ by cross-validation (1 SE from $\\lambda_{min}$). Red values are positive predictors; purple values are negative predictors. Variables with coefficents = 1 not displayed. X-axes are odds ratios on a log 10 scale."}
-plot_shamanism_text <- plot_shamanism_text + scale_x_log10()
-
-p <- plot_shamanism_text + plot_elastic_shamanism +
-  plot_annotation(
-    title = 'Predictors of Shamanism',
-    tag_levels = 'A', 
-    caption = 'Odds ratio', 
-    theme=theme(plot.caption=element_text(hjust=0.5, size=12, margin=margin(t=0)))
-    )
-ggsave('Figures/shamanism_plot.pdf', p, width = 8, height = 4)
-p
-```
-
-
 ## Dimension reduction
 
 ```{r}
@@ -568,7 +546,7 @@ The leader quality cluster analysis (Figure \@ref(fig:cluster)A) identified two 
 
 The leader functions cluster analysis (Figure \@ref(fig:cluster)B) also identified two top-level clusters; the larger of which we identified as a management functions cluster (e.g., *Organize cooperation*, *Military command*, *Resolve conflict*) and the smaller of which we identified as a prosociality cluster (e.g., *Social functions*, *Distribute resources*, *Hospitality*). Within the management cluster, we identified two moderately supported subclusters; a *Mediation* subcluster (e.g., *Resolve conflict*, *Provide counsel*), and an *Organization* subcluster (e.g., *Organize cooperation*, *Military command*).
 
-We identify these seven named subclusters as "features" of leader qualities and functions in the ethnographic record. In naming these features, we gave extra weight to variables that were strongly supported in the sample (Figure \@ref(fig:varsupport)), and therefore not all variables within these clusters were clearly related to the themes of each feature. Because features were aggregated variables, they are more common at both the text record and culture level (see Figure \@ref(fig:featuressupportplot)).
+We identify these seven named subclusters as "features" of leader qualities and functions in the ethnographic record. In naming these features, we gave extra weight to variables that were strongly supported in the sample (Figure \@ref(fig:varsupport)), and therefore not all variables within these clusters were clearly related to the themes of each feature. These features correspond fairly well to major elements of evolutionary theories of leadership reviewed in the introduction, with the possible exception of competencies, a single feature that included at least two elements (prestige and dominance). Because features were aggregated variables, they are more common at both the text record and culture level (see Figure \@ref(fig:featuressupportplot)).
 
 ```{r featuressupportplot, fig.width=10, fig.cap="Support of each feature variable at the levels of text records and cultures. Feature support at the text record was defined as the adjusted proportion of text records with evidence for at least one underlying variable in the feature. Feature support at the culture level was defined as the proportion of cultures with evidence for the feature in at least text record in the culture."}
 
@@ -614,6 +592,61 @@ We then fit separate logistic mixed effects models of each of the `r nrow(featur
 <!-- m_qPC2_sub_plot + m_qPC2_group_plot -->
 <!-- ``` -->
 
+## Shaman leaders and competencies
+
+```{r shamanstats}
+supernatural_n <- sum(leader_text2$qualities_Supernatural==1)
+shamanism_pct <- signif(100*sum(df_shaman$shamanism)/nrow(leader_text2), 3)
+```
+
+The competencies feature combined dimensions of prestige-style leadership, such as knowledge and experience, with dimensions of dominance-style leadership, such as aggressiveness and feared. It also included supernatural qualities. Shamans and other leaders with supernatural qualities were surprisingly common in the ethnographic record. Of our `r nrow(leader_text2)` text records, `r sum(df_shaman$shaman)` used the word "shaman", `r supernatural_n` provided evidence for supernatural leader qualities, and `r sum(df_shaman$shamanism)` provided evidence for one or both (`r shamanism_pct`% of all text records). We term the latter variable *Shamanism*. We fit a logistic elasticnet model of shamanism as a function of all leadership dimensions (minus *Supernatural*). This model revealed that shaman leaders combined dimensions of dominant leaders (*Feared*) with dimensions of prestigious leaders (*Medical functions*, which are a form of knowledge or expertise, and *Experienced/accomplished*). See Figure \@ref(fig:shamanism).
+
+```{r shamanism, fig.width=10, fig.cap="Coefficients of logistic elasticnet regression models of evidence for *Shamanism*. A: Coefficients indicate the words whose frequencies in each text record best predicted evidence for *Shamanism* in each text record. B: Non-zero coefficients of all quality and function variables that best predicted evidence for *Shamanism*. Both models used the lasso penalty ($\\alpha=1$) and chose $\\lambda_{1se}$ by cross-validation (1 SE from $\\lambda_{min}$). Red values are positive predictors; purple values are negative predictors. Variables with coefficents = 1 not displayed. X-axes are odds ratios on a log 10 scale."}
+plot_shamanism_text <- plot_shamanism_text + scale_x_log10()
+
+p <- plot_shamanism_text + plot_elastic_shamanism +
+  plot_annotation(
+    title = 'Predictors of Shamanism',
+    tag_levels = 'A', 
+    caption = 'Odds ratio', 
+    theme=theme(plot.caption=element_text(hjust=0.5, size=12, margin=margin(t=0)))
+    )
+ggsave('Figures/shamanism_plot.pdf', p, width = 8, height = 4)
+p
+```
+
+## Cognitive, social, and somatic capital
+
+Motivated by our feature analysis, and the apparent importance of shaman leaders, we tenatively advance a scheme, similar to @von_rueden_roots_2014[] [and inspired by @kaplan_embodied_2003; @kaplan_evolutionary_2009; @borgerhoff_mulder_intergenerational_2009], whereby leaders possess some combination of cognitive capital, social capital, and somatic capital that they deploy to provide benefits and impose costs (for further justification, see the Discussion section). Hence, we should be able to find examples of leaders with various combinations of these five elements.^[We omit material capital because this could be both a means to leadership as well as a benefit of leadership.]
+
+To test this idea, we operationized the five elements using the leadership qualities cluster analysis (Figure \@ref(fig:cluster)A) as guidance (see Table \@ref(tab:leadermarket)). We then calculated the fraction of text records with evidence for one or more of the five elements. See Figure \@ref(fig:fivefold).
+
+```{r fivefold, fig.width=10, fig.cap="The intersections of evidence for our five basic elements of leadership among all text records (an 'upset' plot) [@gehlenborg2019]. Horizontal bars (left): The total number of text records in each element. Black dots: has evidence. Gray dots: does not have evidence. Vertical bars (top): The number of text records in that intersection (with lower limit set at 3). Red: The number of text records involving shamans or leaders with supernatural qualities. "}
+
+shamanfn <- function(row){
+  row['shamanism'] == 'Shaman'
+}
+
+p <- upset(
+  df_fivefold2,
+  nintersects = 18,
+  order.by = 'freq',
+  point.size = 5, 
+  text.scale = 2,
+  queries = list(list(query = shamanfn, color = 'red', active=T))
+)
+pdf("Figures/upset.pdf", width = 12, height = 9)
+p
+dev.off()
+p
+```
+
+Figure \@ref(fig:fivefold) reveals that descriptions of leadership in the ethnographic record includes a heterogeneous mix of these five elements. In particular, not all leaders have evidence for high *Social capital*, leaders with *Cognitive capital* provide benefits *and* impose costs, and *Somatic capital* is rarely mentioned, but when it is, it is associated with providing benefits as well as imposing costs. Shamans are associated with evidence for *Cognitive capital* and imposing costs.
+
+<!-- Leadership and followership stem from biological market forces and information-processing roles [e.g., @garfield_evolutionary_2019; @hagen_leadership_2019; @pietraszewski_evolution_2019]. Much of human leadership goes beyond group coordination problems, such as leaders important roles in devising strategic outcomes between individuals, offering advice or decision-making services to individuals, and in making direct prosocial investments that do not involve substantial coordination. We therefore suggest leadership dynamics emerge from inter-individual competencies and leaders' abilities to provide benefits *or* impose costs, with these dimensions interacting with market forces rooted in follower preferences, group context, and cultural norms.  -->
+
+ <!-- Whereas @pietraszewski_evolution_2019 emphasizes leaders ability to propose various enterprises and followers ability to evaluate them, -->
+ 
 # Discussion
 
 This exploratory study systematically evaluated evidence for `r length(all_study_vars)` dimensions of leadership in a stratified random sample of the ethnographic record of `r nrow(leader_cult)` largely nonindustrial (non-WEIRD) cultures that included hunter-gatherers, pastoralists, horticulturalists, and agriculturalists. The quality and function dimensions were *not* determined prior to the study but were instead identified and coded during multiple passes through `r nrow(text_records)` texts on leadership obtained from the eHRAF (see Methods section). Results revealed universal dimensions of human leadership as well as important variation by group context, subsistence type, continental region, and sex of the leader.
@@ -754,12 +787,12 @@ Leadership and social influence are expected to be associated with particular su
 
 **Dominance and prestige**. Much of the evolutionary theoretical literature on leadership has suggested social influence is most often achieved via one of two distinct strategies: dominance or prestige [for review see @garfield_review_2019; @garfield_evolutionary_2019]. There is a long history of leadership styles being described as based on either force and strength (i.e., dominance) or respect and special skills (i.e., prestige). Such dual-models are rooted in the coupling of ethology and animal dominance hierarchies with ethnography and cultural prestige systems [see @mead_sex_1935; @sahlins_poor_1963; @lewis_leaders_1974; @tiger_dominance_1970; @bernstein_dominance_1976; @barkow_prestige_1975]. Synthesizing the ethnographic and ethological evidence, @kracke_force_1978 linked "force and persuasion" to psychological-affect between leaders and followers in small-scale societies and Barkow [-@barkow_prestige_1975; -@barkow_prestige_1980] suggested the evolution of human prestige was linked to intra- and inter-sexual selection of culturally acquired competencies. 
 
-@henrich_evolution_2001 introduced this important distinction to social science disciplines outside of anthropology, agreeing with @tiger_dominance_1970 and Barkow [-@barkow_prestige_1975; -@barkow_prestige_1980] on the evolutionary roots of dominance, but offering an evolutionary account of prestige rooted in social rather than sexual selection for culturally acquired competencies, which inspired much subsequent work across the behavioral sciences [e.g., @van_vugt_dual_2019; @cheng_two_2013; @maner_2016; @halevy_status_2012; @suessenbach_dominance_2019; @maner_dominance_2017; @garfield_evolutionary_2019; @garfield_investigating_2019]. @van_vugt_dual_2019 [p. 1], for example, "argue that there are two leadership styles: prestige style and dominance style," and @cheng_two_2013 [p. 119] in focusing on distinctions between dominance and prestige suggests, "human social stratification is characterized by the co-occurrence of both strategies." Our analyses support the cross-cultural importance of leader aggression and coercion, as well as culturally acquired competencies, but also indicate multiple features of leader qualities beyond dominance and prestige.
+@henrich_evolution_2001 introduced this important distinction to social science disciplines outside of anthropology, agreeing with @tiger_dominance_1970 and Barkow [-@barkow_prestige_1975; -@barkow_prestige_1980] on the evolutionary roots of dominance, but offering an evolutionary account of prestige rooted in social rather than sexual selection for culturally acquired competencies. @henrich_evolution_2001 inspired much subsequent work across the behavioral sciences [e.g., @van_vugt_dual_2019; @cheng_two_2013; @maner_2016; @halevy_status_2012; @suessenbach_dominance_2019; @maner_dominance_2017; @garfield_evolutionary_2019; @garfield_investigating_2019]. @van_vugt_dual_2019 [p. 1], for example, "argue that there are two leadership styles: prestige style and dominance style," and @cheng_two_2013 [p. 119] in focusing on distinctions between dominance and prestige suggests, "human social stratification is characterized by the co-occurrence of both strategies." Our analyses support the cross-cultural importance of leader aggression and coercion, as well as culturally acquired competencies, but they also indicate that some important modifiications are required.
 
 <!-- DISCUSSES COMPETENCIES FEATURE -->
-**Leader competencies and shamanism**. The individual competencies cluster (Figure \@ref(fig:cluster)) comprises variables associated with dominance-based leadership, including coercive authority and aggressiveness, as well as qualities associated with prestige-based leadership, including knowledgeable/intelligent and experienced/accomplished. These dimensions are among the most strongly supported in the ethnographic record (Figure \@ref(fig:varsupport)). 
+**Leader competencies and shamanism**. The individual competencies cluster (Figure \@ref(fig:cluster)A) comprises variables associated with dominance-based leadership, including coercive authority and aggressiveness, as well as qualities associated with prestige-based leadership, including knowledgeable/intelligent and experienced/accomplished. These dimensions are among the most strongly supported in the ethnographic record (Figure \@ref(fig:varsupport)). 
 
-Shamanism appears to be a distinct form of leadership that combines a strategy of inducing fear, similar to the dominance strategy, but is based on knowledge and expertise, similar to the prestige strategy. The *Competencies* feature included supernatural and feared dimensions (Figure \@ref(fig:cluster)). Our *Shamanism* variable (which was not one of our original leadership dimensions) was predicted by words that evoke dominance and prestige, such as *supernatural*, *power*, *fear*, and *knowledge* (Figure \@ref(fig:shamanism)A), and by four other leadership dimensions that also overlap with the dominance and prestige constructs: *Feared*, *Medicinal functions*, *Ritual functions*, and *Experience/accomplished*. Shamans often provide valued public goods, have special expertise and abilities, are feared, and achieve or maintain influence via threats or use of direct and/or indirect aggression. @winkelman1987cross found that in societies sampled from the HRAF ($n = 43$) shamans provided decision-making services within judiciary, economic, military, or political domains in 44% or more of societies, and held charismatic leadership roles in 19% of societies; @winkelman1992shamans emphasizes the influential positions of leadership shamans attain through their charisma, social unification, healing abilities, and use of supernatural powers to cause harm. Artistic performance is also implicated in this style of leadership and ceremonial, artistic performances by shamans are common displays which often incorporate superhuman abilities [@singh_cultural_2017]. 
+Shamanism appears to be a distinct form of leadership that combines a strategy of inducing fear, similar to the dominance strategy, but is based on knowledge and expertise, similar to the prestige strategy. The *Competencies* feature included supernatural and feared dimensions (Figure \@ref(fig:cluster)). Our *Shamanism* variable (which was not one of our original leadership dimensions) was predicted by words that evoke both dominance and prestige, such as *supernatural*, *power*, *fear*, and *knowledge* (Figure \@ref(fig:shamanism)A), and by four other leadership dimensions that also overlap with the dominance and prestige constructs: *Feared*, *Medicinal functions*, *Ritual functions*, and *Experience/accomplished*. @winkelman1987cross found that in societies sampled from the HRAF ($n = 43$) shamans provided decision-making services within judiciary, economic, military, or political domains in 44% or more of societies, and held charismatic leadership roles in 19% of societies; @winkelman1992shamans emphasizes the influential positions of leadership shamans attain through their charisma, social unification, healing abilities, and use of supernatural powers to cause harm. Artistic performance is also implicated in this style of leadership and ceremonial, artistic performances by shamans are common displays which often incorporate superhuman abilities [@singh_cultural_2017]. 
 
 @ng06-054 describes shaman leaders among the Ojibwa:
 
@@ -787,34 +820,11 @@ We also found that leader functions often involve prosocial investments in group
 
 ## Leadership and cognitive, social, and somatic capital
 
-In our view, the dominance-prestige and "dual-model" theories of leadership, while advancing the discipline, cannot easily account for shaman leaders nor "managers". These models, in short, have conflated the ability to provide "benefits" with knowledge and expertise, and the ability to impose "costs" with physical formidability. @van_vugt_dual_2019, for instance, state that the source of deference for prestige-style leadership is "Information asymmetry", and for dominance-style, "Power asymmetry" (their Table 1). Instead, as shaman leaders demonstrate, knowledge and expertise can both provide benefits and impose costs, and the same goes for physical formidability. The use of knowledge to impose costs is widely recognized by many social scientists. The role of gossip and other forms of indirect aggression in social dominance and achieving leadership roles, for instance, has been extensively investigated in WEIRD populations [e.g., @hawley_ontogenesis_1999; @hess_gossip_2017; @hess_sex_2006].
+In our view, the dominance-prestige and "dual-model" theories of leadership, while advancing the discipline, cannot easily account for shaman leaders nor "managers". These models, in short, have conflated the ability to provide "benefits" with knowledge and expertise, and the ability to impose "costs" with physical formidability. @van_vugt_dual_2019, for instance, state that the source of deference for prestige-style leadership is "Information asymmetry", and for dominance-style, "Power asymmetry" (their Table 1). Instead, as shaman leaders demonstrate, knowledge and expertise can both provide benefits and impose costs, and the same goes for physical formidability. The use of knowledge to impose costs is widely recognized by many social scientists. The role of gossip and other forms of indirect aggression in social dominance and achieving leadership roles, for instance, has been extensively investigated in WEIRD populations [e.g., @hawley_ontogenesis_1999; @hess_gossip_2017; @hess_sex_2006] and also among hunter-gatherers [@hess_interpersonal_2010]. 
 
-We therefore tenatively advance an alternative scheme, similar to @von_rueden_roots_2014[] [and inspired by @kaplan_embodied_2003; @kaplan_evolutionary_2009; @borgerhoff_mulder_intergenerational_2009], whereby individuals possess some combination of cognitive capital, social capital, and somatic capital that they use to provide benefits and impose costs. If their abilities to provide benefits or impose costs are exceptional relative to other group members, they gain status via biological market mechanisms [@hammerstein_biological_2016; @garfield_evolutionary_2019; @hagen_leadership_2019; @pietraszewski_evolution_2019]. Hence, we should be able to find examples of leaders with various combinations of these five elements.^[We omit material capital because this could be both a means to leadership as well as a benefit of leadership.]
 
-To test this idea, we operationized the five elements using the leadership qualities cluster analysis (Figure \@ref(fig:cluster)A) as guidance (see Table \@ref(tab:leadermarket)). We then calculated the fraction of text records with evidence for one or more of the five elements. See Figure \@ref(fig:fivefold).
+If their abilities to provide benefits or impose costs are exceptional relative to other group members, they gain status via biological market mechanisms [@hammerstein_biological_2016; @garfield_evolutionary_2019; @hagen_leadership_2019; @pietraszewski_evolution_2019]. 
 
-```{r fivefold, fig.width=10, fig.cap="The intersections of evidence for our five basic elements of leadership among all text records (an 'upset' plot) [@gehlenborg2019]. Horizontal bars (left): The total number of text records in each element. Dots (bottom): Elements that both have evidence (intersection). Vertical bars (top): The number of text records in that intersection (with lower limit set at 3). Red: The number of text records involving shamans or leaders with supernatural qualities. "}
-
-shamanfn <- function(row){
-  row['shamanism'] == 'Shaman'
-}
-
-upset(
-  df_fivefold2,
-  nintersects = 18,
-  order.by = 'freq',
-  point.size = 5, 
-  text.scale = 2,
-  queries = list(list(query = shamanfn, color = 'red', active=T))
-)
-
-```
-
-As Figure \@ref(fig:fivefold) reveals, descriptions of leadership in the ethnographic record includes a heterogeneous mix of these traits. In particular, not all leaders have evidence for high *Social capital*, leaders with *Cognitive capital* provide benefits *and* impose costs, and *Somatic capital* is rarely mentioned, but when it is, it is associated with providing benefits as well as imposing costs. Shamans are associated with evidence for *Cognitive capital* and imposing costs.
-
-<!-- Leadership and followership stem from biological market forces and information-processing roles [e.g., @garfield_evolutionary_2019; @hagen_leadership_2019; @pietraszewski_evolution_2019]. Much of human leadership goes beyond group coordination problems, such as leaders important roles in devising strategic outcomes between individuals, offering advice or decision-making services to individuals, and in making direct prosocial investments that do not involve substantial coordination. We therefore suggest leadership dynamics emerge from inter-individual competencies and leaders' abilities to provide benefits *or* impose costs, with these dimensions interacting with market forces rooted in follower preferences, group context, and cultural norms.  -->
-
- <!-- Whereas @pietraszewski_evolution_2019 emphasizes leaders ability to propose various enterprises and followers ability to evaluate them, -->
 
 # Limitations 
 
@@ -1152,15 +1162,15 @@ frmt <- function(label, vars){
 marketvars <-
   tibble(
     Element = c(
-      'High status', 
       frmt('Cognitive capital', cognitive_vars),
+      frmt('Social capital', social_vars), 
       frmt('Somatic capital', physical_vars),
       frmt('Provide benefits', benefit_ability_vars),
       frmt('Impose costs', cost_ability_vars)
     ),
     `Component variables` = c(
-    'High status',
     names(cognitive_vars),
+    names(social_vars),
     names(physical_vars),
     names(benefit_ability_vars),
     names(cost_ability_vars)

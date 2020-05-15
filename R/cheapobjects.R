@@ -914,3 +914,4 @@ df_fivefold2 <-
     shamanism  = ifelse(shamanism == 1, 'Shaman', 'Not shaman')
   ) %>% 
   as.data.frame
+
