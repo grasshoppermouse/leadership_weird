@@ -835,9 +835,9 @@ Leaders rely a range of individual capacities, including physical, supernatural,
 
 ## WEIRD leadership dimensions
 
-Below we briefly review leadership functions and qualities in WEIRD contexts to suppliment our discussions of non-WEIRD leaderhsip dynamics in the main text.
+Below we briefly review leadership functions and qualities in WEIRD contexts to supplement our discussions of non-WEIRD leadership dynamics in the main text.
 
-**WEIRD leadership functions**. In WEIRD societies, community and political leaders are primarily heads of governmental and corporate bodies [@bass_handbook_1990]. Other public service, nonprofit leaders and managers include law enforcement and police officers, college presidents and school principles, and grassroots community leaders, to name a few [@martiskainen_role_2017; @azzam_community_2003; @grace_school_2005]. These positions typically are associated with institutionalized responsibilities and specific functions. The structure of such organizations are generally hierarchical with nested bodies and an internal 'chain of command.' At higher levels of large-scale organizations, leaders primarily serve as representatives in inter-group interactions, facilitate the creation and adoption of policies, and serve as figure heads embodying the strategic vision of the organization [@keohane_thinking_2010]. They are not typically directly involved in resolving interpersonal conflicts between individuals, however, they are often the final end-point in a decision making hierarchy and the results of a single decision of these leaders can trickle down through industry or government with global ramifications. Within local communities and in smaller-scale economic groups, however, leaders in WEIRD populations *are* likely to be direlty involved in mediating conflicts and managing local cooperative projects [e.g., @acheson1988lobster; @rich_dynamics_1980].
+**WEIRD leadership functions**. In WEIRD societies, community and political leaders are primarily heads of governmental and corporate bodies [@bass_handbook_1990]. Other public service, nonprofit leaders and managers include law enforcement and police officers, college presidents and school principles, and grassroots community leaders, to name a few [@martiskainen_role_2017; @azzam_community_2003; @grace_school_2005]. These positions typically are associated with institutionalized responsibilities and specific functions. The structure of such organizations are generally hierarchical with nested bodies and an internal 'chain of command.' At higher levels of large-scale organizations, leaders primarily serve as representatives in inter-group interactions, facilitate the creation and adoption of policies, and serve as figure heads embodying the strategic vision of the organization [@keohane_thinking_2010]. They are not typically directly involved in resolving interpersonal conflicts between individuals, however, they are often the final end-point in a decision making hierarchy and the results of a single decision of these leaders can trickle down through industry or government with global ramifications. Within local communities and in smaller-scale economic groups, however, leaders in WEIRD populations *are* likely to be directly involved in mediating conflicts and managing local cooperative projects [e.g., @acheson1988lobster; @rich_dynamics_1980].
 
 <!-- THEORY ON WEIRD FUNCTIONS -->
 Scholars in managerial studies have developed multiple models on the functions of leadership. Classic management theorists [e.g., @davis_learning_1951] emphasized the planning, organizing, and controlling functions of leaders in formal organizational and business settings [see @bass_handbook_1990]. These perspectives focused on the rational, mechanistic aspects of group functioning and often overlooked interpersonal dynamics. Later theorists incorporated cognitive and socioemotional components of leaders functions. For example, @selznick_leadership_1957 describes the functions of organization leaders are to define the goals of the organization, create structures for accomplishing group goals, defend institutional integrity, and maintain internal consistency among group members. 
@@ -959,7 +959,7 @@ theplots <- all_emms(m_status_group2, c('subsistence', 'group.structure2', 'regi
 
 ## Relative effects of subsistence strategy, region, leader sex, and group structure on leadership dimension
 
-Below we plot the estimated margianl means of the effects for level of evidence for each of the `r vary_n` (out of `r nrow(multi_allvars)` total) which produced a model that showed an improvement *with* the four factor predictors over an intercepet only model, by the variable which produced the model improvement. See Figure \@ref(fig:heatmapdrop1)A in the main text. Figure \@ref(fig:heatmapgroups) plots the ledaerhsip dimensions which varied by group structure, Figure \@ref(fig:heatmapsubsis) plots the leadership dimensions which varied by subsistence stragegy, Figure \@ref(fig:heatmapregion) plots the leadership dimnenbsions which varied by contintental region, and Figure \@ref(fig:heatmapsex) plots the leadership dimensions which variaed by leader sex. Table \@ref(tab:variablevars) displays the nbumber of text records providing evidence for each of these the `r vary_n` varying leaderhsip dimennsions and the results of logistic mexed effects models including the AIC scores for the intercept only models, AIC values for models with the four predictors, the AIC difference, and adjusted p-values for the four factor coefficents. Table \@ref(tab:universalvars) displays the same information for the remaining leaderhsip dimensions which did not substantially vary by our four factors. 
+Below we plot the estimated marginal means of the effects for level of evidence for each of the `r vary_n` (out of `r nrow(multi_allvars)` total) which produced a model that showed an improvement *with* the four factor predictors over an intercept only model, by the variable which produced the model improvement. See Figure \@ref(fig:heatmapdrop1)A in the main text. Figure \@ref(fig:heatmapgroups) plots the leadership dimensions which varied by group structure, Figure \@ref(fig:heatmapsubsis) plots the leadership dimensions which varied by subsistence strategy, Figure \@ref(fig:heatmapregion) plots the leadership dimensions which varied by continental region, and Figure \@ref(fig:heatmapsex) plots the leadership dimensions which varied by leader sex. Table \@ref(tab:variablevars) displays the number of text records providing evidence for each of these the `r vary_n` varying leadership dimensions and the results of logistic mixed effects models including the AIC scores for the intercept only models, AIC values for models with the four predictors, the AIC difference, and adjusted p-values for the four factor coefficients. Table \@ref(tab:universalvars) displays the same information for the remaining leadership dimensions which did not substantially vary by our four factors. 
 
 ```{r heatmapgroups, fig.width=10, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each outcome variable by each group context. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
 
@@ -1034,6 +1034,17 @@ multi_out %>%
   
 ```
 
+## Ethnographer and Culture random effects
+
+```{r FunctionRE, fig.cap="Ethnographer and Culture random effects for function variables."}
+plot_fun_auth_cult_re
+```
+
+```{r QualityRE, fig.cap="Ethnographer and Culture random effects for quality variables."}
+plot_qual_auth_cult_re
+```
+
+
 ## Total leader benefits and costs
 
 To supplimnet analyses of costs and benefits we explored relationships between total leader benefits and costs, summed across all leader benefit and cost variables, respectively, by the predictor variables used above (subsistence strategy, continental region, leader sex, and group structure). There was less evidence for leader costs, however, which limited our ability to fit exploratory regression models. Therefore, in modeling total leader costs, we used subsistence and group structure as predictors. In general, leaders at the highest supracommunity political level had the most evidence for receiving benefits and the least evidence for suffering costs and leaders of military groups has the highest total costs. See Figure \@ref(fig:leadertotalbenefits).
@@ -1069,12 +1080,19 @@ theplots[[1]] / theplots[[2]] + plot_annotation(title = 'Predictors of leader co
 
 We explored logistic PCA to reduce the dimensionality of the `r length(quality_vars)` leader quality variables and the `r length(function_vars)` leader function variables, all of which take binary values (0, 1) using the logisticPCA package. This algorithm projects the natural parameters of the saturated model onto the lower $k-$dimension space that minimizes the Bernoulli deviance [@logisticPCA]. Prior to analysis we removed all rows that had no evidence for any variable, which resulted in `r nrow(df_qual)` text records for the leader quality variables and `r nrow(df_func)` text records for the leader function variables. We used cross-validation to optimize rank, $k$, and a tuning parameter, $m$ (the value to approximate the saturated model), per recommendation of the package authors.
 
+For the function dimensions, logistic PCA identified an *Organize vs. Resolve conflict* component (PC1) and a *Military/Supracommunity functions vs. Social functions* component (PC 2). PC 2 also generally correspond to between-group functions vs. within group functions. See Figure \@ref(fig:logisticpcafunc).
+
+For the qualities dimensions, logistic PCA identified a *Knowledge & expertise vs. Reproductive success & dominance* component (PC 1) and a *Social capital vs. Dominance & knowledge* component (PC 2). See Figure \@ref(fig:logisticpcaqual).
+
+We then explored associations of PC1 and PC2 with the following culture-level and document level variables: continental region, subsistence strategy, cultural complexity, settlement fixity, population density, community size, discussion of female leadership, female ethnographer, number of pages of ethnography, and publication date. We did not find any convincing associations with any of these culture-level or document-level variables.
+
+We explored a biplot of both of the leadership function dimensions PCA, indicating the text records which provided evidence only one of *Military command*, *Misc. social functions*, *Organize cooperation*, *Resolve conflict*, or *Mixed* when a text record provided evidence for more than one leaders function dimension. Figure \@ref(fig:lpcafuncbiplot) reveals these four functions of leaders correspond fairly well to relationships between PC1 and PC2. We explored a similar biplot for the leadership quality dimension PCA, indicating text records which provided evidence for only *Aggressiveness*, *High status*, *Knowledge/intelligence* or *Experienced/accomplished* (i.e., we collapsed these two dimensions), or *Polygnous*, from *Mixed* text records. There was less overall distinctions in PC1-PC2 space, but there is some structure between these dimensions. See Figure \@ref(fig:lpcaqualbiplot).
+
 
 ```{r logisticpcafunc, fig.height=8, fig.width=10, fig.cap="Logistic PCA of leader function variables with two principal components."}
 logisticPCA_loadings_plot(m_lpca_func, df_func)
 ```
 
-We then explored associations of PC1 and PC2 with the following culture-level and document level variables: continental region, subsistence strategy, cultural complexity, settlement fixity, population density, community size, discussion of female leadership, female ethnographer, number of pages of ethnography, and publication date. We did not find any convincing associations with any of these culture-level or document-level variables.
 
 ```{r lpcafuncbiplot, fig.cap="Function variable PC scores for each text record. Colors represent text records that had evidence for a function variable that loaded highly on either PC1 or PC2 (but no evidence for the other high-loading variables). Mixed: evidence for two or more of high-loading variables."}
 plot_lpca_func
@@ -1093,7 +1111,9 @@ plot_lpca_qual
 
 ## Feature models
 
-We constructed `r length(features)` "feature" variables from the higher-level clusters (Figure \@ref(fig:cluster)): `r paste(features, collapse = ', ')`. The Strategize, Prosociality, and Organize features were modestly positively correlated with each other, but not with Prestige or Social/reproductive/material success. Prosocial competencies was correlated with Cultural conformity. See Figure \@ref(fig:featurecor).
+As discussed in the main text, we constructed `r length(features)` "feature" variables from the higher-level clusters (Figure \@ref(fig:cluster)): `r paste(features, collapse = ', ')`. The *Strategize*, *Prosociality*, and *Organize* features were modestly positively correlated with each other, but not with *Competencies*, *Proscoial competencies*, or *Social, reproductive, material success* features. The *Prosocial competencies* feature was modestly correlated with *Cultural conformity* and *Competencies* was modestly correlated with both the *Prosical competentcis* and *Social, reproductive, material success* features. See Figure \@ref(fig:featurecor).
+
+We also explored the degree to which our feature variables varied by our four factors by comparing similar mixed effects models with either only intercepts or wiht the four factors. See Table \@ref(tab:featurecoefs) for AIC values and coefficents. The *Cultural conformity* feature model was not improved by the inclusion of the four factors as predictors, however the models predicting the other `r (length(features)-1)` feature variables were improved with the predictive factors (see Figure \@ref(fig:heatmapdrop1)B in the main text. We again used drop1 AIC comparison to identify which factors improved the models. Only leader sex and group structure improved model fit. See Figure \@ref(fig:heatmap_feature_sex) and Figure \@ref(fig:heatmapfeaturegroups). These results largely correspond to interpretations of our leadership dimension models previously discussed. 
 
 
 ```{r featurecor, fig.cap="Feature variable correlation matrix. Values are correlation coefficients."}
@@ -1151,16 +1171,6 @@ feature_models %>%
 
 ```
 
-
-## Ethnographer and Culture random effects
-
-```{r FunctionRE, fig.cap="Ethnographer and Culture random effects for function variables."}
-plot_fun_auth_cult_re
-```
-
-```{r QualityRE, fig.cap="Ethnographer and Culture random effects for quality variables."}
-plot_qual_auth_cult_re
-```
 
 ## Leader market variable operationalization
 
