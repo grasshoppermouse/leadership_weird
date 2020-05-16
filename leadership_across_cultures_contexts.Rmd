@@ -835,12 +835,9 @@ Leaders rely a range of individual capacities, including physical, supernatural,
 
 ## WEIRD leadership dimensions
 
-Below we briefly review leadership functions and qualities in WEIRD contexts, to suppliment our discussions of non-WEIRD leaderhsip dynamics in the main text. 
+Below we briefly review leadership functions and qualities in WEIRD contexts to suppliment our discussions of non-WEIRD leaderhsip dynamics in the main text.
 
-### WEIRD leadership functions
-
-<!-- WEIRD ORGNIZATIONAL STRUCTURE TELLS FUNCTIONS -->
-In WEIRD societies, community and political leaders are primarily heads of governmental and corporate bodies [@bass_handbook_1990]. Other public service, nonprofit leaders and managers include law enforcement and police officers, college presidents and school principles, and grassroots community leaders, to name a few [@martiskainen_role_2017; @azzam_community_2003; @grace_school_2005]. These positions typically are associated with institutionalized responsibilities and specific functions. The structure of such organizations are generally hierarchical with nested bodies and an internal 'chain of command.' At higher levels of large-scale organizations, leaders primarily serve as representatives in inter-group interactions, facilitate the creation and adoption of policies, and serve as figure heads embodying the strategic vision of the organization [@keohane_thinking_2010]. They are not typically directly involved in resolving interpersonal conflicts between individuals, however, they are often the final end-point in a decision making hierarchy and the results of a single decision of these leaders can trickle down through industry or government with global ramifications. Within local communities and in smaller-scale economic groups, however, leaders in WEIRD populations *are* likely to be direlty involved in mediating conflicts and managing local cooperative projects [e.g., @acheson1988lobster; @rich_dynamics_1980].
+**WEIRD leadership functions**. In WEIRD societies, community and political leaders are primarily heads of governmental and corporate bodies [@bass_handbook_1990]. Other public service, nonprofit leaders and managers include law enforcement and police officers, college presidents and school principles, and grassroots community leaders, to name a few [@martiskainen_role_2017; @azzam_community_2003; @grace_school_2005]. These positions typically are associated with institutionalized responsibilities and specific functions. The structure of such organizations are generally hierarchical with nested bodies and an internal 'chain of command.' At higher levels of large-scale organizations, leaders primarily serve as representatives in inter-group interactions, facilitate the creation and adoption of policies, and serve as figure heads embodying the strategic vision of the organization [@keohane_thinking_2010]. They are not typically directly involved in resolving interpersonal conflicts between individuals, however, they are often the final end-point in a decision making hierarchy and the results of a single decision of these leaders can trickle down through industry or government with global ramifications. Within local communities and in smaller-scale economic groups, however, leaders in WEIRD populations *are* likely to be direlty involved in mediating conflicts and managing local cooperative projects [e.g., @acheson1988lobster; @rich_dynamics_1980].
 
 <!-- THEORY ON WEIRD FUNCTIONS -->
 Scholars in managerial studies have developed multiple models on the functions of leadership. Classic management theorists [e.g., @davis_learning_1951] emphasized the planning, organizing, and controlling functions of leaders in formal organizational and business settings [see @bass_handbook_1990]. These perspectives focused on the rational, mechanistic aspects of group functioning and often overlooked interpersonal dynamics. Later theorists incorporated cognitive and socioemotional components of leaders functions. For example, @selznick_leadership_1957 describes the functions of organization leaders are to define the goals of the organization, create structures for accomplishing group goals, defend institutional integrity, and maintain internal consistency among group members. 
@@ -857,9 +854,7 @@ The GLOBE CEO Study defined six "global leadership behaviors" developed from 21 
 <!-- Participative leadership was moderately related to TMT dedication, however was not related to firm performance.  -->
 The most successful CEOs are those who are rated as more visionary, performance oriented, and decisive. Furthermore, results strongly suggest the fit between a CEO's behavioral profile and the expectations of leadership within a society strongly predict TMT dedication and firm performance. By developing higher-order features of leadership behavior and situating leadership functions within more detailed frameworks, insights from managerial studies can more effectively be coupled with approaches from across behavioral science.
 
-### WEIRD leadership qualities
-
-Drawing on cross-national data through the GLOBE project from over 15,000 middle managers in businesses across 60 countries, @den_hartog_culture_1999 conclude that elements of charismatic and transformational leadership -- leadership styles when leaders express an inclusive vision of future progress, lead through inspiration, and develop initiatives in collaboration -- are universally endorsed across nations and are qualities perceived to be associated with effective leadership. In particular, inducing motivation, having foresight, being encouraging and communicative, trustworthiness, and building self-confidence among followers are suggested to be universal attributes of outstanding leadership in managerial contexts.
+**WEIRD leadership qualities**. Drawing on cross-national data through the GLOBE project from over 15,000 middle managers in businesses across 60 countries, @den_hartog_culture_1999 conclude that elements of charismatic and transformational leadership -- leadership styles when leaders express an inclusive vision of future progress, lead through inspiration, and develop initiatives in collaboration -- are universally endorsed across nations and are qualities perceived to be associated with effective leadership. In particular, inducing motivation, having foresight, being encouraging and communicative, trustworthiness, and building self-confidence among followers are suggested to be universal attributes of outstanding leadership in managerial contexts.
 
 <!-- Other attributes of charismatic leadership found to be culturally contingent included ambitiousness, self-effacing, enthusiasm, and risk-taking [@den_hartog_culture_1999].  -->
 
@@ -867,10 +862,7 @@ Within managerial studies scholars often suggest the cognitive demands of leader
 
 In more socially stratified, politically complex, and in increasingly WEIRD contexts, heredity, ascribed social statuses and affiliations are more likely to be critical qualities in achieving and/or maintaining leadership positions. 
 
-### WEIRD costs and benefits
-
-<!-- COSTS: INCREASED SOCIAL OR PHYSICAL RISK FROM MEDIATION - LSS -->
-Conceptualizing leadership as a possible solution to problems associated with collective goods and actions [e.g., @olson_logic_1965; @glowacki_leadership_2015; @hooper_theory_2010; @pietraszewski_evolution_2019], where group members pool resources and share costs of public goods to receive a net benefit from a cooperative endeavor, leaders incur costs associated with managing contributions, coordinating behaviors, and broadcasting information to maintain coordination and cooperation. In this framework, leaders and followers voluntary participate in a cooperative enterprise with the expectation that benefits will outweigh the associated costs. @rich_dynamics_1980 adopts this framework of collective costs and benefits to understand leadership and group dynamics in WEIRD urban neighborhood organizations, which can be viewed as self-interested groups that face group-wide problems and necessarily share public benefits. The costs associated with leadership in neighborhood organizations follow those associated with other collective enterprises (e.g., investments of time and energy in management and maintenance of group coordination). @rich_dynamics_1980 conceptualizes four categories of the benefits associated with neighborhood organization. Leaders of neighborhood organizations (1) may receive benefits of the public goods produces from collective actions (as other non-leaders would as well); (2), may receive selective benefits from surpluses produced through collective actions; (3) may receive incidental benefits from their leadership role; and (4) leaders of neighborhood organizations may enjoy their service in the position. @rich_dynamics_1980 interviewed 54 officers from 11 metropolitan neighborhood organizations in the Midwest US. Results from extensive interviews suggest personal fulfillment and enjoyment are the main motivational drivers of participation in leadership roles of neighborhood organizations, suggesting the process of leadership for individuals is distinct from theoretical models rooted in economics. Therefore, a primary benefit of leadership, in some contexts, is likely to be intrinsic personal fulfillment and the opportunity to execute personal values of community service. 
+**WEIRD leadership costs and benefits**. Conceptualizing leadership as a possible solution to problems associated with collective goods and actions [e.g., @olson_logic_1965; @glowacki_leadership_2015; @hooper_theory_2010; @pietraszewski_evolution_2019], where group members pool resources and share costs of public goods to receive a net benefit from a cooperative endeavor, leaders incur costs associated with managing contributions, coordinating behaviors, and broadcasting information to maintain coordination and cooperation. In this framework, leaders and followers voluntary participate in a cooperative enterprise with the expectation that benefits will outweigh the associated costs. @rich_dynamics_1980 adopts this framework of collective costs and benefits to understand leadership and group dynamics in WEIRD urban neighborhood organizations, which can be viewed as self-interested groups that face group-wide problems and necessarily share public benefits. The costs associated with leadership in neighborhood organizations follow those associated with other collective enterprises (e.g., investments of time and energy in management and maintenance of group coordination). @rich_dynamics_1980 conceptualizes four categories of the benefits associated with neighborhood organization. Leaders of neighborhood organizations (1) may receive benefits of the public goods produces from collective actions (as other non-leaders would as well); (2), may receive selective benefits from surpluses produced through collective actions; (3) may receive incidental benefits from their leadership role; and (4) leaders of neighborhood organizations may enjoy their service in the position. @rich_dynamics_1980 interviewed 54 officers from 11 metropolitan neighborhood organizations in the Midwest US. Results from extensive interviews suggest personal fulfillment and enjoyment are the main motivational drivers of participation in leadership roles of neighborhood organizations, suggesting the process of leadership for individuals is distinct from theoretical models rooted in economics. Therefore, a primary benefit of leadership, in some contexts, is likely to be intrinsic personal fulfillment and the opportunity to execute personal values of community service. 
 
 
 
@@ -967,6 +959,14 @@ theplots <- all_emms(m_status_group2, c('subsistence', 'group.structure2', 'regi
 
 ## Relative effects of subsistence strategy, region, leader sex, and group structure on leadership dimension
 
+Below we plot the estimated margianl means of the effects for level of evidence for each of the `r vary_n` (out of `r nrow(multi_allvars)` total) which produced a model that showed an improvement *with* the four factor predictors over an intercepet only model, by the variable which produced the model improvement. See Figure \@ref(fig:heatmapdrop1)A in the main text. Figure \@ref(fig:heatmapgroups) plots the ledaerhsip dimensions which varied by group structure, Figure \@ref(fig:heatmapsubsis) plots the leadership dimensions which varied by subsistence stragegy, Figure \@ref(fig:heatmapregion) plots the leadership dimnenbsions which varied by contintental region, and Figure \@ref(fig:heatmapsex) plots the leadership dimensions which variaed by leader sex. Table \@ref(tab:variablevars) displays the nbumber of text records providing evidence for each of these the `r vary_n` varying leaderhsip dimennsions and the results of logistic mexed effects models including the AIC scores for the intercept only models, AIC values for models with the four predictors, the AIC difference, and adjusted p-values for the four factor coefficents. Table \@ref(tab:universalvars) displays the same information for the remaining leaderhsip dimensions which did not substantially vary by our four factors. 
+
+```{r heatmapgroups, fig.width=10, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each outcome variable by each group context. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
+
+p_heatmap_groups + theme_minimal(15)
+```
+
+
 ```{r heatmapsubsis, fig.width=10, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each outcome variable by each subsistence strategy. Estimated marginal means were standardized by rows, and therefore can only be compared within rows, i.e., the colors represent the relative amount of evidence across levels of the categorical predictor within the same outcome variable."}
 
 p_heatmap_subsis + theme_minimal(15)
@@ -977,22 +977,20 @@ p_heatmap_subsis + theme_minimal(15)
 p_heatmap_region + theme_minimal(15)
 ```
 
-Leadership dimensions for which leader sex significantly improved fit. Note that very few text records (N=`r sum(all_data$demo_sex=='both')`) explicitly mentioned both male and female leaders. Hence, although not depicted here, the confidence intervals for the estimated marginal means for this level are wide.
+```{r heatmapsex, fig.width=10, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each outcome variable by leader sex. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
+
+p_heatmap_sex + theme_minimal(15)
+```
+
+Note that very few text records (N=`r sum(all_data$demo_sex=='both')`) explicitly mentioned both male and female leaders. Hence, although not depicted here, the confidence intervals for the estimated marginal means for this level are wide. See Table \@ref(tab:sexsubtable) for the distribution of leader sex data by subsistence strategy. 
+
 
 ```{r sexsubtable}
 kable(sub_sex_tbl, 
       caption = 'Distribution of text records by leader sex and subsistence strategy.')
 ```
 
-```{r heatmapsex, fig.width=10, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each outcome variable by leader sex. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
 
-p_heatmap_sex + theme_minimal(15)
-```
-
-```{r heatmapgroups, fig.width=10, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each outcome variable by each group context. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
-
-p_heatmap_groups + theme_minimal(15)
-```
 
 ```{r multiout}
 multi_out <-
@@ -1068,6 +1066,9 @@ theplots[[1]] / theplots[[2]] + plot_annotation(title = 'Predictors of leader co
 ```
 
 ## Dimension reduction
+
+We explored logistic PCA to reduce the dimensionality of the `r length(quality_vars)` leader quality variables and the `r length(function_vars)` leader function variables, all of which take binary values (0, 1) using the logisticPCA package. This algorithm projects the natural parameters of the saturated model onto the lower $k-$dimension space that minimizes the Bernoulli deviance [@logisticPCA]. Prior to analysis we removed all rows that had no evidence for any variable, which resulted in `r nrow(df_qual)` text records for the leader quality variables and `r nrow(df_func)` text records for the leader function variables. We used cross-validation to optimize rank, $k$, and a tuning parameter, $m$ (the value to approximate the saturated model), per recommendation of the package authors.
+
 
 ```{r logisticpcafunc, fig.height=8, fig.width=10, fig.cap="Logistic PCA of leader function variables with two principal components."}
 logisticPCA_loadings_plot(m_lpca_func, df_func)
