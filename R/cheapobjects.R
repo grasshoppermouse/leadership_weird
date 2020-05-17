@@ -846,17 +846,18 @@ df_fivefold2 <-
   ) %>% 
   as.data.frame
 
-# shamanfn <- function(row){
-#   row['shamanism'] == 'Shaman'
-# }
-# 
-# upset(
-#   df_fivefold2,
-#   nsets = 6,
-#   # nintersects = 18,
-#   # nintersects = 20,
-#   order.by = 'freq',
-#   point.size = 5, 
-#   text.scale = 2,
-#   queries = list(list(query = shamanfn, color = 'red', active=T))
-# )
+shamanfn <- function(row){
+  row['shamanism'] == 'Shaman'
+}
+
+upset(
+  df_fivefold2,
+  nsets = 6,
+  # nintersects = 18,
+  # nintersects = 20,
+  order.by = 'freq',
+  group.by = 'degree',
+  point.size = 5,
+  text.scale = 2,
+  queries = list(list(query = shamanfn, color = 'red', active=T))
+)
