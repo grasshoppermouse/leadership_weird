@@ -820,20 +820,24 @@ physical_vars <- reverse_vars_dict[physical_vars]
 social_vars <- c('High status', 'Social contacts')
 social_vars <- reverse_vars_dict[social_vars]
 
+material_vars <- 'Wealthy'
+material_vars <- reverse_vars_dict[material_vars]
+
 df_fivefold2 <-
   all_data %>% 
   left_join(df_shaman[c('cs_textrec_ID', 'shamanism')]) %>% 
   select(
     shamanism,
     qualities_HighStatus, 
-    one_of(c(physical_vars, benefit_ability_vars, cost_ability_vars, cognitive_vars))
+    one_of(c(physical_vars, benefit_ability_vars, cost_ability_vars, cognitive_vars, material_vars))
   ) %>% 
   transmute(
-    `Social_capital` = apply(all_data[social_vars], 1, any),
-    `Provide_benefits` = apply(all_data[benefit_ability_vars], 1, any),
-    `Somatic_capital` = apply(all_data[physical_vars], 1, any),
-    `Impose_costs` = apply(all_data[cost_ability_vars], 1, any),
-    `Cognitive_capital` = apply(all_data[cognitive_vars], 1, any), 
+    Social_capital = apply(all_data[social_vars], 1, any),
+    Provide_benefits = apply(all_data[benefit_ability_vars], 1, any),
+    Somatic_capital = apply(all_data[physical_vars], 1, any),
+    Impose_costs = apply(all_data[cost_ability_vars], 1, any),
+    Cognitive_capital = apply(all_data[cognitive_vars], 1, any), 
+    Material_capital = apply(all_data[material_vars], 1, any),
     shamanism = shamanism
   ) %>% 
   mutate_all(as.numeric) %>%
@@ -842,3 +846,17 @@ df_fivefold2 <-
   ) %>% 
   as.data.frame
 
+# shamanfn <- function(row){
+#   row['shamanism'] == 'Shaman'
+# }
+# 
+# upset(
+#   df_fivefold2,
+#   nsets = 6,
+#   # nintersects = 18,
+#   # nintersects = 20,
+#   order.by = 'freq',
+#   point.size = 5, 
+#   text.scale = 2,
+#   queries = list(list(query = shamanfn, color = 'red', active=T))
+# )
