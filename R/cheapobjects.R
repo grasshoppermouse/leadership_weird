@@ -802,7 +802,7 @@ omit_cost_vars <- c(
   'Coercive authority'
 )
 cost_ability_vars <- cost_ability_vars[!cost_ability_vars %in% omit_cost_vars]
-cost_ability_vars <- c(cost_ability_vars, 'Feared') # from other cluster
+cost_ability_vars <- c(cost_ability_vars, 'Feared', 'Punishment') # from other cluster
 cost_ability_vars <- reverse_vars_dict[cost_ability_vars]
 
 cognitive_vars <- labels(qual_dendro[[2]][[2]][[2]])
@@ -846,18 +846,18 @@ df_fivefold2 <-
   ) %>% 
   as.data.frame
 
-shamanfn <- function(row){
-  row['shamanism'] == 'Shaman'
-}
-
-upset(
-  df_fivefold2,
-  nsets = 6,
-  # nintersects = 18,
-  # nintersects = 20,
-  order.by = 'freq',
-  group.by = 'degree',
-  point.size = 5,
-  text.scale = 2,
-  queries = list(list(query = shamanfn, color = 'red', active=T))
-)
+# shamanfn <- function(row){
+#   row['shamanism'] == 'Shaman'
+# }
+# 
+# upset(
+#   df_fivefold2,
+#   nsets = 6,
+#   sets = c('Cognitive_capital', 'Social_capital', 'Material_capital', 'Somatic_capital', 'Provide_benefits', 'Impose_costs'),
+#   keep.order = T,
+#   nintersects = 30,
+#   order.by = 'freq',
+#   point.size = 5,
+#   text.scale = 2,
+#   queries = list(list(query = shamanfn, color = 'red', active=T))
+# )
