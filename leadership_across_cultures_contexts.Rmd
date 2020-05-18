@@ -22,6 +22,7 @@ library(gt)
 loadd(all_data)
 loadd(all_data2)
 loadd(all_study_vars)
+loadd(anticoercive_plot)
 loadd(coercive_plot)
 loadd(df_func)
 loadd(df_qual)
@@ -58,6 +59,7 @@ loadd(p_heatmap_feature_region)
 loadd(p_heatmap_feature_sex)
 loadd(p_heatmap_feature_groups)
 loadd(plot_costs_benefits)
+loadd(plot_elastic_anticoercive)
 loadd(plot_elastic_shamanism)
 loadd(plot_elastic_status)
 loadd(plot_elastic_coercive)
@@ -157,9 +159,9 @@ Although, empirically, leadership is *associated* with benefits, evolutionary mo
 
 # Study aims
 
-Whereas @garfield_evolutionary_2019 used the ethnographic record to conduct *a priori* tests of leadership theories, here we aim to let the ethnographic record of leadership "speak for itself." We seek to provide a systematic and near comprehensive view of the qualities and functions of leaders, and the costs and benefits of leadership and followership, from a representative cross-cultural sample of nonindustrial populations. We then explore how these dimensions of leadership vary within populations across social contexts and across populations with different subsistence strategies, as well as by leader sex and continental region. We aim to identify *features* of the qualities and functions of leaders (e.g., do particular qualities or functions tend to covary or cluster together?). Such features might lend support to existing theories; for instance they might correspond to qualities associated with "prestige" or "dominance" [@henrich_evolution_2001] or functions associated with conflict or cooperation [@gavrilets_collective_2015; @glowacki_evolutionary_2017; @hooper_theory_2010]. Finally, we hope to synthesize the empirically-derived features of leadership with evolutionary theories of social organization to propose essential elements of leadership.
+We seek to provide a systematic and near comprehensive view of the qualities and functions of leaders, and the costs and benefits of leadership and followership, from a representative cross-cultural sample of nonindustrial populations. We then explore how these dimensions of leadership vary within populations across social contexts and across populations with different subsistence strategies, as well as by leader sex and continental region. We aim to identify *features* of the qualities and functions of leaders (e.g., do particular qualities or functions tend to covary or cluster together?). Such features might lend support to existing theories; for instance they might correspond to qualities associated with "prestige" or "dominance" [@henrich_evolution_2001] or functions associated with conflict or cooperation [@gavrilets_collective_2015; @glowacki_evolutionary_2017; @hooper_theory_2010]. Finally, we hope to synthesize the empirically-derived features of leadership with evolutionary theories of social organization to propose essential elements of leadership.
 
-Our approach was exploratory: we did not have *a priori* hypotheses to test.
+Our approach was exploratory. Whereas previously we used the ethnographic record to conduct *a priori* tests of leadership theories [@garfield_evolutionary_2019], here we aim to let the ethnographic record of leadership "speak for itself." We did not have *a priori* hypotheses to test.
 
 <!-- Such exploratory results stand to facilitate more fine-grained approaches within leadership studies and greater theoretical and empirical work beyond community leadership, while also revealing the importance of a broad, cross-cultural perspective in understanding the psychology and cultural patterning of perhaps the most foundational component of human social behavior and organization. -->
 
@@ -178,7 +180,7 @@ qual_func_var_tab<-read_csv('func_qual_definitions.csv', na = 'NA')
 kable(qual_func_var_tab, caption = "Operational definitions for coded leader qualities and functions.")
 ```
 
-In contrast to the qualities and functions dimensions, operationalizations of the costs and benefits of leadership were developed *a priori* based on theoretical literature. For both followers and leaders, we coded evidence of costs paid or benefits received in the following categories: social status, reduced or increased risk of harm or conflict, social services, territory, mating, fitness, food resources, material resources, and other miscellaneous costs or benefits not captured by these categories. See Table \@ref(tab:costbenefitvars). Some of the costs and benefits (e.g., mating) were similar to leader qualities (e.g., polygyny). The distinction is that costs and benefits were transactional whereas qualities were descriptive (e.g., leaders obtain wives vs. having wives).
+In contrast to the qualities and functions dimensions, operationalizations of the costs and benefits of leadership were developed *a priori* based on theoretical literature. For both followers and leaders, we coded evidence of costs paid or benefits received in the following categories: social status, reduced or increased risk of harm or conflict, social services, territory, mating, fitness, food resources, material resources, and other miscellaneous costs or benefits not captured by these categories. See Table \@ref(tab:costbenefitvars). Some of the costs and benefits (e.g., mating) were similar to leader qualities (e.g., polygyny). The distinction is that costs and benefits were transactional whereas qualities were descriptive (e.g., leaders obtain wives vs. have wives).
 
 ```{r costbenefitvars, echo=FALSE, message=F, warning=FALSE}
 cost_benefit_vars_tab<-read_csv('costs_benefits.csv', na = 'NA')
@@ -195,7 +197,7 @@ This text record was coded has having evidence for the functions *Resolve confli
 
 Each culture was coded for continental region, total pages of ethnography for that culture in the eHRAF, and subsistence strategy. We rely on a modified classification of subsistence from the HRAF, collapsing “hunter-gatherers” and “primarily hunter-gatherers” into a single category, “hunter-gatherers,” and by collapsing “agro-pastoralists” and “pastoralists” into a single “pastoralists” category. We renamed the HRAF’s “Other” subsistence category, which is applied to societies with various combinations of hunting, fishing, gathering, pastoralism, and horticulture or intensive agriculture, as “mixed.” This produced a subsistence classification with five groups: Hunter-gatherers, Pastoralists, Horticulturalists, Agriculturalists, and Mixed.
 
-Each document was coded for publication date and the ethnographer(s) sex (some metadata collected/confirmed with @mehr_natural_2016). For additional details on ethnographic sampling and creation of the text record database, see @garfield_evolutionary_2019.
+Each document was coded for publication date and the ethnographer(s) sex [some metadata collected/confirmed with @mehr_natural_2016]. For additional details on ethnographic sampling and creation of the text record database, see @garfield_evolutionary_2019.
 
 ## Data analysis
 
@@ -350,7 +352,7 @@ vary_n <- sum(df_compare2$AIC_diff < -2)
 
 ```
 
-We first examined the leadership dimensions with the most evidence, i.e., the  `r commondim_n` for which evidence was found in at least 60% of cultures. Of these, `r universals_n` did not meaningfully vary by the four factors. Because evidence for these dimensions was common across cultures and did not meaningfully vary, the `r universals_n` dimensions are candidates for universal dimensions of human leadership. See Table \@ref(tab:leaderuniversals).
+We first examined the leadership dimensions with the most evidence, i.e., the  `r commondim_n` for which evidence was found in at least 60% of cultures. Of these, `r universals_n` dimensinos did not meaningfully vary by continental region, subsistence strategy, group context, or leader sex, and are therefore candidates for universal dimensions of human leadership. See Table \@ref(tab:leaderuniversals).
 
 ```{r leaderuniversals}
 
@@ -364,15 +366,15 @@ df_compare2 %>%
   ) %>% 
   select(Type, Variable, `Percent of cultures`) %>% 
   arrange(-`Percent of cultures`) %>% 
-  kable(digits = 1, caption = "Candidate universal dimensions of leadership. These dimensions were common in the ethnographic record (appearing in at least 60% of cultures), and did not appear to meaningfully vary by group context, subsistence strategy, continental region, or leader sex.")
+  kable(digits = 1, caption = "Candidate universal dimensions of leadership. These dimensions were common in the ethnographic record (appearing in at least 60% of cultures), and did not appear to meaningfully vary bycontinental region, subsistence strategy,  group context, or leader sex.")
 
 ```
 
 ## Variation by group structure, subsistence strategy, continental region, and leader sex
 
-We then examined the `r vary_n` (out of `r nrow(multi_allvars)` total) leadership dimensions that exhibited important variation by one or more of our four factors, i.e., whose AIC values indicated improved fits over the intercept-only models (see Tables S\@ref(tab:variablevars) and S\@ref(tab:universalvars)). To determine which of the four factors contributed to improved fit, we dropped each factor in turn and computed the change in AIC. For most of these `r vary_n` varying dimensions of leadership, one factor had a noticeably bigger effect on fit than the others. Variation in group context, in particular, was associated with variation in almost half of the dimensions. See Figure \@ref(fig:heatmapdrop1)A.
+We then examined the `r vary_n` (out of `r nrow(multi_allvars)` total) leadership dimensions that exhibited important variation by one or more of our four factors, i.e., whose AIC values indicated improved fits over the intercept-only models (see Tables S\@ref(tab:variablevars) and S\@ref(tab:universalvars)). To determine which of the four factors contributed to improved fit, we dropped each factor in turn and computed the change in AIC. For most of these `r vary_n` varying dimensions of leadership, one factor had a noticeably bigger effect on fit than the others. Variation in group context, in particular, was associated with variation in almost half of the dimensions (Figure \@ref(fig:heatmapdrop1)A) and half the features (Figure \@ref(fig:heatmapdrop1)B).
 
-```{r heatmapdrop1, fig.width=12, fig.cap="Leadership dimensions and features that varied by group context, subsistence strategy, continental region, and/or leader sex. A. Leadership dimensions. B. Leadership features. Colors represent the relative change in AIC value after dropping that factor from a multiple logistic mixed effects regression model. Yellow: dropping factor substantially increased AIC relative to other factors. Black: dropping factor did not substantially increase AIC relative to other factors. Delta AIC values were standardized by rows, and therefore can only be compared within rows."}
+```{r heatmapdrop1, fig.width=12, fig.cap="Leadership dimensions and features that, according to a decrease in AIC relative to intercept-only models, varied by group context, subsistence strategy, continental region, and/or leader sex. A. Leadership dimensions. B. Leadership features. Colors represent the relative change in AIC value after dropping that factor from a multiple logistic mixed effects regression model. Yellow: dropping factor substantially increased AIC relative to other factors. Black: dropping factor did not substantially increase AIC relative to other factors. Delta AIC values were standardized by rows, and therefore can only be compared within rows."}
 
 p <- heatmap_drop1 + guides(fill='none') + heatmap_features_drop1 + plot_annotation(tag_levels = 'A')
 ggsave(filename = 'Figures/heatmap_drop1.pdf', p, width = 14, height = 5)
@@ -380,7 +382,7 @@ ggsave(filename = 'Figures/heatmap_drop1.pdf', p, width = 14, height = 5)
 p
 ```
 
-For each of our four factors, we then investigated which levels of the factor was associated with higher or lower levels of evidence for the leadership dimension. For instance, for subsistence strategy, there were three leadership dimensions in which it played an important role: *No coercive authority*, *Provide subsistence*, and *Distribute resources* (See Figure \@ref(fig:heatmapdrop1)). Hunter-gatherers had particularly high levels of evidence for *No coercive authority*, relative to the other subsistence strategies (and averaging over the levels of the other three factors), and Pastoralists had relatively low evidence for *Distribute resources* (see Figure S\@ref(fig:heatmapsubsis)). For Group context, see Figure S\@ref(fig:heatmapgroups); for Region, see Figure, S\@ref(fig:heatmapregion); and for Leader sex, see Figure S\@ref(fig:heatmapsex).
+For each of our four factors, we then investigated which levels of the factor was associated with higher or lower levels of evidence for the leadership dimension. For instance, for subsistence strategy, there were three leadership dimensions in which it played an important role: *No coercive authority*, *Provide subsistence*, and *Distribute resources* (See Figure \@ref(fig:heatmapdrop1)A). Hunter-gatherers had particularly high levels of evidence for *No coercive authority*, relative to the other subsistence strategies (and averaging over the levels of the other three factors), and Pastoralists had relatively low evidence for *Distribute resources* (see Figure S\@ref(fig:heatmapsubsis)). For Group context, see Figure S\@ref(fig:heatmapgroups); for Region, see Figure, S\@ref(fig:heatmapregion); and for Leader sex, see Figure S\@ref(fig:heatmapsex).
 
 <!-- For subsistence strategy, hunter-gatherers had relatively more evidence for *Polygyny*, *Leader-Mating benefits*, *No coercive authority*, *Political appointments* and *Military command* than other subsistence strategies. Pastoralists had more evidence for *Ritual functions*, *Supernatural*, *Aggressiveness* and *High quality spouse*. Hunter-gatherers and pastoralists both had more evidence for *High status*, *Providing counsel/direction*, and *Providing subsistence*. The remaining subsistence strategies generally had relatively less evidence for all variables, except that the mixed strategy had relatively more evidence for *Organize cooperation*, *Distribute resources*, and *Prosocial investment*. See Figure S\@ref(fig:heatmapsubsis). -->
 
@@ -424,30 +426,39 @@ ggsave('Figures/highstatus_plot.pdf', p, width=10, height = 7)
 p
 ```
 
-We also investigated if the proportion of text records with evidence for *High status* differed among the different levels of group context, subsistence strategies, continental regions, and leader sex (again using a logistic mixed effects model with these variables as fixed effects and authors nested within cultures as random intercepts). There were no clear differences. See Figure S\@ref(fig:groupstatus).
+*High status* meaningfully differed among the different levels of group context, subsistence strategies, continental regions, and leader sex, with the most important factors being region followed by group context (see Figure \@ref(fig:heatmapdrop1)A). Examining the estimated marginal means, South America and East Eurasia had relatively high levels of evidence compared to Africa and North America, and kin and religious groups had relatively high levels of evidence compared to political groups. Nevertheless, the differences were quite modest. See Figure S\@ref(fig:groupstatus).
 
 ## When do leaders have coercive authority?
 
-*Coercive authority* was documented in about 57% of cultures. Unlike other more frequent leader qualities, which were generally positive or prosocial traits, *Coercive authority* was the most frequent negative or dominance-style leader quality. We therefore chose to perform additional exploratory analyses with *Coercive authority* as the outcome in logistic elasticnet regression models similarly as described above for *High status* (see Figure \@ref(fig:elasticcoercive)).
-
 ```{r}
-nocoerciveauthority <- signif(100*qualities_support_cult$Estimate[qualities_support_cult$Variable == 'No coercive authority'], 3)
+
+coerciveauthority <- signif(100*qualities_support_cult$Estimate[qualities_support_cult$Variable == 'Coercive authority'], 2)
+
+nocoerciveauthority <- signif(100*qualities_support_cult$Estimate[qualities_support_cult$Variable == 'No coercive authority'], 2)
 ```
 
-Words that were strong predictors of leaders with coercive authority included, *power* and *authority* (unsurprisingly), as well as *territory*, *chief*, and *control*; the word *leadership* was the only strong negative predictor. See Figure \@ref(fig:elasticcoercive)A. Using all other quality and function dimensions as predictors identified *Punishment* as the strongest predictor of evidence for *Coercive authority*. The qualities of *Aggressiveness* and *Feared* were also positive predictors, as were the functions, *Political appointments* and *Control economics*. Furthermore, evidence for the *No coercive authority* dimension was documented in `r nocoerciveauthority`% of cultures (Figure \@ref(fig:varsupport)) and demonstrated variability by subsistence strategy with hunter-gatherers providing relatively higher levels of evidence. See Figure S\@ref(fig:heatmapdrop1). 
+*Coercive authority* was documented in `r coerciveauthority`% of cultures. Unlike other more frequent leader qualities, which were generally positive or prosocial traits, *Coercive authority* was the most frequent negative or dominance-style leader quality. Additionally, it was one of the few dimensions with a complementary dimension, *No coercive authority*, which was documented in `r nocoerciveauthority`% of cultures (Figure \@ref(fig:varsupport)). *No coercive authority* demonstrated variability by subsistence strategy, with hunter-gatherers providing relatively higher levels of evidence. See Figure S\@ref(fig:heatmapdrop1). 
 
-```{r elasticcoercive, fig.width=10, fig.cap="Coefficients of logistic elasticnet regression models of evidence for *Coercive authority*. A: Coefficients indicate the words whose frequencies in each text record best predicted evidence for *Coercive authority* in each text record. B: Non-zero coefficients of all quality and function dimensions that best predicted evidence for *Coercive authority*. Both models used the lasso penalty ($\\alpha=1$) and chose $\\lambda_{1se}$ by cross-validation (1 SE from $\\lambda_{min}$). Red values are positive predictors; purple values are negative predictors. Predictors with coefficents = 0 not displayed. X-axes are odds ratios on a log 10 scale."}
+We therefore chose to perform additional exploratory analyses with *Coercive authority* and *No coercive authority* as the outcomes in logistic elasticnet regression models similarly as described above for *High status* (see Figure \@ref(fig:elasticcoercive)).
+
+Words that were strong predictors of leaders with coercive authority included, unsurprisingly, *power* and *authority*, as well as *territory*, *chief*, and *control*; the word *leadership* was the only strong negative predictor. Words that predicted no coercive authority tended to be those that indicated either hunter-gatherers, such as "band" and "Mbuti" (Congo Basin foragers), or kinship and residential-level contexts, such as "lineage", "house", "clan", and "village". See Figures \@ref(fig:elasticcoercive)A,C. 
+
+Using all other quality and function dimensions as predictors identified *Punishment* as the strongest predictor of evidence for *Coercive authority*. *No coercive authority* was mostly strongly predicted by *Humility*. See Figures \@ref(fig:elasticcoercive)B,D. 
+
+```{r elasticcoercive, fig.width=10, fig.height=10, fig.cap="Coefficients of logistic elasticnet regression models of evidence for *Coercive authority* and *No coercive authority*. A, C: Coefficients indicate the words whose frequencies in each text record best predicted evidence for *Coercive authority* and *No coercive authority, respectively, in each text record. B, D: Non-zero coefficients of all quality and function dimensions that best predicted evidence for *Coercive authority* and *No coercive authority, respectively. Both models used the lasso penalty ($\\alpha=1$) and chose $\\lambda_{1se}$ by cross-validation (1 SE from $\\lambda_{min}$). Red values are positive predictors; purple values are negative predictors. Predictors with coefficents = 0 not displayed. X-axes are odds ratios on a log 10 scale."}
 
 coercive_plot <- coercive_plot + scale_x_log10()
+anticoercive_plot <- anticoercive_plot + scale_x_log10() + scale_color_discrete()
+
 p <-
-  coercive_plot + plot_elastic_coercive +
+  (coercive_plot + plot_elastic_coercive) / (anticoercive_plot + plot_elastic_anticoercive) +
   plot_annotation(
-    title = 'Predictors of Coercive authority',
+    title = 'Predictors of Coercive & No coercive authority',
     tag_levels = 'A', 
     caption = 'Odds ratio', 
     theme=theme(plot.caption=element_text(hjust=0.5, size=12, margin=margin(t=0)))
     )
-ggsave('Figures/coercive_plot.pdf', p, width = 8, height = 4)
+ggsave('Figures/coercive_plot.pdf', p, width = 10, height = 8)
 p
 ```
 
@@ -963,7 +974,7 @@ plot_pubdate
 
 <!-- NEED TO DO TABLE -->
 
-As reported in the main text, we also investigated if the proportion of text records with evidence for *High status* differed among the different levels of group context, subsistence strategies, continental regions, and leader sex (again using a logistic mixed effects model with these variables as fixed effects and authors nested within cultures as random intercepts). There were no clear differences and we interpret this as a null result. See Figure S\@ref(fig:groupstatus).
+As reported in the main text, we also investigated if the proportion of text records with evidence for *High status* differed among the different levels of group context, subsistence strategies, continental regions, and leader sex (again using a logistic mixed effects model with these variables as fixed effects and authors nested within cultures as random intercepts). There were modest differences. See Figure S\@ref(fig:groupstatus).
 
 <!-- Hunter-gatherers and pastoralists were more likely to provide evidence for high status leaders, as were South America and East Eurasia. Female leaders were also more likely to be identified as high status. Somewhat counter-intuitively, the proportion of text records indicating high status leaders was lowest at the highest level of political organization, perhaps because it would have been superfluous to note that kings and chiefs were high status. See Figure \@ref(fig:groupstatus). -->
 

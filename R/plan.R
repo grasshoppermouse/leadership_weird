@@ -166,6 +166,8 @@ plan <- drake_plan(
   plot_elastic_status = elastic_dimensions(all_data, 'qualities_HighStatus', c('functions', 'qualities'), alpha = 1, lambda = 'lambda.1se'),
   coercive_plot = model_words(all_data, leader_dtm, 'qualities_CoerciveAuthority', lam = "min", title = ''),
   plot_elastic_coercive = elastic_dimensions(all_data, 'qualities_CoerciveAuthority', c('functions', 'qualities'), alpha = 1, lambda = 'lambda.1se'),
+  anticoercive_plot = model_words(all_data, leader_dtm, 'qualities_AntiCoerciveAuthority', lam = "min", title = ''),
+  plot_elastic_anticoercive = elastic_dimensions(all_data, 'qualities_AntiCoerciveAuthority', c('functions', 'qualities'), alpha = 1, lambda = 'lambda.min'),
   mm_bias = bias_models(readd(all_data), all_study_vars),
   plot_pubdate = bias_plot(mm_bias, 'pub_dateZ', fdr = 0.05),
   
