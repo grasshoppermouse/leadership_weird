@@ -1,6 +1,4 @@
 
-
-
 function_vars = variable_names(all_data, type = 'functions')
 quality_vars = variable_names(all_data, type = 'qualities')
 leader_benefit_vars = variable_names(all_data, type = 'leader.benefits')
@@ -861,3 +859,16 @@ df_fivefold2 <-
 #   text.scale = 2,
 #   queries = list(list(query = shamanfn, color = 'red', active=T))
 # )
+
+m_shaman <- glmer(
+  shamanism ~ 
+    region +
+    subsistence +
+    (1|d_culture/author_ID),
+  family = binomial,
+  data = df_shaman,
+  nAGQ = 0
+)
+
+shaman_emmeans_region <- emmeans(m_shaman, specs = 'region', type = 'response')
+
