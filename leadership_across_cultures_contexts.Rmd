@@ -863,7 +863,7 @@ Our results also suggest both broad continuities and contrasts between leadershi
 The 60-culture Probability Sample Files of the HRAF developed by @naroll_proposed_1967 is based on culturally and geographically diverse populations which are well covered in the ethnographic record. The distribution of cultures, however, is not equal across categories of subsistence strategies; agriculturalists and horticulturalists are relatively over-represented compared to hunter-gatherers and pastoralists. The ethnographic sample of text developed in the *leadershipdata* package is also not equally balanced across all subsistence strategy categories. See Figure S\@ref(fig:subsisttree).
 
 ```{r subsisttree, fig.cap="The area of the entire rectangle represents the total number of text records in the study data (N = 2012). The nested rectangles represent (from smallest to largest) the proportion of text records in each document, culture, and subsistence strategy."}
-
+ggsave(filename = 'Figures/plot_cult_docs_subsis.pdf', plot_cult_docs_subsis)
 plot_cult_docs_subsis
 ```
 
@@ -875,12 +875,14 @@ doc_1950_perc <- signif(length(documents$d_publication_date[documents$d_publicat
 The majority of ethnographic documents sampled here (`r doc_1950_perc`%) were published after 1950 and the mean publication year is `r round(mean(documents$d_publication_date),)` (SD = `r round(sd(documents$d_publication_date),2)`). Figure \@ref(fig:doc-years) plots the publication years of all documents which contributed text records to the ethnographic sample. 
 
 ```{r doc-years, fig.height=6, fig.cap="Historgram of eHRAF document publiction year. Vertical line shows the median publication year."}
+ggsave(filename = 'Figures/doc_year_hist.pdf', doc_year_hist)
 doc_year_hist
 ```
 
 The eHRAF provides information on the time frame of field work associated with each document. For some documents the span of associated fieldwork is given for the exact months and years the ethnographer was in the field. For most documents one or more spans of years are given. Figure \@ref(fig:field-years) plots the earliest year and the latest year for which field work occurred for each document. The time spans plotted do not depict the full span of fieldwork necessarily, but simply illustrate the time span during which fieldwork occurred. We omitted data for one document from North America with field work date ranges prior to 1805. For all documents, the average earliest year in which field work occurred was `r signif(mean(documents$d_field_date_start, na.rm=T),4)` and the average latest years in which field work occurred was `r signif(mean(documents$d_field_date_end, na.rm=T),4)`. 
 
 ```{r field-years, fig.height=8, fig.width=9, fig.cap="Span of fieldwork years of study documents. To improve clarity, one document with very early fieldwork from 1791-1804 was omitted."}
+ggsave(filename = 'Figures/doc_fielddates_plot.pdf', doc_fielddates_plot)
 doc_fielddates_plot
 ```
 
@@ -923,18 +925,21 @@ lbls <- c(
   'South\nAmerica'
   )
 
-ggplot(all_data) + 
+reg_sub_plot<-ggplot(all_data) + 
   geom_mosaic(aes(x = product(subsistence, region), fill = subsistence)) +
   scale_fill_viridis(discrete = T) + 
   scale_x_productlist(labels = lbls) +
   guides(fill = guide_legend(reverse = T)) +
   labs(x = '', y = '') +
   theme_minimal(15)
+ggsave(filename = 'Figures/reg_sub_plot.pdf', reg_sub_plot)
+reg_sub_plot
 ```
 
 ## Bias
 
 ```{r eHRAFpages, fig.height=8, fig.cap="Scatterplot of the number of leadership text records versus the total number of pages of ethnography in the eHRAF. Each dot is one culture. Line fit by loess regression."}
+ggsave(filename = 'Figures/plot_pages_tr.pdf', plot_pages_tr)
 plot_pages_tr
 ```
 
@@ -945,6 +950,7 @@ For each binary study dimension, we fit a logistic mixed effects model with that
 Also, all texts records were in English. Some of the eHRAF documents have been translated to English from the original language of publication. We did not investigate variation in original source language (i.e., translated to English vs. written in English). Lastly, The eHRAF provides an evaluation of each document on a non-mutually exclusive five-point scale ranging from poor, acceptable, good, or excellent sources of primary or secondary data; 98% of documents in our sample score 4 or higher, as excellent sources of primary or secondary data. 
 
 ```{r pubdate, fig.cap=glue_data(list(n=length(all_study_vars)), "The effect of publication date on the probability of finding evidence for leader qualities, functions, benefits, and costs. Multivariate values are  controlling for female authorship and number of pages of ethonography for each culture. All models had random intercepts for ethnographers nested within cultures. Models were fit for each of the {n} dimensions as outcomes, and after adjusing p-values for a false discovery rate of 5%, the effect of publication date on these outcome dimensions remained significant. Publication date was centered and standardized by 1 SD. Each dot is one coefficient (converted from log odds to odds ratios). Bars are 95% CI.")}
+ggsave(filename = 'Figures/plot_pubdate.pdf', plot_pubdate)
 plot_pubdate
 ```
 
@@ -972,6 +978,9 @@ As reported in the main text, we also investigated if the proportion of text rec
 
 theplots <- all_emms(m_status_group2, c('subsistence', 'group.structure2', 'region', 'demo_sex'), 0.8, 'Predictors of leader status')
 
+ggsave(filename = 'Figures/status_theplots.pdf', ((theplots[[1]] / theplots[[2]]) | (theplots[[3]] / theplots[[4]])) + plot_annotation(title = 'Predictors of leader status', tag_levels = 'A'))
+
+
 ((theplots[[1]] / theplots[[2]]) | (theplots[[3]] / theplots[[4]])) + plot_annotation(title = 'Predictors of leader status', tag_levels = 'A')
 ```
 
@@ -980,24 +989,24 @@ theplots <- all_emms(m_status_group2, c('subsistence', 'group.structure2', 'regi
 
 Below we plot the estimated marginal means of the effects for level of evidence for each of the `r vary_n` (out of `r nrow(multi_allvars)` total) which produced a model that showed an improvement *with* the four factor predictors over an intercept only model, by the variable which produced the model improvement. See Figure \@ref(fig:heatmapdrop1)A in the main text. Figure \@ref(fig:heatmapgroups) plots the leadership dimensions which varied by group structure, Figure \@ref(fig:heatmapsubsis) plots the leadership dimensions which varied by subsistence strategy, Figure \@ref(fig:heatmapregion) plots the leadership dimensions which varied by continental region, and Figure \@ref(fig:heatmapsex) plots the leadership dimensions which varied by leader sex. Table \@ref(tab:variablevars) displays the number of text records providing evidence for each of these the `r vary_n` varying leadership dimensions and the results of logistic mixed effects models including the AIC scores for the intercept only models, AIC values for models with the four predictors, the AIC difference, and adjusted p-values for the four factor coefficients. Table \@ref(tab:universalvars) displays the same information for the remaining leadership dimensions which did not substantially vary by our four factors. 
 
-```{r heatmapgroups, fig.width=10, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each outcome variable by each group context. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
-
+```{r heatmapgroups, fig.width=11, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each outcome variable by each group context. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
+ggsave(filename = 'Figures/heatmap_groups.pdf', p_heatmap_groups + theme_minimal(15))
 p_heatmap_groups + theme_minimal(15)
 ```
 
 
 ```{r heatmapsubsis, fig.width=10, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each outcome variable by each subsistence strategy. Estimated marginal means were standardized by rows, and therefore can only be compared within rows, i.e., the colors represent the relative amount of evidence across levels of the categorical predictor within the same outcome variable."}
-
+ggsave(filename = 'Figures/heatmap_subsis.pdf', p_heatmap_subsis + theme_minimal(15))
 p_heatmap_subsis + theme_minimal(15)
 ```
 
 ```{r heatmapregion, fig.width=10, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each outcome variable by each continental region. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
-
+ggsave(filename = 'Figures/heatmap_region.pdf', p_heatmap_region + theme_minimal(15))
 p_heatmap_region + theme_minimal(15)
 ```
 
 ```{r heatmapsex, fig.width=10, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each outcome variable by leader sex. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
-
+ggsave(filename = 'Figures/heatmap_sex.pdf', p_heatmap_sex + theme_minimal(15))
 p_heatmap_sex + theme_minimal(15)
 ```
 
@@ -1057,11 +1066,13 @@ multi_out %>%
 
 As mentioned in the main text, we included random effects of author nested within culture in estimating the evidence for our dimensions of leadership at the text-record level and culture level (see Figures \@ref(fig:varsupport) and Figure \@ref(fig:varsupportcb) and Methods section). To demonstrate the potential impact of the random effects we plot the standard deviations of the author random effects by the standard deviation of the culture random effects for each leadership dimension model. See Figures \@ref(fig:FunctionRE) and Figure \@ref(fig:QualityRE). Most standard deviations are within $1$. A few leadership dimension models, however, did include fairly large random effect coefficients, in particular the functions *Movement/migration*, *Bestow mates*, and *Medicinal functions*, and the qualities, *Xenophobia*, *Innovative*, and *No drug consumption*. These variables generally had low levels of supporting evidence from only a single or few documents. 
 
-```{r FunctionRE, fig.cap="Ethnographer and Culture random effects for function variables."}
+```{r FunctionRE, fig.cap="Ethnographer and Culture random effects for function variables.", fig.width=11}
+ggsave(filename = 'Figures/plot_fun_auth_cult_re.pdf', plot_fun_auth_cult_re)
 plot_fun_auth_cult_re
 ```
 
-```{r QualityRE, fig.cap="Ethnographer and Culture random effects for quality variables."}
+```{r QualityRE, fig.cap="Ethnographer and Culture random effects for quality variables.", fig.width=11}
+ggsave(filename = 'Figures/plot_qual_auth_cult_re.pdf', plot_qual_auth_cult_re)
 plot_qual_auth_cult_re
 ```
 
@@ -1086,12 +1097,16 @@ To supplimnet analyses of costs and benefits we explored relationships between t
 
 theplots <- all_emms(m_ldrtotben, c('subsistence', 'group.structure2', 'region', 'demo_sex'), 0.1, 'Predictors of leader benefits')
 
+ggsave(filename = 'Figures/totalbenfits_theplots.pdf', ((theplots[[1]] / theplots[[2]]) | (theplots[[3]] / theplots[[4]])) + plot_annotation(title = 'Predictors of leader benefits', tag_levels = 'A'))
+
 ((theplots[[1]] / theplots[[2]]) | (theplots[[3]] / theplots[[4]])) + plot_annotation(title = 'Predictors of leader benefits', tag_levels = 'A')
 
 ```
 
 ```{r leadertotalcosts, fig.cap="Estimated marginal means of a logistic mixed effects regression model of leader total costs as a function of A. subsistence strategy, and B. group structure. Model included random intercepts for ethnographer nested within culture. Values are on the response scale."}
 theplots <- all_emms(m_ldrtotcost, c('subsistence', 'group.structure2'), 0.06, 'Predictors of leader costs')
+
+ggsave(filename = 'Figures/totalcosts_theplots.pdf', theplots[[1]] / theplots[[2]] + plot_annotation(title = 'Predictors of leader costs', tag_levels = 'A'))
 
 theplots[[1]] / theplots[[2]] + plot_annotation(title = 'Predictors of leader costs', tag_levels = 'A')
 
@@ -1115,21 +1130,25 @@ We explored a biplot of both of the leadership function dimensions PCA, indicati
 
 
 ```{r logisticpcafunc, fig.height=8, fig.width=10, fig.cap="Logistic PCA of leader function variables with two principal components."}
+ggsave(filename = 'Figures/logpca_func_loadinds.pdf', logisticPCA_loadings_plot(m_lpca_func, df_func))
 logisticPCA_loadings_plot(m_lpca_func, df_func)
 ```
 
 
 ```{r lpcafuncbiplot, fig.cap="Function variable PC scores for each text record. Colors represent text records that had evidence for a function variable that loaded highly on either PC1 or PC2 (but no evidence for the other high-loading variables). Mixed: evidence for two or more of high-loading variables."}
+ggsave(filename = 'Figures/logpca_funcbiplot_loadinds.pdf', plot_lpca_func)
 plot_lpca_func
 ```
 
 
 ```{r logisticpcaqual, fig.height=10, fig.width=10, fig.cap="Logistic PCA of leader quality variables with two principal components."}
+ggsave(filename = 'Figures/logpca_qual_loadinds.pdf', logisticPCA_loadings_plot(m_lpca_qual, df_qual))
 logisticPCA_loadings_plot(m_lpca_qual, df_qual)
 ```
 
 
 ```{r lpcaqualbiplot, fig.cap="Quality variable PC scores for each text record. Colors represent text records that had evidence for a quality variable that loaded highly on either PC1 or PC2 (but no evidence for the other high-loading variables). Mixed: evidence for two or more of high-loading variables."}
+ggsave(filename = 'Figures/logpca_qualbiplot_loadinds.pdf', plot_lpca_qual)
 plot_lpca_qual
 ```
 
@@ -1138,10 +1157,11 @@ plot_lpca_qual
 
 As discussed in the main text, we constructed `r length(features)` "feature" variables from the higher-level clusters (Figure \@ref(fig:cluster)): `r paste(features, collapse = ', ')`. The *Strategize*, *Prosociality*, and *Organize* features were modestly positively correlated with each other, but not with *Competencies*, *Prosocial competencies*, or *Social, reproductive, material success* features. The *Prosocial competencies* feature was modestly correlated with *Cultural conformity* and *Competencies* was modestly correlated with both the *Prosocial competencies* and *Social, reproductive, material success* features. See Figure \@ref(fig:featurecor).
 
-We also explored the degree to which our feature variables varied by our four factors by comparing similar mixed effects models with either only intercepts or with the four factors. See Table \@ref(tab:featurecoefs) for AIC values and coefficients. The *Cultural conformity* feature model was not improved by the inclusion of the four factors as predictors, however the models predicting the other `r (length(features)-1)` feature variables were improved with the predictive factors (see Figure \@ref(fig:heatmapdrop1)B in the main text. We again used drop1 AIC comparison to identify which factors improved the models. Only leader sex and group structure improved model fit. See Figure \@ref(fig:heatmap_feature_sex) and Figure \@ref(fig:heatmapfeaturegroups). These results largely correspond to interpretations of our leadership dimension models previously discussed. 
+We also explored the degree to which our feature variables varied by our four factors by comparing similar mixed effects models with either only intercepts or with the four factors. See Table \@ref(tab:featurecoefs) for AIC values and coefficients. The *Cultural conformity* feature model was not improved by the inclusion of the four factors as predictors, however the models predicting the other `r (length(features)-1)` feature variables were improved with the predictive factors (see Figure \@ref(fig:heatmapdrop1)B in the main text. We again used drop1 AIC comparison to identify which factors improved the models. Only leader sex and group structure improved model fit. See Figure \@ref(fig:heatmapfeaturesex) and Figure \@ref(fig:heatmapfeaturegroups). These results largely correspond to interpretations of our leadership dimension models previously discussed. 
 
 
 ```{r featurecor, fig.cap="Feature variable correlation matrix. Values are correlation coefficients."}
+ggsave(filename = 'Figures/plot_feature_cor.pdf', plot_feature_cor)
 plot_feature_cor
 ```
 
@@ -1154,10 +1174,12 @@ plot_feature_cor
 ```
 
 ```{r heatmapfeaturesex, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each feature variable by leader sex. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
+ggsave(filename = 'Figures/heatmap_feature_sex.pdf', heatmap_feature_sex)
 heatmap_feature_sex
 ```
 
 ```{r heatmapfeaturegroups, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each feature variable by group context. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
+ggsave(filename = 'Figures/heatmap_feature_groups.pdf', heatmap_feature_groups)
 heatmap_feature_groups
 ```
 
