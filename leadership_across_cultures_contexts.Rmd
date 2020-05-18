@@ -185,7 +185,7 @@ cost_benefit_vars_tab<-read_csv('costs_benefits.csv', na = 'NA')
 kable(cost_benefit_vars_tab, caption = "Operational definitions for coded benefits and costs for leaders and followers.")
 ```
 
-ZG then created a measure of group structure coded as: *residential subgroup*, which includes informal groups of co-residents, social groups, age-based groups, or performance groups; *kin group*, which includes lineages, phraties, and other kin-based organizations; *economic group*, which includes subsistence groups, market groups, and other groups with primarily economic goals; *military group*, which includes all groups related to inter-group conflict; *religious group*, which includes groups collected for spiritual or supernatural purpose; *political group (community)*, which includes political groups at the level of the community, i.e., the political leader can potentially interact directly with most community members such as most village headmen; or *political group (supracommunity)*, which includes political groups that encompass multiple residential communities, such as complex chiefdoms, regional political leaders, and kings or state-level leaders. ZG and KS coded all text records for group structure.
+ZG then created a measure of group context coded as: *residential subgroup*, which includes informal groups of co-residents, social groups, age-based groups, or performance groups; *kin group*, which includes lineages, phraties, and other kin-based organizations; *economic group*, which includes subsistence groups, market groups, and other groups with primarily economic goals; *military group*, which includes all groups related to inter-group conflict; *religious group*, which includes groups collected for spiritual or supernatural purpose; *political group (community)*, which includes political groups at the level of the community, i.e., the political leader can potentially interact directly with most community members such as most village headmen; or *political group (supracommunity)*, which includes political groups that encompass multiple residential communities, such as complex chiefdoms, regional political leaders, and kings or state-level leaders. ZG and KS coded all text records for group context. Finally, the sex of each leader was coded as male, female, both, or unknown.
 
 ZG and KS then discussed every instance of disagreement between their respective coding on all leadership dimensions and group structure variables to produce a consensus matrix, which is used in the analyses here and added to the published data repository (in a data frame named *leader_text2*). We illustrate our coding with an example from Andamanese hunter-gatherers [@az02-001, p. 45]:
 
@@ -193,9 +193,9 @@ ZG and KS then discussed every instance of disagreement between their respective
 
 This text record was coded has having evidence for the functions *Resolve conflict*, *Organize cooperation*, *Movement/migration*, *Provide subsistence*, and *Misc. social functions*. For qualities, there was evidence for *High status*. Although authority is mentioned, we did not code evidence for this variable because the chief "possesses no power to punish or enforce obedience to his wishes," contrary to our operationalization. 
 
-Each culture was coded for subsistence strategy. We rely on a modified classification of subsistence from the HRAF, collapsing “hunter-gatherers” and “primarily hunter-gatherers” into a single category, “hunter-gatherers,” and by collapsing “agro-pastoralists” and “pastoralists” into a single “pastoralists” category. We renamed the HRAF’s “Other” subsistence category, which is applied to societies with various combinations of hunting, fishing, gathering, pastoralism, and horticulture or intensive agriculture, as “mixed.” This produced a subsistence classification with five groups: Hunter-gatherers, Pastoralists, Horticulturalists, Agriculturalists, and Mixed.
+Each culture was coded for continental region, total pages of ethnography for that culture in the eHRAF, and subsistence strategy. We rely on a modified classification of subsistence from the HRAF, collapsing “hunter-gatherers” and “primarily hunter-gatherers” into a single category, “hunter-gatherers,” and by collapsing “agro-pastoralists” and “pastoralists” into a single “pastoralists” category. We renamed the HRAF’s “Other” subsistence category, which is applied to societies with various combinations of hunting, fishing, gathering, pastoralism, and horticulture or intensive agriculture, as “mixed.” This produced a subsistence classification with five groups: Hunter-gatherers, Pastoralists, Horticulturalists, Agriculturalists, and Mixed.
 
-For additional details on ethnographic sampling and creation of the database of leadership text records, see @garfield_evolutionary_2019. 
+Each document from each culture was coded for date of publication and the sex of the ethnographer(s). For additional details on ethnographic sampling and creation of the database of leadership text records, see @garfield_evolutionary_2019.
 
 ## Data analysis
 
@@ -262,9 +262,11 @@ ggsave(file="Figures/group_subsis.pdf", plot_group_subsis, width=16, height=6)
 plot_group_subsis
 ```
 
+For the number of text records for each continental region, subsistence strategy and group context, see Table S\@ref(tab:fourfactorsumm).
+
 ## Leader sex
 
-The majority of text records pertained to male leadership (`r male_leader_pct`%) and very few pertained to female leadership (`r female_leader_pct`%), with the remaining records not sex-specific. There were female leaders in almost all types of groups, however, except military and religious. Female leaders did tend to lead at the kin group and other residential subgroups, though: `r female_residential_pct`% of female leaders led at the residential subgroup level, for instance, compared to `r male_residential_pct`% of male leaders. The majority of text records which exclusively described female leaders were from horticulturalists (`r female_hort_pct`%). See Table S\@ref(tab:sexsubtable).
+The majority of text records pertained to male leadership (`r male_leader_pct`%) and very few pertained to female leadership (`r female_leader_pct`%), with the remaining records not sex-specific. See Table S\@ref(tab:fourfactorsumm). There were female leaders in almost all types of groups, however, except military and religious. Female leaders did tend to lead at the kin group and other residential subgroups, though: `r female_residential_pct`% of female leaders led at the residential subgroup level, for instance, compared to `r male_residential_pct`% of male leaders. The majority of text records which exclusively described female leaders were from horticulturalists (`r female_hort_pct`%). See Table S\@ref(tab:sexsubtable).
 
 <!-- SHOULD WE PUT THE ENTIRE TABLE IN SI? -->
 
@@ -884,6 +886,30 @@ The eHRAF provides information on the time frame of field work associated with e
 doc_fielddates_plot
 ```
 
+## Summary statistics for four variation factors
+
+```{r fourfactorsumm}
+
+subsis <- table(all_data$subsistence)
+group <- table(all_data$group.structure2)
+region <- table(all_data$region)
+sex <- table(all_data$demo_sex)
+
+d <- tibble(
+  Factor = c(
+    'Subsistence', rep('', length(subsis) - 1),
+    'Group context', rep('', length(group) - 1),
+    'Region', rep('', length(region) - 1),
+    'Sex', rep('', length(sex) - 1)
+  ),
+  Levels = c(names(subsis), names(group), names(region), names(sex)),
+  `Number of text records` = c(subsis, group, region, sex)
+)
+
+knitr::kable(d, caption = 'Number of text records for each level of each of the four factors of variation.')
+```
+
+
 ## Continental region is confounded with subsistence strategy
 
 The distribution of cultures by subsistence strategy across continental region is also variable. In this sample, most African cultures are agriculturalists and most North American cultures are hunter-gatherers, for example. See Figure S\@ref(fig:regionsubsistence). 
@@ -914,7 +940,9 @@ ggplot(all_data) +
 plot_pages_tr
 ```
 
-We explored three possible sources of bias in discovery of evidence for each of our `r length(all_study_vars)` dimensions: publication date, female vs. male-only authorship, and variation in the total number of pages of ethnography for each culture. For each binary study dimension, we fit a logistic mixed effects model with that dimension as the outcome, the bias variables as fixed effects, and random intercepts for ethnographers nested within cultures. We fit two sets of models. The first univariate set fit separate models for each study dimension and each bias variable (total number of models = $`r length(all_study_vars)` \times 3 = `r length(all_study_vars)*3`$). The second multivariate set included all bias variables in each model (total number of models = `r length(all_study_vars)`). All p-values were corrected for a FDR of 5%. After correction, the coefficients of female authorship and pages of ethnography were not significant in any model. Seven dimensions had significant associations with year of publication in both the univariate or multivariate sets (with nearly identical coefficients), but Group determination/cohesiveness was only significant in the univariate model, and Leader social service benefits was only significant in the multivariate model. See Figure \@ref(fig:pubdate).
+We explored three possible sources of bias in discovery of evidence for each of our `r length(all_study_vars)` dimensions: publication date, female vs. male-only authorship, and variation in the total number of pages of ethnography for each culture.
+
+For each binary study dimension, we fit a logistic mixed effects model with that dimension as the outcome, the bias variables as fixed effects, and random intercepts for ethnographers nested within cultures. We fit two sets of models. The first univariate set fit separate models for each study dimension and each bias variable (total number of models = $`r length(all_study_vars)` \times 3 = `r length(all_study_vars)*3`$). The second multivariate set included all bias variables in each model (total number of models = `r length(all_study_vars)`). All p-values were corrected for a FDR of 5%. After correction, the coefficients of female authorship and pages of ethnography were not significant in any model. Seven dimensions had significant associations with year of publication in both the univariate or multivariate sets (with nearly identical coefficients), but Group determination/cohesiveness was only significant in the univariate model, and Leader social service benefits was only significant in the multivariate model. See Figure \@ref(fig:pubdate).
 
 ```{r pubdate, fig.cap=glue_data(list(n=length(all_study_vars)), "The effect of publication date on the probability of finding evidence for leader qualities, functions, benefits, and costs. Multivariate values are  controlling for female authorship and number of pages of ethonography for each culture. All models had random intercepts for ethnographers nested within cultures. Models were fit for each of the {n} dimensions as outcomes, and after adjusing p-values for a false discovery rate of 5%, the effect of publication date on these outcome dimensions remained significant. Publication date was centered and standardized by 1 SD. Each dot is one coefficient (converted from log odds to odds ratios). Bars are 95% CI.")}
 plot_pubdate
