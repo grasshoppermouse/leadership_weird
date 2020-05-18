@@ -1,6 +1,6 @@
 ﻿Type,Name,Definition
 Functions,Bestow mates,"The leader organizes arranged marriages, or distributes access to mates to followers."
-,Construction/infrastructure,The leader makes decisions or is in charge of local construction/infrastructure and maintenance of infostructure.
+,Construction/infrastructure,The leader makes decisions or is in charge of local construction/infrastructure and maintenance of infrastructure.
 ,Control calendar,The leader determines the calendrical system.
 ,Control economics,The leader controls economic exchange or economic systems/production within the group. 
 ,Control immigration,The leader decides who can move into the group.
@@ -8,12 +8,12 @@ Functions,Bestow mates,"The leader organizes arranged marriages, or distributes 
 ,Distribute resources,The leader is in charge of distributing resources (food and non-food) to followers (independent of production).
 ,Group determination/cohesiveness,The leader is responsible for maintaining (explicitly or implicitly) group identity; followers form distinct groups based on their affiliation with a specific leader; the leader functions to maintain group cohesiveness.
 ,Group representative,The leader represents the group to an outgroup (or possibly to sub-groups in larger societies); can include travel to visit and maintain ties with other communities.
-,Hospitality,The leader hosts guests and entertain individuals in specific contexts. 
+,Hospitality,The leader hosts guests and entertains individuals in specific contexts. 
 ,Medicinal functions,The leader provides medicinal or healing services to heal physical or mental illness or injury. 
 ,Military command,"The leader participates and leads in military activities, directly or indirectly."
 ,Moral authority,The leader instructs on or serves as a model to followers  for proper behavior; the leader sets standards of appropriate behavior.
 ,Movement/migration,The leader decides when and where to move to a new settlement; controls/influences group movement. 
-,Organize cooperation,"The leader organizes collective activities and controls labor in the group (i.e., takes an administrative role in cooperation)."
+,Organize cooperation,"The leader organizes collective activities and controls labor in the group (i.e., takes an administrative/managerial role in cooperation)."
 ,Policy making,"The leader makes rules and decisions that group members must follow, making executive decisions; includes creating and shaping social norms."
 ,Political appointments,The leader assigns or appoints others to sociopolitical positions.
 ,Prosocial investment,The leader’s behavior benefits group members; the leader's actions produce positive outcomes for the group. 
@@ -24,7 +24,7 @@ Functions,Bestow mates,"The leader organizes arranged marriages, or distributes 
 ,Resolve conflict,The leader resolves disputes between followers or is sought out to resolve conflict.
 ,Ritual functions,The leader performs ritual or religious functions or services for the group.
 ,Serve a leader,The leader serves a higher ranked leader in some capacity or executes orders from a superior. 
-,Social functions,"The leader provides a social function (non-punishment), such as facilitating marriages and brokering economic exchange, organizing social activities, or managing group-level social events/problems."
+,Social functions,"The leader provides a social function (non-punishment), such as facilitating marriages, brokering economic exchange, organizing social activities, or managing group-level social events/problems."
 ,Strategic planning,The leader makes decisions/plans for the future relying on their knowledge and intellect in order to optimize outcomes for the group.
 Qualities,Age,The leader is an elder or is older than most followers.
 ,Aggressiveness,The leader demonstrates use of physical or verbal aggression or has a high propensity/reputation for aggressiveness. 
@@ -62,12 +62,12 @@ Qualities,Age,The leader is an elder or is older than most followers.
 ,Oratory skill,"The leader is a good public speaker, eloquent, demonstrates high oratory skill, or forceful/persuasive speaking abilities. "
 ,Physical health,The leader is physically healthy.
 ,Physically formidable,"The leader is physically strong, large in size, or physically formidable."
-,Polygynous,The leader is married polygynous or has multiple current mates/sexual partners. 
+,Polygynous,"The leader is polygynous or has multiple current mates/sexual partners, or is a member of a polygynous marriage."
 ,Proper behavior,The leader demonstrates proper behavior for specific contexts or that is particularly valued. 
 ,Prosocial,The leader is concerned with group welfare or has a reputation for group-wide altruism and selflessness.
 ,Social contacts,The leader has a high number of social contacts or allies. 
 ,Strategic nepotism,The leader or the leadership system strategically provides benefits to kin/family members. Social influence/leadership is partially determined or mediated via kinship or inheritance. 
-,Strategic planner,The leader makes decisions/plans for the future relying on their knowledge and intellect in order to optimize outcomes for the group; considers outcomes strategically.
+,Strategic planner,The leader makes decisions/plans for the future relying on their knowledge and intellect in order to improve outcomes for the group; considers outcomes strategically.
 ,Supernatural,The leader is perceived to possess supernatural qualities/abilities.
 ,Unfair,The leader is unfair to some group members or has a reputation for not being fair.
 ,Wealthy,"The leader is wealthier than followers including cash, material or other economic wealth measures."
