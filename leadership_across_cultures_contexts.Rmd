@@ -4,7 +4,7 @@ author: "Zachary H. Garfield, Kristen L. Syme, and Edward H. Hagen"
 date: "4/25/2019"
 output: 
   bookdown::html_document2:
-    number_sections: false
+    number_sections: true
 bibliography: Leader2.bib
 csl: apa-6th-edition.csl
 ---
@@ -269,7 +269,7 @@ Subsistence strategy was confounded with continental region. African text record
 Subsistence strategy and group structure were also confounded. Hunter-gatherer text records often referred to residential leadership (`r hg_residential_pct`% of the total sample of hunter-gatherer text records) and kin leadership (`r hg_kin_pct`%), but rarely referred to supracommunity leadership (`r hg_supra_pct`%). Agricultural text records, on the other hand, rarely referred to residential leadership (`r agri_residential_pct`%) but often referred to supracommunity leadership (`r agri_supra_pct`%). Across all subsistence types, political groups at the community level were the most frequent context, with the exception of agriculturalists where supracommunity political groups were the most frequent. Leadership beyond the community level was relatively rare outside of agricultural populations and was especially rare among hunter-gatherers. See Figure \@ref(fig:grouptype).
 
 ```{r grouptype, fig.width=20, fig.height=10, fig.cap="The distribution of text records by subsistence and group context. Areas of the bars are proportional to the number of text records in that category."}
-ggsave(file="Figures/group_subsis.pdf", plot_group_subsis, width=16, height=6)
+ggsave(file="Figures/group_subsis.pdf", plot_group_subsis, width=18, height=7)
 plot_group_subsis
 ```
 
@@ -544,7 +544,7 @@ supernatural_n <- sum(leader_text2$qualities_Supernatural==1)
 shamanism_pct <- signif(100*sum(df_shaman$shamanism)/nrow(leader_text2), 3)
 ```
 
-The *Competencies* feature combined dimensions of prestige-style leadership, such as knowledge and experience, with dimensions of dominance-style leadership, such as aggressiveness and feared. It also included supernatural qualities. Shamans and other leaders with supernatural qualities were surprisingly common in the ethnographic record. Of our `r nrow(leader_text2)` text records, `r sum(df_shaman$shaman)` used the word "shaman", `r supernatural_n` provided evidence for supernatural leader qualities, and `r sum(df_shaman$shamanism)` provided evidence for one or both (`r shamanism_pct`% of all text records). We term the latter variable *Shamanism*. We fit a logistic elasticnet model of *Shamanism* as a function of all leadership dimensions (minus *Supernatural*). This model revealed that shaman leaders combined dimensions of dominant leaders (*Feared*) with dimensions of prestigious leaders (*Medical functions*, which are a form of knowledge or expertise, and *Experienced/accomplished*). See Figure \@ref(fig:shamanism).
+The *Competencies* feature combined dimensions of prestige-style leadership, such as knowledge and experience, with dimensions of dominance-style leadership, such as aggressiveness and feared. It also included supernatural qualities. Shamans and other leaders with supernatural qualities were surprisingly common in the ethnographic record. Of our `r nrow(leader_text2)` text records, `r sum(df_shaman$shaman)` used the word "shaman", `r supernatural_n` provided evidence for supernatural leader qualities, and `r sum(df_shaman$shamanism)` provided evidence for one or both (`r shamanism_pct`% of all text records). We term the latter variable *Shamanism*. We fit a logistic elasticnet model of *Shamanism* as a function of all leadership dimensions (minus *Supernatural*). This model revealed that shaman leaders combined dimensions of dominant leaders (*Feared*) with dimensions of prestigious leaders (*Medical functions*, which are a form of knowledge or expertise, and *Experienced/accomplished*). See Figure S\@ref(fig:shamanism).
 
 ```{r shamanism, fig.width=10, fig.cap="Coefficients of logistic elasticnet regression models of evidence for *Shamanism*. A: Coefficients indicate the words whose frequencies in each text record best predicted evidence for *Shamanism* in each text record. B: Non-zero coefficients of all quality and function dimensions that best predicted evidence for *Shamanism*. Both models used the lasso penalty ($\\alpha=1$) and chose $\\lambda_{1se}$ by cross-validation (1 SE from $\\lambda_{min}$). Red values are positive predictors; purple values are negative predictors. Predictors with coefficents = 1 not displayed. X-axes are odds ratios on a log 10 scale."}
 plot_shamanism_text <- plot_shamanism_text + scale_x_log10()
@@ -1013,6 +1013,7 @@ ggsave(filename = 'Figures/status_theplots.pdf', ((theplots[[1]] / theplots[[2]]
 We investigated if evidence for shamans and other leaders with supernatural qualities varied by continental region and subsistence strategy. AIC values indicated that only region improved model fit. We did not include group context because these traits were predominantely coded in religious contexts. We also did not include leader sex because there were no text records of exclusively female leaders with evidence for shamanism (see results section).
 
 ```{r shamanregion, fig.cap="Estimated marginal means of evidence for shamanism by region, controlling for subsistence strategy. From a logistic mixed effects model with random intercepts for author nested within culture. Values are on the response scale (probability)."}
+ggsave(filename = 'Figures/shaman_emmeans_region.pdf', ggemmeans(shaman_emmeans_region) + labs(x = '\nProbability', y = ''))
 ggemmeans(shaman_emmeans_region) + labs(x = '\nProbability', y = '')
 ```
 
