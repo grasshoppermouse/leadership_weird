@@ -2,7 +2,7 @@
 title: "Response to reviewers"
 author: "Zach Garfield and Ed Hagen"
 date: "3/20/2020"
-output: html_document
+output: word_document
 ---
 
 ```{r setup, include=FALSE}
