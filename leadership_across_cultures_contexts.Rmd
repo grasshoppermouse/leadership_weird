@@ -109,9 +109,7 @@ Despite decades of research and theorizing on leadership in numerous disciplines
 <!-- WEIRD PEOPLE PROBLEMS -->
 There is now a broad consensus on the importance of data from the full range of human cultural diversity. Since the seminal WEIRD people paper [@henrich_weirdest_2010, *The weirdest people in the world?*], many social scientists have taken up the challenge to obtain data from "non-WEIRD" populations. Dichotomizing populations and their psychologies and social dynamics as WEIRD or non-WEIRD, however, is a mistake.^[A Google Scholar search for "non-WEIRD" produced over 1000 results.] As anthropology has conclusively demonstrated, there is enormous diversity across societies that does not remotely resemble a dichotomy.
 
-Anthropology, on the other hand, has been criticized for exoticizing and essentializing diverse "Others" as part of its colonial history [@said1979; @abu2008]. @abu2008 [p. 470], for instance, notes that
-
->Anthropological discourse gives cultural difference (and the separation between groups of people it implies) the air of the self-evident. In this regard, the concept of culture operates much like its predecessor -- race -- even though in its twentieth-century form it has some important political advantages.
+Anthropology, on the other hand, has been criticized for exoticizing and essentializing diverse "Others" as part of its colonial history [@said1979; @abu2008]. In this regard, @abu2008 noted that the concept of culture operates much like its predecessor -- race.
 
 <!-- culture is important to anthropology because the anthropological distinction between self and other rests on it. Culture is the essential tool for making other. As a professional discourse that elaborates on the meaning of culture in order to account for, explain, and understand cultural difference, anthropology also helps construct, produce, and maintain it. Anthropological discourse gives cultural difference (and the separation between groups of people it implies) the air of the self-evident. In this regard, the concept of culture operates much like its predecessor - race - even though in its twentieth-century form it has some important political advantages. Unlike race, and unlike even the nineteenth-century sense of culture as a synonym for civilization (contrasted to barbarism), the current concept allows for multiple rather than binary differences. -->
 
@@ -373,7 +371,7 @@ df_compare2 %>%
     Type = str_to_title(Type),
     `Percent of cultures` = 100*Estimate
   ) %>% 
-  select(Type, Variable, `Percent of cultures`) %>% 
+  select(Variable, Type, `Percent of cultures`) %>% 
   arrange(-`Percent of cultures`) %>% 
   kable(digits = 1, caption = "Candidate universal dimensions of leadership. These dimensions were common in the ethnographic record (appearing in at least 60% of cultures), and did not appear to meaningfully vary by continental region, subsistence strategy,  group context, or leader sex.")
 
@@ -456,13 +454,18 @@ Using all other quality and function dimensions as predictors identified *Punish
 
 ```{r elasticcoercive, fig.width=10, fig.height=10, fig.cap="Coefficients of logistic elasticnet regression models of evidence for *Coercive authority* and *No coercive authority*. A, C: Coefficients indicate the words whose frequencies in each text record best predicted evidence for *Coercive authority* and *No coercive authority, respectively, in each text record. B, D: Non-zero coefficients of all quality and function dimensions that best predicted evidence for *Coercive authority* and *No coercive authority, respectively. Both models used the lasso penalty ($\\alpha=1$) and chose $\\lambda_{1se}$ by cross-validation (1 SE from $\\lambda_{min}$). Red values are positive predictors; purple values are negative predictors. Predictors with coefficents = 0 not displayed. X-axes are odds ratios on a log 10 scale."}
 
-coercive_plot <- coercive_plot + scale_x_log10()
-anticoercive_plot <- anticoercive_plot + scale_x_log10() + scale_color_discrete()
+coercive_plot <- coercive_plot + ggtitle("Predictors of coercive authority") + scale_x_log10() + theme(plot.title = element_text(size = 12))
+
+plot_elastic_coercive <- plot_elastic_coercive + ggtitle("Predictors of coercive authority") + theme(plot.title = element_text(size = 12))
+
+anticoercive_plot <- anticoercive_plot + ggtitle("Predictors of no coercive authority") + scale_x_log10() + scale_color_discrete() + theme(plot.title = element_text(size = 12))
+
+plot_elastic_anticoercive <- plot_elastic_anticoercive + ggtitle("Predictors of no coercive authority") + theme(plot.title = element_text(size = 12))
 
 p <-
   (coercive_plot + plot_elastic_coercive) / (anticoercive_plot + plot_elastic_anticoercive) +
   plot_annotation(
-    title = 'Predictors of Coercive & No coercive authority',
+    # title = 'Predictors of Coercive & No coercive authority',
     tag_levels = 'A', 
     caption = 'Odds ratio', 
     theme=theme(plot.caption=element_text(hjust=0.5, size=12, margin=margin(t=0)))
@@ -1149,6 +1152,8 @@ Logistic PCA generalizes Pearson's original formulation of PCA to find a project
 
 Agglomerative hierarchical cluster analysis starts with all elements in their own cluster, and then uses a distance metric to combine the two closest clusters into a single cluster; the next two closest clusters are then combined, and so forth, until all elements belong to a single cluster. We computed distance between our binary vectors using $1-cor(x, y)$, and agglomerated using the Ward algorithm. We assessed the robustness of the clusters using the *pvclust* package [@suzuki_pvclust2006], which computes an unbiased probability that a cluster appears in bootstrapped samples. We used 10,000 bootstrapped samples.
 
+### Logistic PCA
+
 We explored logistic PCA to reduce the dimensionality of the `r length(quality_vars)` leader quality variables and the `r length(function_vars)` leader function variables, all of which take binary values (0, 1) using the logisticPCA package. This algorithm projects the natural parameters of the saturated model onto the lower $k-$dimension space that minimizes the Bernoulli deviance [@logisticPCA]. Prior to analysis we removed all rows that had no evidence for any variable, which resulted in `r nrow(df_qual)` text records for the leader quality variables and `r nrow(df_func)` text records for the leader function variables. We used cross-validation to optimize rank, $k$, and a tuning parameter, $m$ (the value to approximate the saturated model), per recommendation of the package authors.
 
 For the function dimensions, logistic PCA identified an *Organize vs. Resolve conflict* component (PC1) and a *Military/Supracommunity functions vs. Social functions* component (PC 2). PC 2 also generally correspond to between-group functions vs. within group functions. See Figure \@ref(fig:logisticpcafunc).
@@ -1181,6 +1186,12 @@ logisticPCA_loadings_plot(m_lpca_qual, df_qual)
 ```{r lpcaqualbiplot, fig.cap="Quality variable PC scores for each text record. Colors represent text records that had evidence for a quality variable that loaded highly on either PC1 or PC2 (but no evidence for the other high-loading variables). Mixed: evidence for two or more of high-loading variables."}
 ggsave(filename = 'Figures/logpca_qualbiplot_loadinds.pdf', plot_lpca_qual)
 plot_lpca_qual
+```
+
+### MST-kNN
+
+```{r mstknn, fig.width=10, fig.height=10, fig.cap="Clusters of the combined leader function and quality variables formed by the mst-kNN algorithm. Dot size represents the number of text records with evidence for that variable. Dot color represents the type of variable."}
+plot_mstknn
 ```
 
 

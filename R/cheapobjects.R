@@ -692,6 +692,42 @@ plot_feature_cor <- ggcorrplot(
 # plot_feature_models_region <- feature_model_plot(region_models_sig, 'region')
 
 
+# mst-kNN -----------------------------------------------------------------
+
+d_fun_qual <- all_data[c(function_vars, quality_vars)]
+names(d_fun_qual) <- var_names[names(d_fun_qual)]
+d2_fun_qual <- t(as.matrix(d_fun_qual))
+
+# binary distance
+dst <- dist(d2_fun_qual, method = 'binary')
+dst <- as.matrix(dst)
+
+# correlation "distance"
+# dst <- 1- cor(d)
+
+# MST-kNN
+m_mstknn <- mst.knn(dst)
+
+n_mstnn <- m_mstknn$network
+nms <- vertex_attr(n_mstnn)
+nms <- as.numeric(nms$name)
+vertex_attr(n_mstnn, 'name') <- rownames(dst)[nms]
+
+sizes <- rowSums(d2_fun_qual)[nms]
+clrs <- c(rep('Function', length(function_vars)), rep('Quality', length(quality_vars)))
+clrs <- clrs[nms]
+
+# decent layouts: nicely, mds, fr, kk, tree (a bit misleading, though)
+plot_mstknn <- 
+  ggraph(n_mstnn, layout = 'fr') + 
+  geom_edge_link() + 
+  geom_node_point(aes(size = sizes, colour = clrs)) + 
+  geom_node_text(aes(label = name), repel = T) +
+  scale_colour_binary() +
+  guides(size = guide_legend(title = 'Evidence'), colour = guide_legend(title='Type', override.aes = list(size=4))) +
+  theme_void()
+# plot_mstknn
+
 # logisticPCA -------------------------------------------------------------
 
 df_lpca_func <- as_tibble(m_lpca_func$PCs)

@@ -41,3 +41,7 @@ rsconnect/
 # Output files
 *.html
 *.pdf
+
+# Temp scripts
+
+temp_scripts/

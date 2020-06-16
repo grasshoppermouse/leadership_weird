@@ -108,6 +108,13 @@
       "Repository": "CRAN",
       "Hash": "5ef9c463e30f8aea49c293e4b8d9d7be"
     },
+    "RcppArmadillo": {
+      "Package": "RcppArmadillo",
+      "Version": "0.9.870.2.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "f7fee4557377d47093bd2b65f2642e52"
+    },
     "RcppEigen": {
       "Package": "RcppEigen",
       "Version": "0.3.3.7.0",
@@ -163,6 +170,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "4f57884290cc75ab22f4af9e9d4ca862"
+    },
+    "amap": {
+      "Package": "amap",
+      "Version": "0.8-18",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "e70ca145347446128fa5817f6f0ca5cb"
     },
     "ash": {
       "Package": "ash",
@@ -604,6 +618,13 @@
       "Repository": "CRAN",
       "Hash": "6b2bc463079c16a47b2c08e4ae33fe89"
     },
+    "ggforce": {
+      "Package": "ggforce",
+      "Version": "0.3.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "b7132d67f9814af0536cd5761be94314"
+    },
     "ggfortify": {
       "Package": "ggfortify",
       "Version": "0.4.9",
@@ -629,6 +650,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "911561e07da928345f1ae2d69f97f3ea"
+    },
+    "ggraph": {
+      "Package": "ggraph",
+      "Version": "2.0.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "11efbeca93af843c5213ebae42cc2b5b"
     },
     "ggrepel": {
       "Package": "ggrepel",
@@ -678,6 +706,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "8c9dd0fe4766504762688b9f1de3139e"
+    },
+    "graphlayouts": {
+      "Package": "graphlayouts",
+      "Version": "0.7.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "786cadbe37487dbec2e0c91249dbbce0"
     },
     "gridBase": {
       "Package": "gridBase",
@@ -976,6 +1011,13 @@
       "Repository": "CRAN",
       "Hash": "30a2db10e829133fa0a1e6eaed25bc73"
     },
+    "mstknnclust": {
+      "Package": "mstknnclust",
+      "Version": "0.2.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "e605b429b799b6dec8a2cba33f339612"
+    },
     "munsell": {
       "Package": "munsell",
       "Version": "0.5.0",
@@ -1101,6 +1143,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "ec0e5ab4e5f851f6ef32cd1d1984957f"
+    },
+    "polyclip": {
+      "Package": "polyclip",
+      "Version": "1.10-0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "cb167f328b3ada4ec5cf67a7df4c900a"
     },
     "praise": {
       "Package": "praise",
@@ -1265,8 +1314,8 @@
       "RemoteUsername": "r-lib",
       "RemoteRepo": "rlang",
       "RemoteRef": "master",
-      "RemoteSha": "4bea87590f216af0820d6c82b53309b2e2f5bfdf",
-      "Hash": "ad012bc0313a493d773e6518a5b78ca1"
+      "RemoteSha": "f486ee9059c6cb28d2b8731d6ea834b33f44aede",
+      "Hash": "12a5ee0ee2f2f0a7a81be2a2a9ab0ffc"
     },
     "rmarkdown": {
       "Package": "rmarkdown",
@@ -1434,6 +1483,13 @@
       "Repository": "CRAN",
       "Hash": "e742bc8d72071ef9aba29f71f132d773"
     },
+    "tidygraph": {
+      "Package": "tidygraph",
+      "Version": "1.1.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "2f3f4ff57c91b3f4ef73b96bf7c30fd7"
+    },
     "tidylog": {
       "Package": "tidylog",
       "Version": "1.0.0",
@@ -1490,6 +1546,13 @@
       "Repository": "CRAN",
       "Hash": "1394a8f67dd47f10cb74fd6516bb36d8"
     },
+    "tweenr": {
+      "Package": "tweenr",
+      "Version": "1.0.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "fc77eb5297507cccfa3349a606061030"
+    },
     "txtq": {
       "Package": "txtq",
       "Version": "0.2.0",
@@ -1506,15 +1569,15 @@
     },
     "vctrs": {
       "Package": "vctrs",
-      "Version": "0.3.0",
+      "Version": "0.3.1.9000",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteUsername": "r-lib",
       "RemoteRepo": "vctrs",
       "RemoteRef": "master",
-      "RemoteSha": "5b71d88b365e7190ffc096e50f58c924464e019a",
-      "Hash": "9013903678bf69e1548eaad0722dbe02"
+      "RemoteSha": "24cd670f7dcbb05ac73627461b5b50c412e22ad7",
+      "Hash": "f4ffff29f2e4fa0eb832dca490f27417"
     },
     "viridis": {
       "Package": "viridis",
