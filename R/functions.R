@@ -325,7 +325,8 @@ hagenheat <- function(d, hc_method = 'ward.D', dist = 'euclidean', scale. = 'row
     mutate(
       key = factor(key, levels = colnames(d[-1])[hclustcols$order]),
     ) %>% 
-    ggplot(aes_string('key', colnames(.)[1], fill = 'value')) + geom_raster() +
+    ggplot(aes_string('key', colnames(.)[1], fill = 'value')) + 
+    geom_tile() +
     scale_fill_viridis() +
     scale_x_discrete(labels = scales::label_wrap(10)) +
     labs(x = "", y = "")

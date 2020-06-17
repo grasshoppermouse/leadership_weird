@@ -3,7 +3,7 @@ title: "Leadership across cultures and contexts: an exploratory analysis"
 author: "Zachary H. Garfield, Kristen L. Syme, and Edward H. Hagen"
 date: "4/25/2019"
 output: 
-  bookdown::html_document2:
+  bookdown::word_document2:
     number_sections: true
 bibliography: Leader2.bib
 csl: apa-6th-edition.csl
@@ -82,7 +82,7 @@ source("R/cheapobjects.R", local = T)
 
 * Universals include that leaders are knowledgeable, intelligent, and resolve conflicts
 
-* Leaders receive import material, social, and reproductive benefits
+* Leaders receive important material, social, and reproductive benefits
 
 * Shaman leaders use knowledge to provide benefits and impose costs
 
@@ -98,7 +98,7 @@ Shamans emerged as an important category of leaders who did not clearly conform 
 
 # Introduction
 
->It's good to be king, if just for a while. - Tom Petty
+<!-- It's good to be king, if just for a while. - Tom Petty -->
 
 <!-- INTRO TO MOTIVATE PAPER -->
 
@@ -162,7 +162,7 @@ Evolutionary models generally assume that, on average, the fitness benefits of l
 Leadership positions are also commonly associated with numerous social, material, and reproductive benefits [@von_rueden_roots_2014; @von_rueden_multiple_2008; @grammer_symptoms_1996; @cheng_psychology_2014]. Leaders and high-status individuals are more likely to be the recipients of social support and material benefits in times of need [@gurven_its_2000; @von_rueden_roots_2014; @sugiyama_illness_2004]. Many leadership positions in industrialized societies are associated with increased financial compensation [@tsui_income_2017]. High social status, material wealth, intelligence, and leadership status are also generally viewed as sexually attractive, particularly to women [@buss_strategies_2006; @stanik_who_2010]. Most measures of reproductive success are positively associated with male social status, independent of subsistence type or status measure [@von_rueden_mens_2016].
 
 <!-- BENEFITS: 'MODEL' OF POTENTIAL BENEFIT -->
-Although, empirically, leadership is *associated* with benefits, evolutionary models require that leaders cause or generate benefits. Potential mechanisms include that leaders (1) facilitate collective actions that yield net benefits to themselves or their close kin; (2) claim a fee for their services, such as a tax or greater share of returns; (3) receive reciprocal exchange in other currencies from followers; or (4) gain other social or reproductive benefits by signaling their high qualities [@von_rueden_leadership_2015]. Leaders can also promote policies that either align with their individual interests or that are not especially costly for themselves, their kin, or their social partners [@garfield_evolutionary_2019; @kantner_identifying_2010; @hagen_leadership_2019], even if 'just for a while.' 
+Although, empirically, leadership is *associated* with benefits, evolutionary models require that leaders cause or generate benefits. Potential mechanisms include that leaders (1) facilitate collective actions that yield net benefits to themselves or their close kin; (2) claim a fee for their services, such as a tax or greater share of returns; (3) receive reciprocal exchange in other currencies from followers; or (4) gain other social or reproductive benefits by signaling their high qualities [@von_rueden_leadership_2015]. Leaders can also promote policies that either align with their individual interests or that are not especially costly for themselves, their kin, or their social partners [@garfield_evolutionary_2019; @kantner_identifying_2010; @hagen_leadership_2019], even if 'just for a while.'
 
 # Study aims
 
@@ -180,31 +180,15 @@ Our approach was exploratory. Whereas previously we used the ethnographic record
 
 The text records were extracted from the 60-culture Probability Sample Files (PSF) of the eHRAF [@naroll_proposed_1967]. The PSF, which comprises over `r trunc(sum(leader_cult['ehraf_pages'])/1000)`K pages of digitized text, aims to mitigate Galton's problem of cultural non-independence by randomly sampling of one culture with high quality ethnographic coverage from each of 60 culture regions. The database of text records was designed to capture a wide sample of the ethnographic record of leadership across social contexts and was built using an advanced search including 16 OCM codes related to leadership and seven key words describing leaders or followers. See @garfield_evolutionary_2019 for additional details on the ethnographic sample.
 
-To operationalize leader qualities and functions from the ethnographic text records in the database, ZG first read a subset of text records and developed initial variable lists and operationalizations of the qualities and functions in those text records. KS then coded approximately half the `r nrow(all_data)` text records (in a random order) for the operationalized qualities, functions, cost, and benefits, while also creating new variables and operationalizations for additional qualities and functions encountered. After coding half of the random sample, KS and ZG revised the operational definitions to produce the final list of variables in Table \@ref(tab:qualfuncvars). KS and ZG then coded the entire sample of `r nrow(all_data)` text records for the `r length(c(quality_vars, function_vars, leader_cost_vars, leader_benefit_vars, follower_benefit_vars, follower_cost_vars))` operationalized variables, which we henceforth refer to as leadership dimensions.
+To operationalize leader qualities and functions from the ethnographic text records in the database, ZG first read a subset of text records and developed initial variable lists and operationalizations of the qualities and functions in those text records. KS then coded approximately half the `r nrow(all_data)` text records (in a random order) for the operationalized qualities, functions, cost, and benefits, while also creating new variables and operationalizations for additional qualities and functions encountered. After coding half of the random sample, KS and ZG revised the operational definitions to produce the final list of variables in Table S\@ref(tab:qualfuncvars). KS and ZG then coded the entire sample of `r nrow(all_data)` text records for the `r length(c(quality_vars, function_vars, leader_cost_vars, leader_benefit_vars, follower_benefit_vars, follower_cost_vars))` operationalized variables, which we henceforth refer to as leadership dimensions.
 
-```{r qualfuncvars, echo=FALSE, message=F, warning=FALSE}
-qual_func_var_tab<-read_csv('func_qual_definitions.csv', na = 'NA')
-kable(qual_func_var_tab, caption = "Operational definitions for coded leader qualities and functions.")
-```
-
-In contrast to the qualities and functions dimensions, operationalizations of the costs and benefits of leadership were developed *a priori* based on theoretical literature. For both followers and leaders, we coded evidence of costs paid or benefits received in the following categories: social status, reduced or increased risk of harm or conflict, social services, territory, mating, fitness, food resources, material resources, and other miscellaneous costs or benefits not captured by these categories. See Table \@ref(tab:costbenefitvars). Some of the costs and benefits (e.g., mating) were similar to leader qualities (e.g., polygyny). The distinction is that costs and benefits were transactional whereas qualities were descriptive (e.g., leaders obtain wives vs. have wives).
-
-```{r costbenefitvars, echo=FALSE, message=F, warning=FALSE}
-cost_benefit_vars_tab<-read_csv('costs_benefits.csv', na = 'NA')
-kable(cost_benefit_vars_tab, caption = "Operational definitions for coded benefits and costs for leaders and followers.")
-```
+In contrast to the qualities and functions dimensions, operationalizations of the costs and benefits of leadership were developed *a priori* based on theoretical literature. For both followers and leaders, we coded evidence of costs paid or benefits received in the following categories: social status, reduced or increased risk of harm or conflict, social services, territory, mating, fitness, food resources, material resources, and other miscellaneous costs or benefits not captured by these categories. See Table S\@ref(tab:costbenefitvars). Some of the costs and benefits (e.g., mating) were similar to leader qualities (e.g., polygyny). The distinction is that costs and benefits were transactional whereas qualities were descriptive (e.g., leaders obtain wives vs. have wives).
 
 ZG then created a measure of group context coded as: *residential subgroup*, which includes informal groups of co-residents, social groups, age-based groups, or performance groups; *kin group*, which includes lineages, phraties, and other kin-based organizations; *economic group*, which includes subsistence groups, market groups, and other groups with primarily economic goals; *military group*, which includes all groups related to inter-group conflict; *religious group*, which includes groups collected for spiritual or supernatural purpose; *political group (community)*, which includes political groups at the level of the community, i.e., the political leader can potentially interact directly with most community members such as most village headmen; or *political group (supracommunity)*, which includes political groups that encompass multiple residential communities, such as complex chiefdoms, regional political leaders, and kings or state-level leaders. ZG and KS coded all text records for group context. Finally, the sex of each leader was coded as male, female, both, or unknown.
 
-ZG and KS then discussed every instance of disagreement between their respective coding on all leadership dimensions and group structure variables to produce a consensus matrix, which is used in the analyses here and added to the published data repository (in a data frame named *leader_text2*). We illustrate our coding with an example from Andamanese hunter-gatherers [@az02-001, p. 45]:
+ZG and KS then discussed every instance of disagreement between their respective coding on all leadership dimensions and group structure variables to produce a consensus matrix, which is used in the analyses here and added to the published data repository (in a data frame named *leader_text2*). For an illustration of the coding process, see the *Coding example* section of the SI.
 
->Their domestic policy may be described as a communism modified by the authority, more or less nominal, of the chief. The head chief of a tribe is called maia igla and the elders, or sub-chiefs, i.e. those in authority over each community, consisting of from 20 to 50 individuals, maicla. The head chief, who usually resides at a permanent encampment, has authority over all the sub-chiefs, but his power, like theirs, is very limited. It is exercised mainly in organising meetings between the various communities belonging to his tribe, and in exerting influence in all questions affecting the welfare of his followers. It is the chief alone, as may be supposed, who directs the movements of a party while on hunting and fishing expeditions, or when migrating. It is usually through his intervention that disputes are settled, but he possesses no power to punish or enforce obedience to his wishes, it being left to all alike to take the law into their own hands when aggrieved. The aryoto and eremtaga in each tribe have their own head chief, who are independent the one of the other.
-
-This text record was coded has having evidence for the functions *Resolve conflict*, *Organize cooperation*, *Movement/migration*, *Provide subsistence*, and *Misc. social functions*. For qualities, there was evidence for *High status*. Although authority is mentioned, we did not code evidence for this variable because the chief "possesses no power to punish or enforce obedience to his wishes," contrary to our operationalization. 
-
-Each culture was coded for continental region, total pages of ethnography for that culture in the eHRAF, and subsistence strategy. We rely on a modified classification of subsistence from the HRAF, collapsing “hunter-gatherers” and “primarily hunter-gatherers” into a single category, “hunter-gatherers,” and by collapsing “agro-pastoralists” and “pastoralists” into a single “pastoralists” category. We renamed the HRAF’s “Other” subsistence category, which is applied to societies with various combinations of hunting, fishing, gathering, pastoralism, and horticulture or intensive agriculture, as “mixed.” This produced a subsistence classification with five groups: Hunter-gatherers, Pastoralists, Horticulturalists, Agriculturalists, and Mixed.
-
-Each document was coded for publication date and the ethnographer(s) sex [some metadata collected/confirmed with @mehr_natural_2016]. For additional details on ethnographic sampling and creation of the text record database, see @garfield_evolutionary_2019.
+Each culture was coded for continental region, total pages of ethnography for that culture in the eHRAF, and subsistence strategy.
 
 ## Data analysis
 
@@ -216,7 +200,7 @@ Our second goal was to assess the proportion of text records and cultures that p
 
 Our third goal was to assess the extent to which each of the dimensions of leadership varied by four theoretically important factors for which we had data for all rows: group context, subsistence strategy, continental region, and leader sex. We again fit logistic mixed effects models using the lme4 package, with each leadership dimension as an outcome, all four factors entered as predictors, and author nested within culture as random intercepts. We also wanted to investigate which words were associated with particular leadership dimensions, or which dimensions predicted evidence for other dimensions. For these analyses, we often used elasticnet regression from the glmnet package [@friedman_regularization_2010]. Elasticnet models are penalized regression models that are useful when the number of predictors is large relative to the number of observations. We used the "lasso" penalty ($\alpha=1$), which will often set many coefficients to 0, thereby selecting the most important predictors.
 
-Our fourth goal was to explore lower dimensional representations of these data that might reveal informative "features." These included logistic PCA, non-negative matrix factorization (NMF), and hierarchical cluster analysis. See the supplementary information (SI) for brief descriptions of these methods. Our fifth goal was to assess variation in our lower-dimensional "features" by group context, subsistence strategy, continental region, and leader sex, using logistic mixed effects models fit with the lme4 package. Our sixth goal was to evaluate the features in light of influential evolutionary theories of leadership. Drawing on the empirically derived features as a guide, we aimed to construct "elements" of leadership that corresponded to elements of influential theories, examining intersections of these elements across all text records.
+Our fourth goal was to explore lower dimensional representations of these data that might reveal informative "features." These included logistic PCA, minimal spanning trees and nearest neighbors (mst-kNN), and hierarchical cluster analysis. See the supplementary information (SI) for brief descriptions of these methods. Our fifth goal was to assess variation in our lower-dimensional "features" by group context, subsistence strategy, continental region, and leader sex, using logistic mixed effects models fit with the lme4 package. Our sixth goal was to evaluate the features in light of influential evolutionary theories of leadership. Drawing on the empirically derived features as a guide, we aimed to construct "elements" of leadership that corresponded to elements of influential theories, examining intersections of these elements across all text records.
 
 <!-- To reduce the dimensionality of the `r length(quality_vars)` leader quality variables and the `r length(function_vars)` leader function variables, all of which take binary values (0, 1), we used logistic PCA from the logisticPCA package. This algorithm projects the natural parameters of the saturated model onto the lower $k-$dimension space that minimizes the Bernoulli deviance [@logisticPCA]. Prior to analysis we removed all rows that had no evidence for any variable, which resulted in `r nrow(df_qual)` text records for the leader quality variables and `r nrow(df_func)` text records for the leader function variables. We used cross-validation to optimize rank, $k$, and a tuning parameter, $m$ (the value to approximate the saturated model), per recommendation of the package authors. -->
 
@@ -224,13 +208,17 @@ Our fourth goal was to explore lower dimensional representations of these data t
 
 <!-- Our fourth goal was to explore associations between the principle components of leader qualities and functions, and culture-level variables such as mode of subsistence, social complexity, population density, and group size, and effects of group type, such as political groups versus kin groups. We used linear mixed effects models from the lme4 package [@bates2015], with PC1 and PC2 as outcome variables, culture-level variables as predictors, and documents nested within cultures as grouping variables for random intercepts. -->
 
-The analyses computing levels of evidence for each dimension used the entire set of text records. Analyses investigating lower dimensional representations used a smaller set that omitted rows with no evidence for any dimension (i.e., all zeros), and dimensions with very little evidence (almost all zeros). All analyses were conducted with `r R.version.string`.
+The analyses computing levels of evidence for each dimension used the entire set of text records. Analyses investigating lower dimensional representations used a smaller set that omitted rows with no evidence for any dimension (i.e., all zeros), and dimensions with very little evidence (almost all zeros). 
+
+Throughout, we compare regression models of the same outcome variable using the Akaike information criterion (AIC). $AIC=2k - 2 ln(\hat{L})$, where $k$ is the number of model parameters and $\hat{L}$ is the maximum likelihood. AIC penalizes models with more parameters and rewards models with better fit. Hence, a model with a lower AIC value is considered to be superior.
+
+All analyses were conducted with `r R.version.string`.
 
 # Results
 
 The geographic distribution of the cultures in our sample is displayed in Figure \@ref(fig:geographic) (see also Figure S\@ref(fig:subsisttree)). The database of text record comprised `r nrow(all_data)` text records from `r length(unique(leadershipdata::documents$d_ID))` unique documents describing `r length(unique(all_data$d_culture))` cultures. The number of text records per culture ranged from `r min(leader_cult$number_leader_records, na.rm=T)` to `r max(leader_cult$number_leader_records, na.rm=T)`, with a median of `r median(leader_cult$number_leader_records, na.rm=T)`, a mean of `r signif(mean(leader_cult$number_leader_records, na.rm=T), 3)`, and a standard deviation of `r signif(sd(leader_cult$number_leader_records, na.rm=T), 3)`. The text records were generally short, ranging from `r textstats$min` to `r textstats$max` words, with a median word count of `r textstats$median`, a mean of `r textstats$mean`, and standard deviation of `r textstats$sd`. Of the `r nrow(all_data)` text records, `r final_record_count` had evidence for at least one dimension in the study.
 
-```{r geographic, fig.width=15, fig.cap="The geographical distributions of cultures in this analysis. Symbol shapes indicate subsistence strategy and symbol size indicates the number of documents available for that culture."}
+```{r geographic, fig.width=15, fig.cap="The geographical distributions of cultures in this analysis. Symbol shapes indicate subsistence strategy and symbol size indicates the number of documents available for that culture. Axes are degrees latitude and longitude."}
 library(maps)
 world_map <- map_data("world")
 p_map <- ggplot(world_map, aes(x = long, y = lat)) +
@@ -260,26 +248,16 @@ cor_pages_tr <- cor.test(~number_leader_records + ehraf_pages, leader_cult)
 
 <!-- NEED TO DISCUSS 1187 and split records.  -->
 
-## Distribution of text records by subsistence strategy and group type
-
-Subsistence strategy was confounded with continental region. African text records were predominantly from horticultural societies, for instance, whereas North American text records were predominantly from hunter-gatherer societies (see Figure S\@ref(fig:regionsubsistence)).
-
-Subsistence strategy and group structure were also confounded. Hunter-gatherer text records often referred to residential leadership (`r hg_residential_pct`% of the total sample of hunter-gatherer text records) and kin leadership (`r hg_kin_pct`%), but rarely referred to supracommunity leadership (`r hg_supra_pct`%). Agricultural text records, on the other hand, rarely referred to residential leadership (`r agri_residential_pct`%) but often referred to supracommunity leadership (`r agri_supra_pct`%). Across all subsistence types, political groups at the community level were the most frequent context, with the exception of agriculturalists where supracommunity political groups were the most frequent. Leadership beyond the community level was relatively rare outside of agricultural populations and was especially rare among hunter-gatherers. See Figure \@ref(fig:grouptype).
+Subsistence strategy, group structure and continental region were confounded. Hunter-gatherer text records often referred to residential and kin leadership, but rarely to supracommunity leadership, whereas agricultural text records rarely referred to residential leadership but often referred to supracommunity leadership. Community level political groups were frequent across all subsistence types. African text records were predominantly from horticultural societies whereas North American text records were predominantly from hunter-gatherer societies. See Figures \@ref(fig:grouptype) and S\@ref(fig:regionsubsistence), and Table S\@ref(tab:fourfactorsumm).
 
 ```{r grouptype, fig.width=20, fig.height=10, fig.cap="The distribution of text records by subsistence and group context. Areas of the bars are proportional to the number of text records in that category."}
 ggsave(file="Figures/group_subsis.pdf", plot_group_subsis, width=18, height=7)
 plot_group_subsis
 ```
 
-For the number of text records for each continental region, subsistence strategy and group context, see Table S\@ref(tab:fourfactorsumm).
-
-## Leader sex
-
 The majority of text records pertained to male leadership (`r male_leader_pct`%) and very few pertained to female leadership (`r female_leader_pct`%), with the remaining records not sex-specific. See Table S\@ref(tab:fourfactorsumm). There were female leaders in almost all contexts, however, except military and religious. Female leaders did tend to lead within kin and residential subgroups, though: `r female_residential_pct`% of female leaders led at the residential subgroup level, for instance, compared to `r male_residential_pct`% of male leaders. The majority of text records which exclusively described female leaders were from horticulturalists (`r female_hort_pct`%). See Table S\@ref(tab:sexsubtable).
 
 <!-- SHOULD WE PUT THE ENTIRE TABLE IN SI? -->
-
-## Possible sources of bias
 
 ```{r tabauthorgender}
 unique_authors <- unique(authorship[c('author_ID', 'author_gender')])
@@ -288,15 +266,11 @@ mm_coauthorSUM <- summary(mm_coauthor)
 mm_coauthorP <- mm_coauthorSUM$coefficients['female_coauthorTRUE', 'Pr(>|z|)']
 ```
 
-We investigated if there were biases in the discovery of evidence for any of our `r length(all_study_vars)` leader dimensions by publication date of source ethnographic texts, female gender of any author or co-author, or total pages of ethnography from each culture. Publication dates ranged from `r min(documents$d_publication_date)` to `r max(documents$d_publication_date)`, with a median year of `r median(documents$d_publication_date)` (see Figure S\@ref(fig:doc-years)). There were `r tab_author_gender['male']` male authors, `r tab_author_gender['female']` females authors, and `r tab_author_gender['unkown']` authors whose gender we could not determine (some authors were co-authors). Of the `r nrow(documents)` source documents, `r sum(documents$female_coauthor)` (`r signif(100*sum(documents$female_coauthor)/nrow(documents), 2)`%) had a female author or co-author. Total pages of ethnography on each culture in the PSF ranged from `r min(leader_cult[['ehraf_pages']])` to `r as.integer(max(leader_cult[['ehraf_pages']]))`, with a median of `r median(leader_cult[['ehraf_pages']])`, and this was weakly correlated with the number of text records on leadership retrieved for a particular culture (r = `r signif(cor_pages_tr$estimate, 2)`, p = `r signif(cor_pages_tr$p.value, 2)`). See Figure S\@ref(fig:eHRAFpages).
-
-We fit `r length(all_study_vars)` logistic mixed effects models with each binary leadership dimension as the outcome; fixed effects for publication date, any female authors (True/False), and total pages of ethnography from each culture; and random intercepts for ethnographers nested within cultures. We then corrected for multiple comparisons by setting a false discovery rate of 5% [@benjamini1995]. After correction, none of the coefficients of female authorship or total pages of ethnography were significant, but recent publications were significantly more likely to report evidence for *Oratory skill*, *Group representative*, *Group determination/cohesiveness*, and *Knowledgeable/intelligent*, and less likely to report evidence for leaders imposing costs (*Punishment*, *Killer*) or receiving benefits (*Social services*, *Food*, and *Reduced risk of harm*). See Figure S\@ref(fig:pubdate) and SI for details.
-
-We then tested if text records with a female author or co-author were more likely to discuss female leaders. Of the `r sum(tab_coauthor['FALSE',])` text records with no female author or co-author, `r tab_coauthor['FALSE','yes']` (`r 100*signif(tab_coauthor['FALSE','yes']/sum(tab_coauthor['FALSE',]),2)`%) reported female leadership. Of the `r sum(tab_coauthor['TRUE',])` text records with a female author or co-author, `r tab_coauthor['TRUE','yes']` (`r 100*signif(tab_coauthor['TRUE','yes']/sum(tab_coauthor['TRUE',]),2)`%) reported female leadership, suggesting that female ethnographers were more likely to report female leaders. After accounting for the non-independence of text records (i.e., multiple records from the same document) using a logistic mixed effects regression model, however, we found that although there was a positive effect of co-author gender on reporting female leadership (OR = `r signif(mm_coauthorOR, 2)`), it was not statistically significant (p = `r signif(mm_coauthorP, 2)`). Because we found minimal evidence of bias, we do not control for any bias variables in subsequent analyses.
+We investigated if there were biases in the discovery of evidence for any of our `r length(all_study_vars)` leader dimensions by publication date of source ethnographic texts, female gender of any author or co-author, or total pages of ethnography from each culture. Because we found minimal evidence of bias, we do not control for any bias variables in subsequent analyses. For details, see the *Bias* section of the SI.
 
 ## Evidence for leader functions and qualities
 
-For each of the `r length(c(quality_vars, function_vars, leader_cost_vars, leader_benefit_vars, follower_benefit_vars, follower_cost_vars))` coded dimensions (see Tables \@ref(tab:qualfuncvars) and \@ref(tab:costbenefitvars)), we computed the proportion of text records (95% CI) that provided support and then computed the proportion of cultures with at least one text record providing support for that dimension (as described in the Methods section). See Figure \@ref(fig:varsupport). For a table of all coefficients and 95% CIs, see Table S\@ref(tab:glmmcoefs).
+For each of the `r length(c(quality_vars, function_vars, leader_cost_vars, leader_benefit_vars, follower_benefit_vars, follower_cost_vars))` coded dimensions (see Tables S\@ref(tab:qualfuncvars) and S\@ref(tab:costbenefitvars)), we computed the proportion of text records (95% CI) that provided support and then computed the proportion of cultures with at least one text record providing support for that dimension (as described in the Methods section). See Figure \@ref(fig:varsupport). For a table of all coefficients and 95% CIs, see Table S\@ref(tab:glmmcoefs).
 
 ```{r varsupport, fig.width=15, fig.height=15, fig.cap="Evidence for each coded dimension of leader functions (top) and qualities (bottom). Red: percent of text records with evidence of support (95% CI computed with an intercept-only binomial mixed effects models with random intercept for author nested within culture). Purple: percent of cultures with evidence of support (95% CI computed with a cluster bootstrap)."}
 ggsave(file="Figures/variablesupport.pdf", plot_func_qual)
@@ -307,7 +281,7 @@ The most common functions of leaders, documented in over 70% of cultures, were r
 
 The most common qualities of leaders were having high social status (over 90% of cultures), being experienced or accomplished, and being described as knowledgeable or intelligent (approximately 80% of cultures). Qualities notable for their relative infrequency included physical formidability, having many social contacts, and being feared (documented in about 35% of cultures) and charisma and fairness (documented in about 20% of cultures).
 
-Most of the standard deviations of the random author and culture intercepts for each model were between 0 and 1 (on the scale of the linear predictor). See Figures S\@ref(fig:FunctionRE) and S\@ref(fig:QualityRE). In a few cases, one or the other was exactly 0, which can occur in models like ours that have many random effect levels (e.g., `r length(unique(all_data$author_ID))` authors) and a relatively small data set [@bates2015].
+The random intercepts indicated that support for many variables did vary modestly by ethnographer and culture. Most of the standard deviations of the random author and culture intercepts for each model were between 0 and 1 (on the scale of the linear predictor). See Figures S\@ref(fig:FunctionRE) and S\@ref(fig:QualityRE). In a few cases, one or the other was exactly 0, which can occur in models like ours that have many random effect levels (e.g., `r length(unique(all_data$author_ID))` authors) and a relatively small data set [@bates2015].
 
 ## Benefits and costs of leadership and followership
 
@@ -349,7 +323,7 @@ plot_bc_OR
 
 ## Universality in leadership dimensions
 
-We investigated four possibles sources of variation in evidence for our `r length(all_study_vars)` dimensions of leadership: group context, subsistence strategy, continental region, and leader sex. Specifically, we fit separate multiple logistic mixed effects regression models of each leadership dimension as a function of these four factors, with random intercepts for author nested within culture. We then compared the AIC value of each model to a model with only the fixed and random intercepts. Models whose AIC values were at least two less than the intercept-only models were deemed to vary by those factors [@burnham2002].
+We investigated four possibles sources of variation in evidence for our `r length(all_study_vars)` dimensions of leadership: group context, subsistence strategy, continental region, and leader sex. Specifically, we fit separate multiple logistic mixed effects regression models of each leadership dimension as a function of these four factors, with random intercepts for author nested within culture. We then compared the AIC value of each model to a model with only the fixed and random intercepts. Models whose AIC values were at least two less than the intercept-only models were deemed to outperform the intercept-only model [@burnham2002].
 
 ```{r universals}
 
@@ -675,7 +649,7 @@ movement_hg_pct <- signif(100*sum(all_data$functions_NewSettlement[all_data$subs
 
 There was substantial cross-cultural variation in evidence for most dimensions of leadership: of our `r length(all_study_vars)` dimensions of leadership, `r sum(df_compare2$Estimate < 0.5)` had evidence in less than 50% of our `r nrow(leader_cult)` cultures. See Figures \@ref(fig:varsupport) and \@ref(fig:varsupportcb). There was *systematic* variation in `r vary_n` leadership dimensions by group context, subsistence strategy, continental region, and/or leader sex, factors for which we had complete data for all text records. 
 
-These factors were confounded, i.e., group context was associated with subsistence strategy, which was associated with continental region. See Figures \@ref(fig:grouptype) and S\@ref(fig:regionsubsistence). Specifically, evidence for leadership in residential subgroups and kin groups was relatively more common in hunter-gatherer and pastoralist societies, populations more likely to experience high residential mobility [@wild_making_2019; @rigby_persistent_1985; @kelly_foraging_2013; @venkataraman_hunter-gatherer_2017]. Evidence for supracommunity political leadership was more common in horticultural and agricultural societies, which tend to rely heavily on cultivated land and maintain fixed, defensible territories. These patterns support perspectives suggesting residential mobility and increased costs of dispersal, subsistence intensification, and demographic transitions are associated with increasing complexity of sociopolitical organization among nonindustrial populations [@johnson_evolution_1987; @steward_basin-plateau_1938; @powers_evolutionary_2014; @kantner_identifying_2010]. The only example of supracommunity leadership among hunter-gatherers was from the Andamanese by @az02-001[p. 45], who discussed the roles of a "head chief" from a permanent residential location and their marginal influence over other, local residential leaders (see quote in Methods section). One interpretation of the negative relationship between evidence for political leadership at the community level or above and leadership in kin groups or residential groups is that as political structures become more institutionalized and economic systems transcend the household, leadership within households and residential groups diminishes.
+These factors were confounded, i.e., group context was associated with subsistence strategy, which was associated with continental region. See Figures \@ref(fig:grouptype) and S\@ref(fig:regionsubsistence). Specifically, evidence for leadership in residential subgroups and kin groups was relatively more common in hunter-gatherer and pastoralist societies, populations more likely to experience high residential mobility [@wild_making_2019; @rigby_persistent_1985; @kelly_foraging_2013; @venkataraman_hunter-gatherer_2017]. Evidence for supracommunity political leadership was more common in horticultural and agricultural societies, which tend to rely heavily on cultivated land and maintain fixed, defensible territories. These patterns support perspectives suggesting residential mobility and increased costs of dispersal, subsistence intensification, and demographic transitions are associated with increasing complexity of sociopolitical organization among nonindustrial populations [@johnson_evolution_1987; @steward_basin-plateau_1938; @powers_evolutionary_2014; @kantner_identifying_2010]. The only example of supracommunity leadership among hunter-gatherers was from the Andamanese by @az02-001[p. 45], who discussed the roles of a "head chief" from a permanent residential location and their marginal influence over other, local residential leaders (see quote in *Coding example* section of SI). One interpretation of the negative relationship between evidence for political leadership at the community level or above and leadership in kin groups or residential groups is that as political structures become more institutionalized and economic systems transcend the household, leadership within households and residential groups diminishes.
 
 <!-- Pastoralists, despite potential residential mobility, do rely in part on a highly defensible resource base (i.e., livestock) and exhibit evidence for political leadership beyond the community more so than hunter-gatherers and on par with horticulturalists. Pastoral and horticultural populations often experience elevated rates of inter-group conflict relative to mobile hunter-gatherers and these results are consistent with a relationship between increased inter-group conflict and more elaborated political leadership systems [@ember_warfare_1992; @glowacki_evolutionary_2017]. For example, among the Somali, a politically complex and socially stratified agro-pastoralists group distributed across the Horn of Africa, @mo04-021 [p. 58] notes that, "the Sultan does not lead the army of the tribe in war. He names a chief of the armed forces." -->
 
@@ -885,9 +859,25 @@ In more socially stratified, politically complex, and in increasingly WEIRD cont
 <!-- CONNECT TO WERID -->
 Our results also suggest both broad continuities and contrasts between leadership among the nonindustrial, non-WEIRD populations sampled here and the WEIRD samples common in managerial studies. Our organize and strategize features of leader functions reflect the @wofford_factor_1970 *order and group achievement* and *personal interaction* factors, respectively. Also, Wofford's *personal enhancement* and *dynamic and achievement* factors are similar to leadership dimensions captured by our competencies feature. Our results, however, emphasize the prosociality of leaders in non-WEIRD settings over an emphasis on self-preservation, relative to WEIRD leaders (e.g., Woffords *security and maintenance* factor). We also identified conformity to social norms as a feature of human leadership across cultures, similar to predictions and findings drawing on Culturally Endorsed Implicit Leadership Theory by managerial scholars working with WEIRD populations [@behrendt_integrative_2017]. Our results on the functions of leaders across cultures and contexts also corresponds to the *task-oriented* vs. *relation-oriented* framework of managerial behaviors (i.e., our Management vs. Prosociality features of leader functions). However, our results, which found evidence for oratory skills in about 50% of cultures and charisma in about 20%, provide only partial support for the strong emphasis on charismatic leadership found by the GLOBE CEO study [@house2013strategic]. See Figure \@ref(fig:cluster).
 
+## Operationalization of Leader Qualities and Functions variables
+
+```{r qualfuncvars, echo=FALSE, message=F, warning=FALSE}
+qual_func_var_tab<-read_csv('func_qual_definitions.csv', na = 'NA')
+kable(qual_func_var_tab, caption = "Operational definitions for coded leader qualities and functions.")
+```
+
+## Operationalization of Leader and Follower Costs and Benefits variables
+
+```{r costbenefitvars, echo=FALSE, message=F, warning=FALSE}
+cost_benefit_vars_tab<-read_csv('costs_benefits.csv', na = 'NA')
+kable(cost_benefit_vars_tab, caption = "Operational definitions for coded benefits and costs for leaders and followers.")
+```
+
 ## Ethnographic sample
 
-The 60-culture Probability Sample Files of the HRAF developed by @naroll_proposed_1967 is based on culturally and geographically diverse populations which are well covered in the ethnographic record. The distribution of cultures, however, is not equal across categories of subsistence strategies; agriculturalists and horticulturalists are relatively over-represented compared to hunter-gatherers and pastoralists. The ethnographic sample of text developed in the *leadershipdata* package is also not equally balanced across all subsistence strategy categories. See Figure S\@ref(fig:subsisttree).
+The 60-culture Probability Sample Files of the HRAF developed by @naroll_proposed_1967 is based on culturally and geographically diverse populations which are well covered in the ethnographic record. We rely on a modified classification of subsistence from the HRAF, collapsing “hunter-gatherers” and “primarily hunter-gatherers” into a single category, “hunter-gatherers,” and by collapsing “agro-pastoralists” and “pastoralists” into a single “pastoralists” category. We renamed the HRAF’s “Other” subsistence category, which is applied to societies with various combinations of hunting, fishing, gathering, pastoralism, and horticulture or intensive agriculture, as “mixed.” This produced a subsistence classification with five groups: Hunter-gatherers, Pastoralists, Horticulturalists, Agriculturalists, and Mixed.
+
+The distribution of cultures, however, is not equal across categories of subsistence strategies; agriculturalists and horticulturalists are relatively over-represented compared to hunter-gatherers and pastoralists. The ethnographic sample of text developed in the *leadershipdata* package is also not equally balanced across all subsistence strategy categories. See Figure S\@ref(fig:subsisttree).
 
 ```{r subsisttree, fig.cap="The area of the entire rectangle represents the total number of text records in the study data (N = 2012). The nested rectangles represent (from smallest to largest) the proportion of text records in each document, culture, and subsistence strategy."}
 ggsave(filename = 'Figures/plot_cult_docs_subsis.pdf', plot_cult_docs_subsis)
@@ -906,12 +896,22 @@ ggsave(filename = 'Figures/doc_year_hist.pdf', doc_year_hist)
 doc_year_hist
 ```
 
-The eHRAF provides information on the time frame of field work associated with each document. For some documents the span of associated fieldwork is given for the exact months and years the ethnographer was in the field. For most documents one or more spans of years are given. Figure \@ref(fig:field-years) plots the earliest year and the latest year for which field work occurred for each document. The time spans plotted do not depict the full span of fieldwork necessarily, but simply illustrate the time span during which fieldwork occurred. We omitted data for one document from North America with field work date ranges prior to 1805. For all documents, the average earliest year in which field work occurred was `r signif(mean(documents$d_field_date_start, na.rm=T),4)` and the average latest years in which field work occurred was `r signif(mean(documents$d_field_date_end, na.rm=T),4)`. 
+Each document was coded for publication date and the ethnographer(s) sex [some metadata collected/confirmed with @mehr_natural_2016]. The eHRAF provides information on the time frame of field work associated with each document. For some documents the span of associated fieldwork is given for the exact months and years the ethnographer was in the field. For most documents one or more spans of years are given. Figure \@ref(fig:field-years) plots the earliest year and the latest year for which field work occurred for each document. The time spans plotted do not depict the full span of fieldwork necessarily, but simply illustrate the time span during which fieldwork occurred. We omitted data for one document from North America with field work date ranges prior to 1805. For all documents, the average earliest year in which field work occurred was `r signif(mean(documents$d_field_date_start, na.rm=T),4)` and the average latest years in which field work occurred was `r signif(mean(documents$d_field_date_end, na.rm=T),4)`. 
 
 ```{r field-years, fig.height=8, fig.width=9, fig.cap="Span of fieldwork years of study documents. To improve clarity, one document with very early fieldwork from 1791-1804 was omitted."}
 ggsave(filename = 'Figures/doc_fielddates_plot.pdf', doc_fielddates_plot)
 doc_fielddates_plot
 ```
+
+For additional details on ethnographic sampling and creation of the text record database, see @garfield_evolutionary_2019.
+
+## Coding example
+
+We illustrate our coding with an example from Andamanese hunter-gatherers [@az02-001, p. 45]:
+
+>Their domestic policy may be described as a communism modified by the authority, more or less nominal, of the chief. The head chief of a tribe is called maia igla and the elders, or sub-chiefs, i.e. those in authority over each community, consisting of from 20 to 50 individuals, maicla. The head chief, who usually resides at a permanent encampment, has authority over all the sub-chiefs, but his power, like theirs, is very limited. It is exercised mainly in organising meetings between the various communities belonging to his tribe, and in exerting influence in all questions affecting the welfare of his followers. It is the chief alone, as may be supposed, who directs the movements of a party while on hunting and fishing expeditions, or when migrating. It is usually through his intervention that disputes are settled, but he possesses no power to punish or enforce obedience to his wishes, it being left to all alike to take the law into their own hands when aggrieved. The aryoto and eremtaga in each tribe have their own head chief, who are independent the one of the other.
+
+This text record was coded has having evidence for the functions *Resolve conflict*, *Organize cooperation*, *Movement/migration*, *Provide subsistence*, and *Misc. social functions*. For qualities, there was evidence for *High status*. Although authority is mentioned, we did not code evidence for this variable because the chief "possesses no power to punish or enforce obedience to his wishes," contrary to our operationalization. 
 
 ## Summary statistics for four variation factors
 
@@ -969,6 +969,13 @@ reg_sub_plot
 ggsave(filename = 'Figures/plot_pages_tr.pdf', plot_pages_tr)
 plot_pages_tr
 ```
+
+
+Publication dates ranged from `r min(documents$d_publication_date)` to `r max(documents$d_publication_date)`, with a median year of `r median(documents$d_publication_date)` (see Figure S\@ref(fig:doc-years)). There were `r tab_author_gender['male']` male authors, `r tab_author_gender['female']` females authors, and `r tab_author_gender['unkown']` authors whose gender we could not determine (some authors were co-authors). Of the `r nrow(documents)` source documents, `r sum(documents$female_coauthor)` (`r signif(100*sum(documents$female_coauthor)/nrow(documents), 2)`%) had a female author or co-author. Total pages of ethnography on each culture in the PSF ranged from `r min(leader_cult[['ehraf_pages']])` to `r as.integer(max(leader_cult[['ehraf_pages']]))`, with a median of `r median(leader_cult[['ehraf_pages']])`, and this was weakly correlated with the number of text records on leadership retrieved for a particular culture (r = `r signif(cor_pages_tr$estimate, 2)`, p = `r signif(cor_pages_tr$p.value, 2)`). See Figure S\@ref(fig:eHRAFpages).
+
+We fit `r length(all_study_vars)` logistic mixed effects models with each binary leadership dimension as the outcome; fixed effects for publication date, any female authors (True/False), and total pages of ethnography from each culture; and random intercepts for ethnographers nested within cultures. We then corrected for multiple comparisons by setting a false discovery rate of 5% [@benjamini1995]. After correction, none of the coefficients of female authorship or total pages of ethnography were significant, but recent publications were significantly more likely to report evidence for *Oratory skill*, *Group representative*, *Group determination/cohesiveness*, and *Knowledgeable/intelligent*, and less likely to report evidence for leaders imposing costs (*Punishment*, *Killer*) or receiving benefits (*Social services*, *Food*, and *Reduced risk of harm*). See Figure S\@ref(fig:pubdate).
+
+We then tested if text records with a female author or co-author were more likely to discuss female leaders. Of the `r sum(tab_coauthor['FALSE',])` text records with no female author or co-author, `r tab_coauthor['FALSE','yes']` (`r 100*signif(tab_coauthor['FALSE','yes']/sum(tab_coauthor['FALSE',]),2)`%) reported female leadership. Of the `r sum(tab_coauthor['TRUE',])` text records with a female author or co-author, `r tab_coauthor['TRUE','yes']` (`r 100*signif(tab_coauthor['TRUE','yes']/sum(tab_coauthor['TRUE',]),2)`%) reported female leadership, suggesting that female ethnographers were more likely to report female leaders. After accounting for the non-independence of text records (i.e., multiple records from the same document) using a logistic mixed effects regression model, however, we found that although there was a positive effect of co-author gender on reporting female leadership (OR = `r signif(mm_coauthorOR, 2)`), it was not statistically significant (p = `r signif(mm_coauthorP, 2)`).
 
 We explored three possible sources of bias in discovery of evidence for each of our `r length(all_study_vars)` dimensions: publication date, female vs. male-only authorship, and variation in the total number of pages of ethnography for each culture.
 
@@ -1036,7 +1043,7 @@ p_heatmap_subsis + theme_minimal(15)
 ```
 
 ```{r heatmapregion, fig.width=10, fig.cap="Heatmap of relative estimated marginal means of the levels of evidence for each outcome variable by each continental region. Estimated marginal means were standardized by rows. The colors therefore represent the relative amount of evidence within the same outcome variable."}
-ggsave(filename = 'Figures/heatmap_region.pdf', p_heatmap_region + theme_minimal(15))
+ggsave(filename = 'Figures/heatmap_region.pdf', p_heatmap_region + theme_minimal(15), width=12)
 p_heatmap_region + theme_minimal(15)
 ```
 
@@ -1149,7 +1156,9 @@ theplots[[1]] / theplots[[2]] + plot_annotation(title = 'Predictors of leader co
 
 ## Dimension reduction
 
-Logistic PCA generalizes Pearson's original formulation of PCA to find a projection of the natural parameters of the saturated model that minimizes the Bernoulli deviance [@logisticPCA]. NMF [@lee1999] finds a low rank approximation of the original matrix, $X \approx WH$, where $X$ is an $n \times p$ matrix, and $W$ and $H$ are $n \times k$ and $k \times p$ matrices, respectively; all elements of $X$, $W$ and $H$ are $\geq 0$; and, typically, $k << min(n,p)$. NMF estimates $W$ and $H$ by minimizing a measure of distance between $X$ and $WH$ [we used the default "brunet" algorithm, which uses the Kullback-Leibler divergence; @gaujoux2010].
+Logistic PCA generalizes Pearson's original formulation of PCA to find a projection of the natural parameters of the saturated model that minimizes the Bernoulli deviance [@logisticPCA]. A minimum spanning tree (MST) takes a distance matrix of the column vectors (computed here using binary distance) and then finds a graph that connects all nodes with the shortest total distance. MST was combined with k-nearest neighbor (kNN), where a complete graph is formed of each node's k nearest neighbors. The result is the intersection of these two graphs [@inostroza2008].
+
+<!-- NMF [@lee1999] finds a low rank approximation of the original matrix, $X \approx WH$, where $X$ is an $n \times p$ matrix, and $W$ and $H$ are $n \times k$ and $k \times p$ matrices, respectively; all elements of $X$, $W$ and $H$ are $\geq 0$; and, typically, $k << min(n,p)$. NMF estimates $W$ and $H$ by minimizing a measure of distance between $X$ and $WH$ [we used the default "brunet" algorithm, which uses the Kullback-Leibler divergence; @gaujoux2010]. -->
 
 Agglomerative hierarchical cluster analysis starts with all elements in their own cluster, and then uses a distance metric to combine the two closest clusters into a single cluster; the next two closest clusters are then combined, and so forth, until all elements belong to a single cluster. We computed distance between our binary vectors using $1-cor(x, y)$, and agglomerated using the Ward algorithm. We assessed the robustness of the clusters using the *pvclust* package [@suzuki_pvclust2006], which computes an unbiased probability that a cluster appears in bootstrapped samples. We used 10,000 bootstrapped samples.
 
@@ -1193,6 +1202,35 @@ plot_lpca_qual
 
 ```{r mstknn, fig.width=10, fig.height=10, fig.cap="Clusters of the combined leader function and quality variables formed by the mst-kNN algorithm. Dot size represents the number of text records with evidence for that variable. Dot color represents the type of variable."}
 plot_mstknn
+```
+
+
+## Leader market variable operationalization
+
+```{r leadermarket}
+
+frmt <- function(label, vars){
+  c(label, rep('', length(vars) - 1))
+}
+
+marketvars <-
+  tibble(
+    Element = c(
+      frmt('Cognitive capital', cognitive_vars),
+      frmt('Social capital', social_vars), 
+      frmt('Somatic capital', physical_vars),
+      frmt('Provide benefits', benefit_ability_vars),
+      frmt('Impose costs', cost_ability_vars)
+    ),
+    `Component variables` = c(
+    names(cognitive_vars),
+    names(social_vars),
+    names(physical_vars),
+    names(benefit_ability_vars),
+    names(cost_ability_vars)
+    )
+  )
+kable(marketvars, caption = 'Operationalization of our leadership components')
 ```
 
 
@@ -1260,36 +1298,6 @@ feature_models %>%
   tab_options(table.font.size=10, data_row.padding = 0)
 
 ```
-
-
-## Leader market variable operationalization
-
-```{r leadermarket}
-
-frmt <- function(label, vars){
-  c(label, rep('', length(vars) - 1))
-}
-
-marketvars <-
-  tibble(
-    Element = c(
-      frmt('Cognitive capital', cognitive_vars),
-      frmt('Social capital', social_vars), 
-      frmt('Somatic capital', physical_vars),
-      frmt('Provide benefits', benefit_ability_vars),
-      frmt('Impose costs', cost_ability_vars)
-    ),
-    `Component variables` = c(
-    names(cognitive_vars),
-    names(social_vars),
-    names(physical_vars),
-    names(benefit_ability_vars),
-    names(cost_ability_vars)
-    )
-  )
-kable(marketvars, caption = 'Operationalization of our leadership components')
-```
-
 
 ## GLMM coefficients
 
