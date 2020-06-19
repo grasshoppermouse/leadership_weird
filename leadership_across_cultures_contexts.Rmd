@@ -471,7 +471,7 @@ ggsave('Figures/plot_features_support.pdf', plot_features_support, width = 10, h
 plot_features_support
 ```
 
-There were modest or no correlation between features, after aggregating leadership dimensions (see Figure \@ref(fig:featurecor)).
+There were modest or no correlation between features, after aggregating leadership dimensions (see Figure S\@ref(fig:featurecor)).
 
 We then fit separate logistic mixed effects models of each of the `r nrow(feature_models)` features as a function of group context, subsistence strategy, continental region, and leader sex, with random effects for author nested within culture, comparing these to intercept-only models, and selecting the `r nrow(feature_models_aic)` models whose AIC values were at least two points less than the intercept-only models (only *Cultural conformity* was dropped). As with our leader dimension models, we then dropped each factor variable in turn and compared the change in AIC. The large increases for group context and leader sex indicated that including these factors substantially improved fit. See Figure \@ref(fig:heatmapdrop1)B. We then compared the levels of each factor that improved fit for each feature variable. Female leaders were associated with *Social, reproductive, and material success*, and male leaders with *(Prosociality*. Military groups were associated the *Organize* feature, religious groups with *Prosociality* and *Competencies*, and kin groups with *Strategize* and *Prosocial competencies*. See Figures S\@ref(fig:heatmapfeaturesex), and S\@ref(fig:heatmapfeaturegroups).
 
