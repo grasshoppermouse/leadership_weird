@@ -189,7 +189,7 @@ plan <- drake_plan(
   # The paper
   report = rmarkdown::render(
     knitr_in("leadership_across_cultures_contexts.Rmd"),
-    output_file = file_out("leadership_across_cultures_contexts.html"),
+    output_file = file_out("leadership_across_cultures_contexts.docx"),
     quiet = TRUE
   )
 )
