@@ -3,7 +3,7 @@ title: "Leadership across cultures and contexts: an exploratory analysis"
 author: "Zachary H. Garfield, Kristen L. Syme, and Edward H. Hagen"
 date: "4/25/2019"
 output: 
-  bookdown::html_document2:
+  bookdown::word_document2:
     number_sections: true
 bibliography: Leader2.bib
 csl: apa-6th-edition.csl
