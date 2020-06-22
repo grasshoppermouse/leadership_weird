@@ -3,7 +3,7 @@ title: "Leadership across cultures and contexts: an exploratory analysis"
 author: "Zachary H. Garfield, Kristen L. Syme, and Edward H. Hagen"
 date: "4/25/2019"
 output: 
-  bookdown::html_document2:
+  bookdown::word_document2:
     number_sections: true
 bibliography: Leader2.bib
 csl: apa-6th-edition.csl
@@ -640,7 +640,7 @@ movement_hg_pct <- signif(100*sum(all_data$functions_NewSettlement[all_data$subs
 
 ```
 
-There was substantial cross-cultural variation in evidence for most dimensions of leadership: of our `r length(all_study_vars)` dimensions of leadership, `r sum(df_compare2$Estimate < 0.5)` had evidence in less than 50% of our `r nrow(leader_cult)` cultures (Figures \@ref(fig:varsupport) and \@ref(fig:varsupportcb)). There was *systematic* variation in `r vary_n` leadership dimensions by group context, subsistence strategy, continental region, and/or leader sex, factors for which we had complete data for all text records. 
+There was substantial cross-cultural variation in evidence for most leadership dimensions: `r sum(df_compare2$Estimate < 0.5)` of  `r length(all_study_vars)` leadership dimensions had evidence in less than 50% cultures (Figures \@ref(fig:varsupport) and \@ref(fig:varsupportcb)). There was *systematic* variation in `r vary_n` leadership dimensions by group context, subsistence strategy, continental region, and/or leader sex, factors for which we had complete data for all text records. 
 
 These four factors were confounded. Specifically, evidence for leadership in residential subgroups and kin groups was relatively more common in hunter-gatherer and pastoralist societies, populations more likely to experience high residential mobility [@wild_making_2019; @rigby_persistent_1985; @kelly_foraging_2013; @venkataraman_hunter-gatherer_2017]. Evidence for supracommunity political leadership was more common in horticultural and agricultural societies, which tend to rely heavily on cultivated land and maintain fixed, defensible territories (Figures \@ref(fig:grouptype) and S\@ref(fig:regionsubsistence)). These patterns support perspectives suggesting residential mobility and increased costs of dispersal, subsistence intensification, and demographic transitions are associated with increasing complexity of sociopolitical organization among nonindustrial populations [@johnson_evolution_1987; @steward_basin-plateau_1938; @powers_evolutionary_2014; @kantner_identifying_2010]. The only example of supracommunity leadership among hunter-gatherers was from the Andamanese by @az02-001[p. 45], who discussed the roles of a "head chief" from a permanent residential location and their marginal influence over other, local residential leaders (see quote in *Coding example* section of SI). One interpretation of the negative relationship between evidence for political leadership at the community level or above and leadership in kin groups or residential groups is that as political structures become more institutionalized and economic systems transcend the household, leadership within households and residential groups diminishes.
 
