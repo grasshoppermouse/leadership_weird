@@ -1,5 +1,5 @@
 ---
-title: "Leadership across cultures and contexts: an exploratory analysis"
+title: "Universal and varying leadership dimensions across human societies"
 author: "Zachary H. Garfield, Kristen L. Syme, and Edward H. Hagen"
 date: "4/25/2019"
 output: 
@@ -81,6 +81,8 @@ source("R/cheapobjects.R", local = T)
 <!-- * Leadership across cultures and contexts -->
 <!-- * The determinants of leadership across cultures and contexts -->
 <!-- * The determinants of human leadership across societies -->
+<!-- * Universal and varying leadership traits across 59 traditional cultures -->
+<!-- * Analysis of 109 leadership traits across 59 traditional cultures -->
 
 
 
@@ -620,7 +622,7 @@ reprosuccess <- signif(100*features_support_cult$Estimate[features_support_cult$
 ```
 
 
-Our candidate universal dimensions appear in the computational services model [@hagen_leadership_2019], in which knowledgeable and intelligent individuals provide computational (cognitive) services (e.g., conflict resolution, strategizing) to group members in exchange for a variety of fitness benefits [see also @garfield_evolutionary_2019]. This model emphasizes mating benefits, however, which appear in `r matingbenefit`% of cultures, below our arbitrary 60% threshold for "universality" (Figure \@ref(fig:varsupportcb)). But there was evidence for the *Social, reproductive, and materials success* feature, which included polygynous leaders, having a high-quality spouse, and having many children, in more cultures (`r reprosuccess`%) than other features (Figure \@ref(fig:featuressupportplot)). Interestingly, the computational services model highlights women's family leadership role, and there was more evidence for the *Social, reproductive, and materials success* feature for females leaders than male leaders (Figure S\@ref(fig:heatmapfeaturesex)), with the caveat that there were few text records on female leaders in our sample.
+Our candidate universal dimensions appear in the computational services model [@hagen_leadership_2019], in which knowledgeable and intelligent individuals provide computational (cognitive) services (e.g., conflict resolution, strategizing) to group members in exchange for a variety of fitness benefits [see also @garfield_evolutionary_2019]. This model emphasizes mating benefits, however, which appear in `r matingbenefit`% of cultures, below our arbitrary 60% threshold for "universality" (Figure \@ref(fig:varsupportcb)). But there was evidence for the *Social, reproductive, and materials success* feature, which included polygynous leaders, having a high-quality spouse, and having many children, in more cultures (`r reprosuccess`%) than other features (Figure \@ref(fig:featuressupportplot)). Interestingly, the computational services model highlights women's family leadership role, and there was proportionally more evidence for the *Social, reproductive, and materials success* feature among females leaders than male leaders (Figure S\@ref(fig:heatmapfeaturesex)), with the caveat that there were few text records on female leaders in our sample.
 
 Pawnee chiefs illustrate leadership involving several of the universal dimensions, including intelligence, conflict resolution, and generosity [@nq18-015]:
 
