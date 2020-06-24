@@ -1,5 +1,5 @@
 ---
-title: "Universal and varying leadership dimensions across human societies"
+title: "Universal and varyiable leadership dimensions across human societies"
 author: "Zachary H. Garfield, Kristen L. Syme, and Edward H. Hagen"
 date: "4/25/2019"
 output: 
