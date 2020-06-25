@@ -1,5 +1,5 @@
 ---
-title: "Leadership across cultures and contexts: an exploratory analysis"
+title: "Universal and variable leadership dimensions across human societies"
 author: "Zachary H. Garfield, Kristen L. Syme, and Edward H. Hagen"
 date: "4/25/2019"
 output: 
@@ -81,6 +81,8 @@ source("R/cheapobjects.R", local = T)
 <!-- * Leadership across cultures and contexts -->
 <!-- * The determinants of leadership across cultures and contexts -->
 <!-- * The determinants of human leadership across societies -->
+<!-- * Universal and varying leadership traits across 59 traditional cultures -->
+<!-- * Analysis of 109 leadership traits across 59 traditional cultures -->
 
 
 
@@ -371,7 +373,7 @@ heatmap_drop1
 ggsave(filename = 'Figures/heatmap_drop1.pdf', heatmap_drop1, width = 9, height = 5)
 ```
 
-For each of our four factors, we then investigated which levels of the factor were associated with higher or lower levels of evidence for the leadership dimension. For instance, there were three dimensions in which subsistence strategy played an important role: *No coercive authority*, *Provide subsistence*, and *Distribute resources* (See Figure \@ref(fig:heatmapdrop1)). Hunter-gatherers had particularly high levels of evidence for *No coercive authority*, relative to other subsistence strategies (and averaging over levels of the other three factors), and pastoralists had relatively low evidence for *Distribute resources* (see Figure S\@ref(fig:heatmapsubsis)). For group context, region, and leader sex see Figures S\@ref(fig:heatmapgroups), S\@ref(fig:heatmapregion), and S\@ref(fig:heatmapsex).
+For each of our four factors, we then investigated which levels of the factor were associated with higher or lower levels of evidence for the leadership dimension. For instance, there were three dimensions in which subsistence strategy played an important role: *No coercive authority*, *Provide subsistence*, and *Distribute resources* (see Figure \@ref(fig:heatmapdrop1)). Hunter-gatherers had particularly high levels of evidence for *No coercive authority*, relative to other subsistence strategies (and averaging over levels of the other three factors), and pastoralists had relatively low evidence for *Distribute resources* (see Figure S\@ref(fig:heatmapsubsis)). For group context, region, and leader sex see Figures S\@ref(fig:heatmapgroups), S\@ref(fig:heatmapregion), and S\@ref(fig:heatmapsex).
 
 <!-- For subsistence strategy, hunter-gatherers had relatively more evidence for *Polygyny*, *Leader-Mating benefits*, *No coercive authority*, *Political appointments* and *Military command* than other subsistence strategies. Pastoralists had more evidence for *Ritual functions*, *Supernatural*, *Aggressiveness* and *High quality spouse*. Hunter-gatherers and pastoralists both had more evidence for *High status*, *Providing counsel/direction*, and *Providing subsistence*. The remaining subsistence strategies generally had relatively less evidence for all variables, except that the mixed strategy had relatively more evidence for *Organize cooperation*, *Distribute resources*, and *Prosocial investment*. See Figure S\@ref(fig:heatmapsubsis). -->
 
@@ -434,7 +436,7 @@ Words that were strong predictors of leaders with coercive authority included, u
 
 Using all other quality and function dimensions as predictors identified *Punishment* as the strongest predictor of evidence for *Coercive authority*. *No coercive authority* was most strongly predicted by *Humility*. See Figures \@ref(fig:elasticcoercive)B,D. 
 
-```{r elasticcoercive, fig.width=10, fig.height=10, fig.cap="Coefficients of logistic elasticnet regression models of evidence for *Coercive authority* and *No coercive authority*. A, C: Coefficients indicate the words whose frequencies in each text record best predicted evidence for *Coercive authority* and *No coercive authority, respectively, in each text record. B, D: Non-zero coefficients of all quality and function dimensions that best predicted evidence for *Coercive authority* and *No coercive authority, respectively. Both models used the lasso penalty ($\\alpha=1$) and chose $\\lambda_{1se}$ by cross-validation (1 SE from $\\lambda_{min}$). Red values are positive predictors; purple values are negative predictors. Predictors with coefficents = 0 not displayed. X-axes are odds ratios on a log 10 scale."}
+```{r elasticcoercive, fig.width=10, fig.height=10, fig.cap="Coefficients of logistic elasticnet regression models of evidence for *Coercive authority* and *No coercive authority*. A, C: Coefficients indicate the words whose frequencies in each text record best predicted evidence for *Coercive authority* and *No coercive authority, respectively, in each text record. B, D: Non-zero coefficients of all quality and function dimensions that best predicted evidence for *Coercive authority* and *No coercive authority*, respectively. Both models used the lasso penalty ($\\alpha=1$) and chose $\\lambda_{1se}$ by cross-validation (1 SE from $\\lambda_{min}$). Red values are positive predictors; purple values are negative predictors. Predictors with coefficents = 0 not displayed. X-axes are odds ratios on a log 10 scale."}
 
 coercive_plot <- coercive_plot + ggtitle("Predictors of coercive authority") + scale_x_log10() + theme(plot.title = element_text(size = 12))
 
@@ -627,7 +629,7 @@ reprosuccess <- signif(100*features_support_cult$Estimate[features_support_cult$
 ```
 
 
-Our candidate universal dimensions appear in the computational services model [@hagen_leadership_2019], in which knowledgeable and intelligent individuals provide computational (cognitive) services (e.g., conflict resolution, strategizing) to group members in exchange for a variety of fitness benefits [see also @garfield_evolutionary_2019]. This model emphasizes mating benefits, however, which appear in `r matingbenefit`% of cultures, below our arbitrary 60% threshold for "universality" (Figure \@ref(fig:varsupportcb)). But there was evidence for the *Social, reproductive, and materials success* feature, which included polygynous leaders, having a high-quality spouse, and having many children, in more cultures (`r reprosuccess`%) than other features (Figure \@ref(fig:featuressupportplot)). Interestingly, the computational services model highlights women's family leadership role, and there was more evidence for the *Social, reproductive, and materials success* feature for females leaders than male leaders (Figure S\@ref(fig:heatmapfeaturesex)), with the caveat that there were few text records on female leaders in our sample.
+Our candidate universal dimensions appear in the computational services model [@hagen_leadership_2019], in which knowledgeable and intelligent individuals provide computational (cognitive) services (e.g., conflict resolution, strategizing) to group members in exchange for a variety of fitness benefits [see also @garfield_evolutionary_2019]. This model emphasizes mating benefits, however, which appear in `r matingbenefit`% of cultures, below our arbitrary 60% threshold for "universality" (Figure \@ref(fig:varsupportcb)). But there was evidence for the *Social, reproductive, and materials success* feature, which included polygynous leaders, having a high-quality spouse, and having many children, in more cultures (`r reprosuccess`%) than other features (Figure \@ref(fig:featuressupportplot)). Interestingly, the computational services model highlights women's family leadership role, and there was proportionally more evidence for the *Social, reproductive, and materials success* feature among females leaders than male leaders (Figure S\@ref(fig:heatmapfeaturesex)), with the caveat that there were few text records on female leaders in our sample.
 
 Pawnee chiefs illustrate leadership involving several of the universal dimensions, including intelligence, conflict resolution, and generosity [@nq18-015]:
 
