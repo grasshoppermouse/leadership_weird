@@ -236,6 +236,13 @@ p_map <- ggplot(world_map, aes(x = long, y = lat)) +
       size = documents
     )
   ) +
+  geom_text_repel(
+    data = leader_cult,
+    aes(c_longitude, c_latitude, label = Name),
+    force = 3,
+    size = 2.75,
+    colour = '#333333'
+    ) +
   coord_fixed() +
   labs(x='', y='', shape = 'Subsistence', colour = 'Subsistence', size = 'Documents') +
   guides(shape = guide_legend(override.aes = list(size = 4))) +
