@@ -231,7 +231,7 @@ p_map <- ggplot(world_map, aes(x = long, y = lat)) +
   geom_point(
     data = leader_cult, 
     aes(
-      c_longitude, 
+      c_longitude,
       c_latitude, 
       colour = subsistence, 
       shape = subsistence, 
@@ -245,6 +245,7 @@ p_map <- ggplot(world_map, aes(x = long, y = lat)) +
     size = 2.75,
     colour = '#333333'
     ) +
+  scale_y_continuous(limits = c(-60, 80)) +
   coord_fixed() +
   labs(x='', y='', shape = 'Subsistence', colour = 'Subsistence', size = 'Documents') +
   guides(shape = guide_legend(override.aes = list(size = 4))) +
