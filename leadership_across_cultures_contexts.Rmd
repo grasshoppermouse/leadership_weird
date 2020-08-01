@@ -65,6 +65,7 @@ loadd(plot_elastic_status)
 loadd(plot_elastic_coercive)
 loadd(plot_features_support)
 loadd(plot_func_qual)
+loadd(plot_mst)
 loadd(plot_pubdate)
 loadd(plot_shamanism_text)
 loadd(qualities_support_cult)
@@ -1210,12 +1211,31 @@ ggsave(filename = 'Figures/logpca_qualbiplot_loadinds.pdf', plot_lpca_qual)
 plot_lpca_qual
 ```
 
-### MST-kNN
+### Minimum spanning tree
 
-```{r mstknn, fig.width=10, fig.height=10, fig.cap="Clusters of the combined leader function and quality variables formed by the mst-kNN algorithm. Dot size represents the number of text records with evidence for that variable. Dot color represents the type of variable."}
-plot_mstknn
+Many clustering algorithms rely on minimizing "distances" around "centers", or separating points with regular geometric curves. Such algorithms often do not work well when the structures in the data have irregular boundaries. In our data, we had trouble identifying stable clusters using the complete dataset. We therefore explored our complete data using graph based clustering methods [@schaeffer2007], which work better for clusters with irregular boundaries [@wang2009].
+
+A distance matrix defines a graph: each variable is a node, and edges are defined between every pair of nodes, with edge weights defined by (in our case) the binary distances between each variable. A path is a sequence of edges connecting two nodes. A loop is a closed path. A connected graph has one or more paths between every pair of nodes. A tree is a connected graph with no loops. A spanning tree is a tree that connects every node in the graph. A minimum spanning tree (MST) is a spanning tree that has a minimum total weight [@wang2009].
+
+MSTs provide a simple way to cluster a graph. Removing the edge with the largest weight (e.g., greatest distance) will create two clusters. Removing the edge with the next largest weight will create three clusters, and so on. This simple algorithm is vulnerable to outliers with high edge weights but connected to only a few or no other nodes. There are many algorithms that attempt to improve performance in the presence of outliers, such as removing edges with large weights relative to the average weight of nearby edges in the tree. Various algorithms also tackle the problem of determining the optimal number of edges to remove.
+
+To determine which edges were robust in our our combined leader function and quality data, we drew bootstrap samples of the data (n=10,000), computing the binary distance matrix and MST. MST edges that were present in most bootstrap samples were deemed robust. See Figure \@ref(fig:mst).
+
+```{r mst, fig.width=10, fig.height=6, fig.cap="The minimum spanning tree (MST) of the function and quality variables. Edge colors are binary distances. Edge widths are the percent of bootstrap samples in which that edge appears in the MST. Node sizes are the percent of cultures with evidence for that variable."}
 ```
 
+We then clustered the MST using the k-nearest neighbor algorithm implemented in mstknnclust package [@alava2019]. One cluster had shaman leaders combined with functions to resolve conflict and provide counsel and direction, as well as prosocial investments. One cluster had dominance-style leader traits, such as aggressiveness and coercive authority, combined with organizational functions. And one cluster had big-man style leader qualities, such as experience, high status, and wealth, combined with favorable traits, such as interpersonal skills and proper behavior. See Figure \@ref(fig:mstknn).
+
+```{r mstknn, fig.width=10, fig.height=10, fig.cap="A. The minimum spanning tree (MST) of the function and quality variables. Edge colors are binary distances. Edge widths are the percent of bootstrap samples in which that edge appears in the MST. Node sizes are the percent of cultures with evidence for that variable. B. Clusters of the combined leader function and quality variables formed by the mst-kNN algorithm. Dot size represents the number of text records with evidence for that variable. Dot color represents the type of variable."}
+
+plot_mst <- plot_mst + theme_graph(base_family = 'Helvetica')
+plot_mstknn <- plot_mstknn + theme_graph(base_family = 'Helvetica')
+
+plot_mst_both <- (plot_mst/plot_mstknn) + plot_annotation(tag_levels = 'A')
+
+ggsave("Figures/plot_mst_both.pdf", plot_mst_both, width = 14, height = 14)
+
+```
 
 ## Leader market variable operationalization
 

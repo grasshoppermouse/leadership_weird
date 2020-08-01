@@ -91,10 +91,19 @@ plan <- drake_plan(
     dplyr::select(all_of(variable_names(., 'qualities'))) %>% 
     dplyr::filter(rowSums(.)>0),
 
+  df_qual2 = 
+    merge_dfs(leader_text2, all_ids, leader_cult, documents, threshold = 5) %>% 
+    dplyr::select(all_of(variable_names(., 'qualities'))),
+  
   df_func = 
     all_data %>% 
     dplyr::select(all_of(variable_names(., 'functions'))) %>% 
     dplyr::filter(rowSums(.)>0),
+
+  df_func2 = 
+    all_data %>% 
+    dplyr::select(all_of(variable_names(., 'functions'))) %>% 
+    select_if(~sum(.)>=5),
   
   df_all =
     all_data %>% 
@@ -104,6 +113,14 @@ plan <- drake_plan(
   # Cluster analyses
   m_pvclust_qual = pvclust(
     df_qual, 
+    method.hclust = 'ward.D2', 
+    method.dist = 'correlation', 
+    nboot = 10000,
+    parallel = T
+  ),
+  
+  m_pvclust_qual2 = pvclust(
+    df_qual2, 
     method.hclust = 'ward.D2', 
     method.dist = 'correlation', 
     nboot = 10000,
@@ -120,6 +137,15 @@ plan <- drake_plan(
   m_pvclust_func = 
     pvclust(
       df_func, 
+      method.hclust = 'ward.D2', 
+      method.dist = 'correlation', 
+      nboot = 10000,
+      parallel = T
+    ),
+  
+  m_pvclust_func2 = 
+    pvclust(
+      df_func2, 
       method.hclust = 'ward.D2', 
       method.dist = 'correlation', 
       nboot = 10000,
@@ -186,6 +212,42 @@ plan <- drake_plan(
     select(-shaman, -shamanism),
   plot_shamanism_text = model_words(df_shaman, dtm_noshaman, 'shamanism', lam='lambda.1se'),
   
+  # MST 
+  thedata = 
+    leader_text2 %>% 
+    dplyr::select(contains('functions'), contains('qualities'), -functions_Context) %>% 
+    set_names(var_names[names(.)]),
+  txt_record_dict = 
+    (100*colSums(thedata)/nrow(thedata)) %>% 
+    set_names(names(thedata)),
+  cult_dict = cult_support_dict(qualities_support_cult, functions_support_cult),
+  dst_bin = binary_dist(thedata),
+  g_bin = 
+    graph_from_adjacency_matrix(dst_bin, mode = 'undirected', weighted = T, diag = F),
+  mst_edges_bin = bootedges(thedata, nboot=10000, method = 'binary'),
+  mst_bin = 
+    mst(g_bin, algorithm = 'prim') %>%
+    as_tbl_graph() %>% 
+    activate(nodes) %>% 
+    mutate(
+      size = cult_dict[name]
+    ) %>% 
+    add_edge_var(mst_edges_bin, 'bootval'),
+  plot_mst = 
+    mstgraph(mst_bin, layout='stress', weight='bootval', size = 'size'),
+  
+  # Need to do mutual info distance better
+  # dst_mi = -mutinformation(thedata, method = 'emp'),
+  # g_mi = graph_from_adjacency_matrix(dst_mi, mode = 'undirected', weighted = T, diag = F),
+  # mst_edges_mi = bootedges(thedata, nboot=100, method = 'mi'), # Wait for better mi-based distance
+  # mst_mi = 
+  #   mst(g_mi, algorithm = 'prim') %>%
+  #   as_tbl_graph() %>% 
+  #   activate(nodes) %>% 
+  #   mutate(
+  #     size = size_dict[name]
+  #   ),
+
   # The paper
   report = rmarkdown::render(
     knitr_in("leadership_across_cultures_contexts.Rmd"),

@@ -6,6 +6,8 @@ leader_cost_vars = variable_names(all_data, type = 'leader.costs')
 follower_benefit_vars = variable_names(all_data, type = 'follower.benefits')
 follower_cost_vars = variable_names(all_data, type = 'follower.costs')
 
+# Dictionary of culture-level support
+
 # Coefficient table -------------------------------------------------------
 
 all_coefs <- 
@@ -725,7 +727,7 @@ plot_mstknn <-
   geom_node_text(aes(label = name), repel = T) +
   scale_colour_binary() +
   guides(size = guide_legend(title = 'Evidence'), colour = guide_legend(title='Type', override.aes = list(size=4))) +
-  theme_void()
+  theme_graph()
 # plot_mstknn
 
 # logisticPCA -------------------------------------------------------------
@@ -907,4 +909,13 @@ m_shaman <- glmer(
 )
 
 shaman_emmeans_region <- emmeans(m_shaman, specs = 'region', type = 'response')
+
+# library(pvclust)
+# m_pvclust_both = pvclust(
+#   tmp2,
+#   method.hclust = 'single',
+#   method.dist = 'binary',
+#   nboot = 1000,
+#   parallel = T
+# )
 

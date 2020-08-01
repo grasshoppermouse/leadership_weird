@@ -644,6 +644,13 @@
       "RemoteSha": "9dd8eb6e486446b726a1a377c52da2eec3518f31",
       "Hash": "8a9da7a79c47e12209bf66ed932ca6e0"
     },
+    "ggnewscale": {
+      "Package": "ggnewscale",
+      "Version": "0.4.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "664760503b42cad5c056765596ba53ef"
+    },
     "ggplot2": {
       "Package": "ggplot2",
       "Version": "3.3.0",
@@ -751,15 +758,15 @@
     },
     "hagenutils": {
       "Package": "hagenutils",
-      "Version": "0.0.1.9002",
+      "Version": "0.0.2.9004",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "hagenutils",
       "RemoteUsername": "grasshoppermouse",
       "RemoteRef": "master",
-      "RemoteSha": "46eb9aa96c2e12bd306abe62176bedcc8ca4f26d",
-      "Hash": "5031fa6e2b2fbe858c9dde0707d684b0"
+      "RemoteSha": "707482b3a1262335781477c196313ba9c68311ce",
+      "Hash": "7f3cf44a17e7796388e3943de081c56a"
     },
     "haven": {
       "Package": "haven",
