@@ -1233,8 +1233,9 @@ plot_mstknn <- plot_mstknn + theme_graph(base_family = 'Helvetica')
 
 plot_mst_both <- (plot_mst/plot_mstknn) + plot_annotation(tag_levels = 'A')
 
-ggsave("Figures/plot_mst_both.pdf", plot_mst_both, width = 14, height = 14)
+ggsave("Figures/plot_mst_both.pdf", plot_mst_both, width = 14, height = 16)
 
+plot_mst_both
 ```
 
 ## Leader market variable operationalization
